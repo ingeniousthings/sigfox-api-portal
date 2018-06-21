@@ -12,25 +12,32 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-public class SigfoxApiDeviceCreateOutput {
+public class SigfoxApiDeviceCreateOutput2 {
 
     @ApiModelProperty(
-            notes = "Total number of devices pushed in the request. ",
+            notes = "Total number of devices pushed in the request.",
             required = true
     )
     protected int total;
-
     @ApiModelProperty(
-            notes = "The job's object id that could be use to check devices creation status (only if a job is effectively created) ( use POST https://backend.sigfox.com/api/devicetypes/{deviceTypeId}/registration/{jobId} ). ",
+            notes = "The number of devices that have been actually created.",
             required = true
     )
-    protected String jobId;
+    protected int createdCount;
+
+    @ApiModelProperty(
+            notes = "The number of devices that have been actually transfered.",
+            required = true
+    )
+    protected int transferedCount;
+
 
     @ApiModelProperty(
             notes = "List of device identifiers for which the PAC was invalid, or whose ownership transfer was rejected.",
             required = true
     )
     protected List<String> transferFailed;
+
 
     public int getTotal() {
         return total;
@@ -40,12 +47,20 @@ public class SigfoxApiDeviceCreateOutput {
         this.total = total;
     }
 
-    public String getJobId() {
-        return jobId;
+    public int getCreatedCount() {
+        return createdCount;
     }
 
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
+    public void setCreatedCount(int createdCount) {
+        this.createdCount = createdCount;
+    }
+
+    public int getTransferedCount() {
+        return transferedCount;
+    }
+
+    public void setTransferedCount(int transferedCount) {
+        this.transferedCount = transferedCount;
     }
 
     public List<String> getTransferFailed() {

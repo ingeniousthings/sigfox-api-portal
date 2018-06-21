@@ -16,6 +16,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.lang.Override;
 import java.lang.String;
 import java.util.Arrays;
@@ -61,8 +63,20 @@ import java.util.ArrayList;
  */
 public class SigfoxApiCallbackList {
 
+    @ApiModelProperty(
+            notes = "List of callback in the DATA channel",
+            required = false
+    )
     private SigfoxApiCallbackInformation[] data;
+    @ApiModelProperty(
+            notes = "List of callback in the SERVICE channel",
+            required = false
+    )
     private SigfoxApiCallbackInformation[] service;
+    @ApiModelProperty(
+            notes = "List of callback in the ERROR channel",
+            required = false
+    )
     private SigfoxApiCallbackInformation[] error;
 
     // =================================================

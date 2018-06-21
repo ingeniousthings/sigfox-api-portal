@@ -14,15 +14,47 @@ package fr.ingeniousthings.sigfox.api.elements;
 }
  */
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public class SigfoxApiDeviceCreateJobStatus {
 
+    @ApiModelProperty(
+            notes = "True if the devices creation job is finished (not necessarily successfully), false otherwise.",
+            required = true
+    )
     protected boolean jobDone;              // true when finished
+
+
+    @ApiModelProperty(
+            notes = "The devices operator id. ",
+            required = true
+    )
     protected String operatorId;
+
+    @ApiModelProperty(
+            notes = "Total number of devices to be created. ",
+            required = true
+    )
     protected int total;                    // number of device created
+
+    @ApiModelProperty(
+            notes = "The creation job's name. ",
+            required = true
+    )
     protected String name;
+
+    @ApiModelProperty(
+            notes = "The creation job's description. ",
+            required = true
+    )
     protected String description;
+
+    @ApiModelProperty(
+            notes = "The job status: ",
+            required = true
+    )
     protected SigfoxApiDeviceCreateJobStatusStatus status;
 
 

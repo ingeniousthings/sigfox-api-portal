@@ -1,5 +1,7 @@
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +20,35 @@ import java.util.List;
 public class SigfoxApiDeviceCreateInput {
 
     protected class SigfoxApiDeviceCreateInputLine {
+        @ApiModelProperty(
+                notes = "Identifier of the device",
+                required = true
+        )
         public String  id;
+        @ApiModelProperty(
+                notes = "Porting Authorization Code for this device",
+                required = true
+        )
         public String  pac;
     }
 
+    @ApiModelProperty(
+            notes = "Used to create the name of each device, by prepending it to the device’s identifier",
+            required = true
+    )
     protected String prefix;
+
+    @ApiModelProperty(
+            notes = "List of device identifiers that have to be registered { \"id\" : \"XXXXXXXX\",\"pac\" : \"xxxx...xxx\" },",
+            required = true
+    )
     protected List<SigfoxApiDeviceCreateInputLine> ids;
+
+
+    @ApiModelProperty(
+            notes = "Product certificate key to associate to each device.",
+            required = false
+    )
     protected String productCertificate;
 
     public SigfoxApiDeviceCreateInput(

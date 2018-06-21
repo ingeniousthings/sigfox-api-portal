@@ -16,17 +16,15 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
-import java.lang.Override;
-import java.lang.String;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Summary
@@ -80,7 +78,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  * @author Paul Pinault
  */
-public class SigfoxApiCallbackInformation {
+public class SigfoxApiCallbackCreation {
 
     public static class KeyValue {
         @JsonIgnore
@@ -111,12 +109,6 @@ public class SigfoxApiCallbackInformation {
             return s;
         }
     }
-
-    @ApiModelProperty(
-            notes = "Uniq ID of the callback",
-            required = true
-    )
-    private String id;
 
     @ApiModelProperty(
             notes = "Define the medium of callback to create : URL, BATCH_URL or EMAIL",
@@ -169,29 +161,23 @@ public class SigfoxApiCallbackInformation {
     )
     private boolean sendDuplicate;
 
-    @ApiModelProperty(
-            notes = "True if last use of the callback fails, false else",
-            required = false
-    )
-    private boolean dead;
 
     @ApiModelProperty(
             notes = "Type URL or BATCH_URL (optional) - Send SNI (Server Name Indication) for SSL/TLS connections",
             required = false
     )
     private boolean sendSni;
+
     @ApiModelProperty(
             notes = "Type URL or BATCH_URL (optional) - The callback url",
             required = false
     )
-    private String urlPattern;
     private String url;
 
     @ApiModelProperty(
             notes = "Type URL (optional) - The body template of the request. Only if httpMethpd is set to POST Or PUT. It can contain predefined and custom variables.",
             required = false
     )
-    private KeyValue body;
     private String bodyTemplate;
 
     @ApiModelProperty(
@@ -199,7 +185,7 @@ public class SigfoxApiCallbackInformation {
                     "The headers format is { \"headername\" : \"headerValue\", ... }",
             required = false
     )
-    private KeyValue headers;
+    private String headers;
 
     @ApiModelProperty(
             notes = "Type URL (optional) - The content type of the request. Only taken into account for POST requests. Available content types are :" +
@@ -213,20 +199,19 @@ public class SigfoxApiCallbackInformation {
             required = false
     )
     private String httpMethod;
-    private String method;
 
     @ApiModelProperty(
             notes = "Type BATCH_URL (optional) - The line pattern representing a message.",
             required = false
     )
     private String linePattern;
-
+/*
     @ApiModelProperty(
             notes = "Type DATA - True when the callback is used for downlink",
             required = false
     )
     private boolean downlinkHook;               // true when the callback is used for downlink
-
+*/
     @ApiModelProperty(
             notes = "Type EMAIL (optional) - The mail subject",
             required = false
@@ -246,81 +231,14 @@ public class SigfoxApiCallbackInformation {
     private String message;
 
 
+
     // ========================================================================
     // ADVANCED GETTER / SETTER
     // ========================================================================
 
-    public boolean isUplink() {
-        return (this.callbackType == 0 && this.callbackSubtype == 2);
-    }
 
-    public boolean isBidir() {
-        return (this.callbackType == 0 && this.callbackSubtype == 3);
-    }
 
-    public boolean isError() { return (this.callbackType == 2); }
 
-    public boolean isService() { return (this.callbackType == 1); }
-
-    public boolean isChannelUrl() {
-        return ( this.channel.compareToIgnoreCase("url") == 0 );
-    }
-
-    public boolean isChannelBatchUrl() {
-        return ( this.channel.compareToIgnoreCase("batch_url") == 0 );
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-        this.urlPattern = url;
-    }
-
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
-        this.url = urlPattern;
-    }
-
-//    public void setHeadersStr(String stringHeaders) {
-//        StringTokenizer st1 = new StringTokenizer(stringHeaders,",");
-//        while ( st1.hasMoreTokens() ) {
-//            String s2 = st1.nextToken();
-//            StringTokenizer st2 = new StringTokenizer(s2,":");
-//            String key = st2.nextToken();
-//            String value = st2.nextToken();
-//            System.out.println("<< "+key+" / "+value);
-//            this.headers.setEntry(key,value);
-//        }
-//    }
-
-    // ========================================================================
-    // String dump for deviceType creation with API
-    // ========================================================================
-    public String toPublication() {
-        String str = "{" +
-                "  'channel' : '" + channel + '\'' +
-                ", 'callbackType' : " + callbackType +
-                ", 'url' : '" + url + '\'' +
-                ", 'httpMethod' : '" + httpMethod + '\'' +
-                ", 'enabled' : " + enabled +
-                ", 'sendDuplicate' : " + sendDuplicate +
-                ", 'sendSni' : " + sendSni;
-         if (! isError() ) {
-             str += ", 'callbackSubtype' : " + callbackSubtype;
-         }
-
-        if ( this.isChannelUrl() ) {
-                if (this.payloadConfig != null) str+= ", 'payloadConfig' : '" + payloadConfig + '\'';
-                if (this.bodyTemplate != null) str+= ", 'bodyTemplate' : '" + bodyTemplate + '\'' ;
-                if (this.headers != null ) str+= ", 'headers' : " + headers;
-                if (this.contentType != null) str += ", 'contentType' : '" + contentType + '\'';
-         } else if ( this.isChannelBatchUrl() ) {
-             str += ""+
-                     ", 'linePattern' : '" + linePattern + '\'';
-         }
-
-         str += "}";
-         return str.replace('\'','"');
-    }
 
 
 
@@ -329,74 +247,28 @@ public class SigfoxApiCallbackInformation {
     // ========================================================================
 
 
-    public boolean isSendSni() {
-        return sendSni;
-    }
-
-    public void setSendSni(boolean sendSni) {
-        this.sendSni = sendSni;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-
-    public String getBodyTemplate() {
-        return bodyTemplate;
-    }
-
-    public void setBodyTemplate(String bodyTemplate) {
-        this.bodyTemplate = bodyTemplate;
-    }
-
-    public SigfoxApiCallbackInformation.KeyValue getBody() {
-        return body;
-    }
-
-    public void setBody(SigfoxApiCallbackInformation.KeyValue  body) {
-        this.body = body;
-        this.bodyTemplate = body.toString();
-    }
-
-    public SigfoxApiCallbackInformation.KeyValue getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(SigfoxApiCallbackInformation.KeyValue headers) {
-        this.headers = headers;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public boolean isDownlinkHook() {
-        return downlinkHook;
-    }
-
-    public void setDownlinkHook(boolean downlinkHook) {
-        this.downlinkHook = downlinkHook;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getChannel() {
         return channel;
     }
 
     public void setChannel(String channel) {
         this.channel = channel;
+    }
+
+    public int getCallbackType() {
+        return callbackType;
+    }
+
+    public void setCallbackType(int callbackType) {
+        this.callbackType = callbackType;
+    }
+
+    public int getCallbackSubtype() {
+        return callbackSubtype;
+    }
+
+    public void setCallbackSubtype(int callbackSubtype) {
+        this.callbackSubtype = callbackSubtype;
     }
 
     public String getPayloadConfig() {
@@ -423,18 +295,45 @@ public class SigfoxApiCallbackInformation {
         this.sendDuplicate = sendDuplicate;
     }
 
-    public boolean isDead() {
-        return dead;
+    public boolean isSendSni() {
+        return sendSni;
     }
 
-    public void setDead(boolean dead) {
-        this.dead = dead;
+    public void setSendSni(boolean sendSni) {
+        this.sendSni = sendSni;
     }
 
-    public String getUrlPattern() {
-        return urlPattern;
+    public String getUrl() {
+        return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getBodyTemplate() {
+        return bodyTemplate;
+    }
+
+    public void setBodyTemplate(String bodyTemplate) {
+        this.bodyTemplate = bodyTemplate;
+    }
+
+    public String getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(String headers) {
+        this.headers = headers;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
     public String getHttpMethod() {
         return httpMethod;
@@ -442,23 +341,6 @@ public class SigfoxApiCallbackInformation {
 
     public void setHttpMethod(String httpMethod) {
         this.httpMethod = httpMethod;
-        this.method = httpMethod;
-    }
-
-    public int getCallbackSubtype() {
-        return callbackSubtype;
-    }
-
-    public void setCallbackSubtype(int callbackSubtype) {
-        this.callbackSubtype = callbackSubtype;
-    }
-
-    public int getCallbackType() {
-        return callbackType;
-    }
-
-    public void setCallbackType(int callbackType) {
-        this.callbackType = callbackType;
     }
 
     public String getLinePattern() {
@@ -467,15 +349,6 @@ public class SigfoxApiCallbackInformation {
 
     public void setLinePattern(String linePattern) {
         this.linePattern = linePattern;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-        this.httpMethod = method;
     }
 
     public String getSubject() {
@@ -501,28 +374,4 @@ public class SigfoxApiCallbackInformation {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    @Override
-    public String toString() {
-        return "SigfoxApiCallbackInformation{" +
-                "id='" + id + '\'' +
-                ", channel='" + channel + '\'' +
-                ", callbackType=" + callbackType +
-                ", callbackSubtype=" + callbackSubtype +
-                ", payloadConfig='" + payloadConfig + '\'' +
-                ", enabled=" + enabled +
-                ", sendDuplicate=" + sendDuplicate +
-                ", dead=" + dead +
-                ", sendSni=" + sendSni +
-                ", urlPattern='" + urlPattern + '\'' +
-                ", url='" + url + '\'' +
-                ", bodyTemplate='" + bodyTemplate + '\'' +
-                ", headers='" + headers + '\'' +
-                ", contentType='" + contentType + '\'' +
-                ", httpMethod='" + httpMethod + '\'' +
-                ", linePattern='" + linePattern + '\'' +
-                ", downlinkHook=" + downlinkHook +
-                '}';
-    }
-
 }

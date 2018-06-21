@@ -56,7 +56,7 @@ public class SigfoxGroupApi {
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Sucess", response = SigfoxApiGroupInfoList.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiGroupInfoList.class)
     })
     @RequestMapping(
             value ="",
@@ -114,7 +114,7 @@ public class SigfoxGroupApi {
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Sucess", response = SigfoxApiGroupInfo.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiGroupInfo.class)
     })
     @RequestMapping(
             value ="/{group_id}",
@@ -167,7 +167,7 @@ public class SigfoxGroupApi {
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Sucess", response = SigfoxApiGroupInfo.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiGroupCreationResponse.class)
     })
     @RequestMapping(
             value ="/create",

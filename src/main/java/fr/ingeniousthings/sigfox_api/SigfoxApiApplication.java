@@ -1,5 +1,6 @@
 package fr.ingeniousthings.sigfox_api;
 
+import com.google.common.base.Predicates;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,9 +35,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static springfox.documentation.builders.PathSelectors.regex;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 /**
@@ -84,7 +87,10 @@ public class SigfoxApiApplication {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any())
+//				.paths(PathSelectors.any())
+				.paths(Predicates.or(
+						regex("/api/.*")
+				))
 				.build()
 //				.protocols(newHashSet("https"))
 //				.host("backend.sigfox.com/api")
@@ -121,14 +127,15 @@ public class SigfoxApiApplication {
 								"when you finished to use our service. <br/>" +
 								"We will do our best to keep this API in sync with sigfox but we can have a delay to implement the new endpoint.<br/>" +
 								"This proxy is an helper for builing your own software : the API is exactly the same as Sigfox One, only the hostname differs. " +
-								"That said, you must never use this proxy in production but directly call sigfox API.",
-						"V 2018-06-20",
-						"You need to have a Sigfox API Access to use this API",
-						new Contact("Contact", "http://www.ingeniousthings.fr", "contact AT ingeniousthings.fr"),
-						"Public and free API, use it in respect of our server health. Take care of your credential and use this at your own risk, " +
+								"That said, you must never use this proxy in production but directly call sigfox API.<br/>" +
+								"Public and free API, use it in respect of our server health. Take care of your credential and use this at your own risk, " +
 								"we are not responsible of any mis-usage, data loss or damages on your account. If you start using this proxy, you accept any risks " +
-								"and potential consequences. ",
-						"None",
+								"and potential consequences. You need to have a Sigfox API Access to use this API",
+						"V 2018-06-20",
+						"",
+						new Contact("Contact", "http://www.ingeniousthings.fr", "contact AT ingeniousthings.fr"),
+						" GPL",
+						"",
 						Collections.emptyList()
 				))
 				;
@@ -143,7 +150,7 @@ public class SigfoxApiApplication {
 	private SecurityContext securityContext() {
 		return SecurityContext.builder()
 				.securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex("/.*"))
+				.forPaths(regex("/.*"))
 				.build();
 	}
 
