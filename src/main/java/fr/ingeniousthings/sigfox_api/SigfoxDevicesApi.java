@@ -58,7 +58,10 @@ public class SigfoxDevicesApi {
     @ApiOperation(
             value = "Registering new devices (ASYNC) - Creates new devices by providing a list of identifiers",
             notes = "Creates new devices by providing a list of identifiers, and associates them to a device type. <br/>"+
-                    "In the Body are provided the information related to the device list to create<br/>",
+                    "In the URL and BODY are provided the information related to the device list to create<br/>" +
+                    "<ul>" +
+                    "<li>devicetype_id : The device type identifier as returned by the /api/devicetypes endpoint.</li>" +
+                    "</ul>",
             response = SigfoxApiDeviceCreateOutput.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
@@ -113,7 +116,7 @@ public class SigfoxDevicesApi {
                     "Parameters:<br/>" +
                     "<ul>" +
                     " <li>devicetype_id : The device type identifier as returned by the /api/devicetypes endpoint.</li>" +
-                    " <li>hob_id : the devices creation job id as returned by the /api/devicetypes/{devicetype-id}/devices/bulk/create/async endpoint.</li> " +
+                    " <li>job_id : the devices creation job id as returned by the /api/devicetypes/{devicetype-id}/devices/bulk/create/async endpoint.</li> " +
                     "</ul>",
             response = SigfoxApiDeviceCreateJobStatus.class,
             authorizations = { @Authorization(value="basicAuth")}
@@ -145,70 +148,6 @@ public class SigfoxDevicesApi {
     }
 
 
-
-    /**
-     * All Devices ID/PAC for a device type
-     *
-     * Lists the ids and PACs associated to a specific device type.
-     *
-     * Request
-     *
-     * GET https://backend.sigfox.com/api/devicetypes/{devicetype-id}/id-pac
-     *
-     * Parameters:
-     *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint
-     *
-     * Response
-     *
-     *     {
-     *       "data" : [
-     *         { "id" : "0B59", "pac" : "6A757C859B23471B" },
-     *         { "id" : "C032", "pac" : "374FC61194FC4DA8" },
-     *         ...
-     *       ]
-     *     }
-     *
-     *
-     * Fields:
-     *
-     *     data: the array of device ids and pacs records
-     *     id: the device’s identifier
-     *     pac: porting authorization code for this device
-     */
-    @ApiOperation(
-            value = "All Devices ID/PAC for a device type",
-            notes = "Lists the ids and PACs associated to a specific device type. <br/>"+
-                    "Parameters: Optionally you can add parameters :<br/>" +
-                    "<ul>" +
-                    " <li>devicetype_id : The device type identifier as returned by the /api/devicetypes endpoint.</li>" +
-                    "</ul>",
-            response = SigfoxApiDeviceListInDeviceType.class,
-            authorizations = { @Authorization(value="basicAuth")}
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message= "Sucess", response = SigfoxApiDeviceListInDeviceType.class)
-    })
-    @RequestMapping(
-            value ="/devicetypes/{devicetype_id}/id-pac",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET
-    )
-    @CrossOrigin
-    public ResponseEntity<?> getDevicesListInDeviceType(
-            HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id
-    ) {
-
-        SigfoxApiProxy<SigfoxApiDeviceListInDeviceType> proxy = new SigfoxApiProxy<>();
-        try {
-            return new ResponseEntity<SigfoxApiDeviceListInDeviceType>(proxy.proxify(request), HttpStatus.OK);
-        } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        }
-    }
 
 
     

@@ -19,12 +19,14 @@ package fr.ingeniousthings.sigfox.api.elements;
 import java.io.IOException;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 
 /**
@@ -85,10 +87,49 @@ public class SigfoxApiMessageInformation {
     public static final int MESSAGESOURCE_HISTORY   = 0;
     public static final int MESSAGESOURCE_ERRORS    = 1;
 
+    @ApiModelProperty(
+            notes = "Device identifier",
+            required = false
+    )
     protected String    device;
+
+    @ApiModelProperty(
+            notes = "Time the message was sent, in seconds since the Unix Epoch",
+            required = false
+    )
     protected long      time;
+
+    @ApiModelProperty(
+            notes = "Message content, hex encoded",
+            required = false
+    )
     protected String    data;
-    protected double    snr;
+
+    @ApiModelProperty(
+            notes = "The link quality indicator value (LIMIT, AVERAGE, GOOD or EXCELLENT)",
+            required = false
+    )
+    protected String    linkQuality;
+    protected double    snr;    // deprecated
+
+
+    @ApiModelProperty(
+            notes = "The sequence number for this message, may not be present when device uses V0 protocol ",
+            required = false
+    )
+    protected int       seqNumber;
+
+    @ApiModelProperty(
+            notes = "The number of frames expected for the message ",
+            required = false
+    )
+    protected int       nbFrames;
+
+
+    @ApiModelProperty(
+            notes = "Internal use for the type of message",
+            required = false
+    )
     protected int       source;
 
     // ------------------------------------------------------------------
@@ -100,9 +141,37 @@ public class SigfoxApiMessageInformation {
     public static final String LINKQUALITY_EXCELLENT = "EXCELLENT";
 
     public class MessageLocation {
-        double lat;
-        double lng;
-        int radius;
+
+        @ApiModelProperty(
+                notes = "The estimated latitude",
+                required = false
+        )
+        protected double lat;
+
+        @ApiModelProperty(
+                notes = "The estimated longitude",
+                required = false
+        )
+        protected double lng;
+
+        @ApiModelProperty(
+                notes = "The radius of the circle",
+                required = false
+        )
+        protected int radius;
+
+        @ApiModelProperty(
+                notes = "Define from which source the geolocation has been computed :" +
+                        "<ul>" +
+                        "<li>0 Location computed by legacy mode using RSSI and position of station</li>" +
+                        "<li>1 Location computed using the GPS data inside the payload</li>" +
+                        "<li>2 Location computed by Atlas Network </li>" +
+                        "<li>3 Location computed by Atlas POI</li>" +
+                        "<li>4 Location computed by Atlas HD</li>" +
+                        "</ul>",
+                required = false
+        )
+        protected int source;
 
         public double getLat() {
             return lat;
@@ -128,16 +197,29 @@ public class SigfoxApiMessageInformation {
             this.radius = radius;
         }
 
+        public int getSource() {
+            return source;
+        }
+
+        public void setSource(int source) {
+            this.source = source;
+        }
+
         @Override
         public String toString() {
             return "MessageLocation{" +
                     "lat=" + lat +
                     ", lng=" + lng +
                     ", radius=" + radius +
+                    ", source=" + source +
                     '}';
         }
     }
     public class DownlinkMessage {
+        @ApiModelProperty(
+                notes = "Response content, hex encoded",
+                required = false
+        )
         protected String data;
 
         public String getData() {
@@ -175,9 +257,76 @@ public class SigfoxApiMessageInformation {
         }
     }
 
+    public class CbStatusInfos {
+        @ApiModelProperty(
+                notes = "Http response status",
+                required = false
+        )
+        public int status;
 
+        @ApiModelProperty(
+                notes = "Http response message",
+                required = false
+        )
+        public String info;
+
+        @ApiModelProperty(
+                notes = "Callback definition triggered",
+                required = false
+        )
+        public String cbDef;
+
+        @ApiModelProperty(
+                notes = "Time the callback was called, in milliseconds since the Unix Epoch",
+                required = false
+        )
+        public long time;
+    }
+
+    public class ReceptionInfos {
+        @ApiModelProperty(
+                notes = "Base station identifier (in hexadecimal, 4 digits)",
+                required = false
+        )
+        public String tap;
+        @ApiModelProperty(
+                notes = "The current latitude of the base station which received the message if available",
+                required = false
+        )
+        public double lat;
+        @ApiModelProperty(
+                notes = "The current longitude of the base station which received the message if available",
+                required = false
+        )
+        public double lng;
+
+        @ApiModelProperty(
+                notes = "List of callback status for this reception (only visible if the cbStatus parameter is set to true) ",
+                required = false
+        )
+        public List<CbStatusInfos> cbStatus;
+
+    }
+
+    @ApiModelProperty(
+            notes = "List all receptions for each base stations",
+            required = false
+    )
+    protected List<ReceptionInfos> rinfos;
+
+    @ApiModelProperty(
+            notes = "Contains the estimated position of the device within a circle based on the GPS data or the Sigfox Geolocation" +
+                    "service. GPS data is used if the device has a device type with payload type \"Geolocation\", while Sigfox" +
+                    "Geolocation service is used if the device is attached to a contract with the Sigfox Geolocation service option" +
+                    "enabled.",
+            required = false
+    )
     protected MessageLocation   computedLocation;
-    protected String            linkQuality;
+
+    @ApiModelProperty(
+            notes = "The last callback status for this reception (only visible if the dlkAnswerStatus parameter is set to true) ",
+            required = false
+    )
     protected DownlinkMessage   downlinkAnswerStatus;
 
     // -------------------------------------------------------------------

@@ -16,6 +16,8 @@
  */
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.IOException;
 import java.lang.Override;
 import java.lang.String;
@@ -57,6 +59,10 @@ import java.util.Arrays;
 public class SigfoxApiMessageInformationList {
 
     public class MessageListPaging {
+        @ApiModelProperty(
+                notes = "URL of the next «page» of messages",
+                required = false
+        )
         protected String next;
 
         public String getNext() {
@@ -75,7 +81,16 @@ public class SigfoxApiMessageInformationList {
         }
     }
 
+    @ApiModelProperty(
+            notes = "The array of device messages",
+            required = false
+    )
     protected SigfoxApiMessageInformation[] data;
+
+    @ApiModelProperty(
+            notes = "Paging information, if more messages are available",
+            required = false
+    )
     protected MessageListPaging paging;
 
     // ------------------------------------------------------
