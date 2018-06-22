@@ -2,10 +2,7 @@ package fr.ingeniousthings.sigfox_api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ingeniousthings.sigfox.api.elements.SigfoxApiGroupCreation;
-import fr.ingeniousthings.sigfox.api.elements.SigfoxApiGroupCreationResponse;
-import fr.ingeniousthings.sigfox.api.elements.SigfoxApiGroupInfo;
-import fr.ingeniousthings.sigfox.api.elements.SigfoxApiGroupInfoList;
+import fr.ingeniousthings.sigfox.api.elements.*;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -193,6 +190,124 @@ public class SigfoxGroupApi {
         }
     }
 
+
+    /**
+     * Group edition
+     *
+     * Edit a group
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/groups/edit
+     *
+     * {
+     *     "id" : "50f13484b846618c7bae77b7",
+     *     "name" : "groupName modified",
+     *     "description" : "the description modified",
+     *     "billable" : true,
+     *     "clientName" : "The client name modified",
+     *     "clientEmail" : "client@mail.com modified",
+     *     "clientAddress" : "1 client street modified"
+     * }
+     *
+     */
+
+    @ApiOperation(
+            value = "Group edition - Edit a group",
+            notes = "Edit a group. <br/>"+
+                    "In the Body are provided the information related to the group to edit<br/>",
+            response = String.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = String.class)
+    })
+    @RequestMapping(
+            value ="/edit",
+            //produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> editGroup(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "group", value = "Group description")
+            @Valid @RequestBody SigfoxApiGroupEdition group
+    ) {
+
+        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * Group deletion
+     *
+     * Group deletion
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/groups/delete
+     *
+     * {
+     *     "id" : "deadbeef0486300cbebef070"
+     * }
+     *
+     * Fields:
+     *
+     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *
+     * Response
+     *
+     *     200 if it was OK
+     *     403 when the group is referenced by at least one: device type/contract/user, or has a child group.
+     *     404 when the group does not exist
+     *
+     */
+
+    @ApiOperation(
+            value = "Group deletion - Group deletion",
+            notes = "Group deletion <br/>"+
+                    "In the Body are provided the information related to the group to delete<br/>",
+            response = String.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = String.class),
+            @ApiResponse(code = 403, message= "The group is referenced by at least one: device type/contract/user, or has a child group.", response = String.class),
+            @ApiResponse(code = 404, message= "The group does not exist.", response = String.class)
+
+    })
+    @RequestMapping(
+            value ="/delete",
+            //produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> deleteGroup(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "group", value = "Group id to delete")
+            @Valid @RequestBody SigfoxApiGroupDeletion group
+    ) {
+
+        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 
 
