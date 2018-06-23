@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Api(value="devicetypes", tags="sigfox-devicetypes-api")
@@ -708,11 +707,11 @@ public class SigfoxDeviceTypesApi {
                     " about this parameter as the app will set this parameter automatically in the response," +
                     " in the URL of the next page (see field next in response)</li>" +
                     "</ul>",
-            response = SigfoxApiDeviceTypeStatusErrorResponse.class,
+            response = SigfoxApiStatusErrorResponse.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceTypeStatusErrorResponse.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiStatusErrorResponse.class)
     })
     @RequestMapping(
             value ="/{devicetype_id}/status/error",
@@ -739,9 +738,9 @@ public class SigfoxDeviceTypesApi {
                     Optional<Integer> offset
             ) {
 
-        SigfoxApiProxy<SigfoxApiDeviceTypeStatusErrorResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiStatusErrorResponse> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiDeviceTypeStatusErrorResponse>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiStatusErrorResponse>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -776,11 +775,11 @@ public class SigfoxDeviceTypesApi {
                     " <li>before (optional) : return status events sent before this timestamp in milliseconds since Unix Epoch.</li>" +
                     " <li>since (optional) : return status events sent since this timestamp in milliseconds since Unix Epoch.</li>" +
                     "</ul>",
-            response = SigfoxApiDeviceTypeStatusWarningResponse.class,
+            response = SigfoxApiStatusWarningResponse.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceTypeStatusWarningResponse.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiStatusWarningResponse.class)
     })
     @RequestMapping(
             value ="/{devicetype_id}/status/warn",
@@ -804,9 +803,9 @@ public class SigfoxDeviceTypesApi {
                     Optional<Long> since
     ) {
 
-        SigfoxApiProxy<SigfoxApiDeviceTypeStatusWarningResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiStatusWarningResponse> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiDeviceTypeStatusWarningResponse>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiStatusWarningResponse>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -1081,6 +1080,8 @@ public class SigfoxDeviceTypesApi {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
+
+
 }
 
 

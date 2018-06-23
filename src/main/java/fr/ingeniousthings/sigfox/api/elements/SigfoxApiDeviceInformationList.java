@@ -66,29 +66,6 @@ import java.util.Arrays;
  */
 public class SigfoxApiDeviceInformationList {
 
-    public class DeviceListPaging {
-        @ApiModelProperty(
-                notes = "URL of the next «page» of devices",
-                required = false
-        )
-        protected String next;
-
-        public String getNext() {
-            return next;
-        }
-
-        public void setNext(String next) {
-            this.next = next;
-        }
-
-        @Override
-        public String toString() {
-            return "DeviceListPaging{" +
-                    "next='" + next + '\'' +
-                    '}';
-        }
-    }
-
 
     @ApiModelProperty(
             notes = "The array of device information records",
@@ -99,7 +76,7 @@ public class SigfoxApiDeviceInformationList {
             notes = "Access to the next page of devices",
             required = true
     )
-    protected DeviceListPaging paging;
+    protected SigfoxApiPagingModel paging;
 
     // ------------------------------------------------------
     // Getter & Setters
@@ -112,11 +89,11 @@ public class SigfoxApiDeviceInformationList {
         this.data = data;
     }
 
-    public SigfoxApiDeviceInformationList.DeviceListPaging getPaging() {
+    public SigfoxApiPagingModel getPaging() {
         return paging;
     }
 
-    public void setPaging(SigfoxApiDeviceInformationList.DeviceListPaging paging) {
+    public void setPaging(SigfoxApiPagingModel paging) {
         this.paging = paging;
     }
 

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-public class SigfoxApiDeviceTypeStatusErrorResponse {
+public class SigfoxApiStatusErrorResponse {
 
     public class SigfoxApiDeviceTypeStatusErrorResponseCallback {
 
@@ -37,6 +37,8 @@ public class SigfoxApiDeviceTypeStatusErrorResponse {
                 required = false
         )
         protected String info;
+
+        // ===============================================
 
         public String getSubject() {
             return subject;
@@ -118,6 +120,8 @@ public class SigfoxApiDeviceTypeStatusErrorResponse {
         )
         protected List<SigfoxApiDeviceTypeStatusErrorResponseCallback> callbacks;
 
+        // ===================================================
+
         public String getDeviceId() {
             return deviceId;
         }
@@ -168,21 +172,6 @@ public class SigfoxApiDeviceTypeStatusErrorResponse {
     }
 
 
-    public class Paging {
-        @ApiModelProperty(
-                notes = "URL of the next «page»",
-                required = true
-        )
-        protected String next;
-        public String getNext() {
-            return next;
-        }
-        public void setNext(String next) {
-            this.next = next;
-        }
-    }
-
-
     @ApiModelProperty(
             notes = "The array of device communication down events",
             required = true
@@ -193,7 +182,10 @@ public class SigfoxApiDeviceTypeStatusErrorResponse {
             notes = "Paging information, if more event are available",
             required = false
     )
-    protected Paging paging;
+    protected SigfoxApiPagingModel paging;
+
+
+    // =====================================
 
     public SigfoxApiDeviceTypeStatusErrorResponseDetail getData() {
         return data;
@@ -203,11 +195,11 @@ public class SigfoxApiDeviceTypeStatusErrorResponse {
         this.data = data;
     }
 
-    public Paging getPaging() {
+    public SigfoxApiPagingModel getPaging() {
         return paging;
     }
 
-    public void setPaging(Paging paging) {
+    public void setPaging(SigfoxApiPagingModel paging) {
         this.paging = paging;
     }
 }

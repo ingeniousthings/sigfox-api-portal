@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-public class SigfoxApiDeviceTypeStatusWarningResponse {
+public class SigfoxApiStatusWarningResponse {
 
     public class SigfoxApiDeviceTypeStatusWarningResponseCallback {
 
