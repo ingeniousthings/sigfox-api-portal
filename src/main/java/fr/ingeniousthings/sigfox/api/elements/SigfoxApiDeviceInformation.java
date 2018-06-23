@@ -16,6 +16,8 @@
  */
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.IOException;
 import java.lang.Override;
 import java.lang.String;
@@ -68,9 +70,36 @@ public class SigfoxApiDeviceInformation {
 
 
     public class DeviceLocation {
+        @ApiModelProperty(
+                notes = "The estimated latitude",
+                required = true
+        )
         double lat;
+
+        @ApiModelProperty(
+                notes = "The estimated longitude",
+                required = true
+        )
         double lng;
+
+        @ApiModelProperty(
+                notes = "The radius of the circle",
+                required = true
+        )
         int radius;
+
+        @ApiModelProperty(
+                notes = "Define from which source the geolocation has been computed :" +
+                        "<ul>" +
+                        "<li>0 Location computed by legacy mode using RSSI and position of station</li>" +
+                        "<li>1 Location computed using the GPS data inside the payload</li>" +
+                        "<li>2 Location computed by Atlas Network </li>" +
+                        "<li>3 Location computed by Atlas POI</li>" +
+                        "<li>4 Location computed by Atlas HD</li>" +
+                        "</ul>",
+                required = false
+        )
+        protected int source;
 
         public double getLat() {
             return lat;
@@ -96,34 +125,153 @@ public class SigfoxApiDeviceInformation {
             this.radius = radius;
         }
 
+        public int getSource() {
+            return source;
+        }
+
+        public void setSource(int source) {
+            this.source = source;
+        }
+
         @Override
         public String toString() {
             return "DeviceLocation{" +
                     "lat=" + lat +
                     ", lng=" + lng +
                     ", radius=" + radius +
+                    ", source=" + source +
                     '}';
         }
     }
 
+    @ApiModelProperty(
+            notes = "The device’s identifier",
+            required = true
+    )
     protected String    id;
+
+    @ApiModelProperty(
+            notes = "The device’s friendly name",
+            required = false
+    )
     protected String    name;
+
+    @ApiModelProperty(
+            notes = "The device type’s identifier",
+            required = true
+    )
     protected String    type;
+
+    @ApiModelProperty(
+            notes = "Last time when this device has sent a message, in seconds since the Unix Epoch. A value of zero means the device has never sent a message",
+            required = false
+    )
     protected long      last;
-    protected double    averageSignal;
+
+//    @ApiModelProperty(
+//            notes = "[DEPRECATED] The average signal computed from the last 25 received messages (in dB)",
+//            required = true
+//    )
+//    protected double    averageSignal;
+
+    @ApiModelProperty(
+            notes = "The average signal computed from the last 25 received messages (in dB)",
+            required = false
+    )
     protected double    averageSnr;
+
+
+    @ApiModelProperty(
+            notes = "The average RSSI computed from the last 25 received messages (in dBm)",
+            required = true
+    )
     protected double    averageRssi;
+
+
+    @ApiModelProperty(
+            notes = "The device state:" +
+                    "<ul>" +
+                    "<li>0: OK</li>" +
+                    "<li>1: Dead – Communication timeout</li>" +
+                    "<li>2: Off contract – Communication forbidden</li>" +
+                    "<li>3: Disabled – The device is about to be transferred</li>" +
+                    "<li>4: Warn – Network issues</li>" +
+                    "<li>5: Deleted – The device is about to be deleted</li>" +
+                    "</ul> ",
+            required = true
+    )
     protected int       state;
+
+    @ApiModelProperty(
+            notes = "The provided latitude of the device",
+            required = true
+    )
     protected double    lat;
+
+    @ApiModelProperty(
+            notes = "The provided longitude of the device",
+            required = true
+    )
     protected double    lng;
+
+    @ApiModelProperty(
+            notes = "Contains the estimated position of the device within a circle based on the GPS data or the Sigfox Geolocation service" +
+                    "GPS data is used if the device has a device type with payload type \"Geolocation\",while Sigfox Geolocation service is " +
+                    "used if the device is attached to a contract with the Sigfox Geolocation service option enabled.",
+            required = true
+    )
     protected DeviceLocation    computedLocation;
+
+    @ApiModelProperty(
+            notes = "Time of the contract token taking, in milliseconds since the Unix Epoch. no value is returned if the device does not have a token",
+            required = true
+    )
     protected long      activationTime;
+
+    @ApiModelProperty(
+            notes = "The device's PAC",
+            required = true
+    )
     protected String    pac;
+
+    @ApiModelProperty(
+            notes = "the type of token taken by this device. This field is only present if a token exists. There are curently two types of tokens : " +
+                    "<ul>" +
+                    "<li>CONTRACT: a classical token, with a start date and an end date.</li>" +
+                    "<li>FREE: a token offering test messages With such a token a device is not considered as activated, so not taken into account in billing.</li>" +
+                    "</ul>",
+            required = true
+    )
     protected String    tokenType;
+
+    @ApiModelProperty(
+            notes = "The id of the contract of the token. This field is only present if a token exists.",
+            required = true
+    )
     protected String    contractId;
+
+    @ApiModelProperty(
+            notes = " The number of free messages left on this token. This field is only present if the token exists and is of type FREE.",
+            required = true
+    )
+    protected String    freeMessages;
+
+    @ApiModelProperty(
+            notes = "A timestamp in milliseconds expressing the time the token expires. This field is only present if the token exists and is of type CONTRACT.",
+            required = true
+    )
     protected long      tokenEnd;
+
+    @ApiModelProperty(
+            notes = "«true» if token renewal is deactivated.",
+            required = true
+    )
     protected boolean   preventRenewal;
 
+    @ApiModelProperty(
+            notes = "Metric information about a device [NOT FILLED]",
+            required = false
+    )
     protected SigfoxApiMessageMetric  metric = null;
 
 
@@ -174,14 +322,6 @@ public class SigfoxApiDeviceInformation {
 
     public void setLast(long last) {
         this.last = last;
-    }
-
-    public double getAverageSignal() {
-        return averageSignal;
-    }
-
-    public void setAverageSignal(double averageSignal) {
-        this.averageSignal = averageSignal;
     }
 
     public double getAverageSnr() {
@@ -288,6 +428,14 @@ public class SigfoxApiDeviceInformation {
         this.metric = metric;
     }
 
+    public String getFreeMessages() {
+        return freeMessages;
+    }
+
+    public void setFreeMessages(String freeMessages) {
+        this.freeMessages = freeMessages;
+    }
+
     // ------------------------------------------------------
     // Serialization
 
@@ -299,7 +447,6 @@ public class SigfoxApiDeviceInformation {
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", last=" + last +
-                ", averageSignal=" + averageSignal +
                 ", averageSnr=" + averageSnr +
                 ", averageRssi=" + averageRssi +
                 ", state=" + state +
@@ -309,6 +456,7 @@ public class SigfoxApiDeviceInformation {
                 ", pac='" + pac + '\'' +
                 ", tokenType='" + tokenType + '\'' +
                 ", contractId='" + contractId + '\'' +
+                ", freeMessages='" + freeMessages + '\''+
                 ", tokenEnd=" + tokenEnd +
                 ", preventRenewal=" + preventRenewal;
         if ( computedLocation != null ) {
