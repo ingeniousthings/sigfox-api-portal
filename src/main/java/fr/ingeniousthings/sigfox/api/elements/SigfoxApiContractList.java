@@ -17,6 +17,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.lang.String;
 import java.util.*;
 
@@ -59,6 +61,10 @@ import java.util.*;
  */
 public class SigfoxApiContractList {
 
+    @ApiModelProperty(
+            notes = "Array of BSS orders information records",
+            required = true
+    )
     protected SigfoxApiContractInformation[] data;
 
     public SigfoxApiContractInformation[] getData() {

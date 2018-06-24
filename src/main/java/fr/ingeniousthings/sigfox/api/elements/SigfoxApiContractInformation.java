@@ -17,6 +17,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.IOException;
 import java.lang.Override;
 import java.lang.String;
@@ -29,6 +31,27 @@ import java.lang.String;
  *
  * ----------------------------------------------------------------------------------
  * Response Format :
+ *  2018-06-24 (TokensInUse replace TokensUsed)
+ * {
+ *      "id":"529c50f6e4b0f3ec6b3bc4d9",
+ *      "groupId":"5409cb539336c0db1b720da6",
+ *      "name":"BSS Order sample",
+ *      "startTime":1385852400000,
+ *      "endTime":1417388400000,
+ *      "communicationEndTime":1417388400000,
+ *      "timezone":"Europe/Paris",
+ *      "tokenDuration":12,
+ *      "activationPeriodDuration":0,
+ *      "maxTokens":100000,
+ *      "maxTokensInUse":50000,
+ *      "tokensInUse":6659,
+ *      "state":1,
+ *      "type":2,
+ *      "bidir":true,
+ *      "maximumNumberOfDownlinkFrames":4
+ * }
+ *
+ *  2017-08-01
  *  {
  *      id: "contract_id_in_hexa_string",
  *      name: "GIVEN_CONTRACT_NAME",
@@ -53,23 +76,103 @@ import java.lang.String;
  */
 public class SigfoxApiContractInformation {
 
+    @ApiModelProperty(
+            notes = "The BSS order’s identifier",
+            required = true
+    )
     protected String id;
-    protected String name;
-    protected long startTime;
-    protected long endTime;
-    protected long communicationEndTime;
-    protected String timezone;
-    protected int tokenDuration;
-    protected int activationPeriodDuration;
-    protected int maxTokensInUse;
-    protected boolean bidir;
-    protected int maximumNumberOfDownlinkFrames;
-    protected int state;
-    protected int tokensUsed;
-    protected int maxTokens;
-    protected int tokensInUse;
+
+    @ApiModelProperty(
+            notes = "The associated Group id",
+            required = true
+    )
     protected String groupId;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s name",
+            required = true
+    )
+    protected String name;
+
+    @ApiModelProperty(
+            notes = "the BSS order’s start date",
+            required = true
+    )
+    protected long startTime;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s end date",
+            required = true
+    )
+    protected long endTime;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s communication end date",
+            required = true
+    )
+    protected long communicationEndTime;
+
+    @ApiModelProperty(
+            notes = "The time zone used by the BSS order",
+            required = true
+    )
+    protected String timezone;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s duration (month)",
+            required = true
+    )
+    protected int tokenDuration;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s activation period (month)",
+            required = true
+    )
+    protected int activationPeriodDuration;
+
+    @ApiModelProperty(
+            notes = "The total number of tokens",
+            required = true
+    )
+    protected int maxTokens;
+
+    @ApiModelProperty(
+            notes = "The maximum number of simultaneously usable tokens",
+            required = true
+    )
+    protected int maxTokensInUse;
+
+    @ApiModelProperty(
+            notes = "The number of tokens currently used",
+            required = true
+    )
+    protected int tokensInUse;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s state (0: initial, 1: validate, 2: terminate)",
+            required = true
+    )
+    protected int state;
+
+    @ApiModelProperty(
+            notes = "The BSS order’s type (0: Free, 1: Integrator, 2: Standard)",
+            required = true
+    )
     protected int type;
+
+
+    @ApiModelProperty(
+            notes = "True if the BSS order allows bidirectional messages",
+            required = true
+    )
+    protected boolean bidir;
+
+    @ApiModelProperty(
+            notes = "Number of downlink frames",
+            required = true
+    )
+    protected int maximumNumberOfDownlinkFrames;
+
 
     // ----------------------------------------------------------
     // Generated Getters & Setters
@@ -170,11 +273,11 @@ public class SigfoxApiContractInformation {
     }
 
     public int getTokensUsed() {
-        return tokensUsed;
+        return tokensInUse;
     }
 
     public void setTokensUsed(int tokensUsed) {
-        this.tokensUsed = tokensUsed;
+        this.tokensInUse = tokensUsed;
     }
 
     public int getMaxTokens() {
@@ -229,7 +332,7 @@ public class SigfoxApiContractInformation {
                 ", bidir=" + bidir +
                 ", maximumNumberOfDownlinkFrames=" + maximumNumberOfDownlinkFrames +
                 ", state=" + state +
-                ", tokensUsed=" + tokensUsed +
+                ", tokensUsed=" + tokensInUse +
                 ", maxTokens=" + maxTokens +
                 ", tokensInUse=" + tokensInUse +
                 ", groupId='" + groupId + '\'' +

@@ -124,18 +124,19 @@ public class SigfoxApiApplication {
 						"This proxy is allowing to use the Sigfox backend API in a user friendly environment with a WEB based user interface. " +
 								"As Sigfox backend doesn't support CORS for your 'safety', we are proxyfing all your requests from one of our servers. " +
 								"We do not store any of your information during this process but for your safety we recommend you renew your API credentials " +
-								"when you finished to use our service. <br/>" +
+								"when you finished to use our service. <br/><br/>" +
 								"We will do our best to keep this API in sync with sigfox but we can have a delay to implement the new endpoint.<br/>" +
-								"This proxy is an helper for builing your own software : the API is exactly the same as Sigfox One, only the hostname differs. " +
+								"This proxy is an helper for builing your own software: the API is exactly the same as Sigfox One, only the hostname differs. " +
 								"That said, you must never use this proxy in production but directly call sigfox API.<br/>" +
-								"Public and free API, use it in respect of our server health. Take care of your credential and use this at your own risk, " +
+								"This service is public and free, please use it in respect of our server health. Take care of your credential and use this at your own risk, " +
 								"we are not responsible of any mis-usage, data loss or damages on your account. If you start using this proxy, you accept any risks " +
-								"and potential consequences. You need to have a Sigfox API Access to use this API",
-						"V 2018-06-20",
+								"and potential consequences. <br/><br/>" +
+								"You need to have a Sigfox API Access to use this API",
+						"V 2018-06-24",
 						"",
 						new Contact("Contact", "http://www.ingeniousthings.fr", "contact AT ingeniousthings.fr"),
-						" GPL",
-						"",
+						"Code under GPL",
+						"https://github.com/ingeniousthings/sigfox-api-portal/blob/master/LICENSE",
 						Collections.emptyList()
 				))
 				;
