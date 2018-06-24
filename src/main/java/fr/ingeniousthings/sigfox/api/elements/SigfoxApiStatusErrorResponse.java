@@ -176,7 +176,7 @@ public class SigfoxApiStatusErrorResponse {
             notes = "The array of device communication down events",
             required = true
     )
-    protected SigfoxApiDeviceTypeStatusErrorResponseDetail data;
+    protected SigfoxApiDeviceTypeStatusErrorResponseDetail [] data;
 
     @ApiModelProperty(
             notes = "Paging information, if more event are available",
@@ -187,11 +187,12 @@ public class SigfoxApiStatusErrorResponse {
 
     // =====================================
 
-    public SigfoxApiDeviceTypeStatusErrorResponseDetail getData() {
+
+    public SigfoxApiDeviceTypeStatusErrorResponseDetail[] getData() {
         return data;
     }
 
-    public void setData(SigfoxApiDeviceTypeStatusErrorResponseDetail data) {
+    public void setData(SigfoxApiDeviceTypeStatusErrorResponseDetail[] data) {
         this.data = data;
     }
 

@@ -17,6 +17,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.lang.Override;
 import java.lang.String;
 import java.util.Arrays;
@@ -28,18 +30,48 @@ import java.util.Arrays;
  * ----------------------------------------------------------------------------------
  * Response Format :
  * {
- *      "margins":[
- *                  42.12,
- *                  27.49,
- *                  5.87
- *              ]
+ *     "locationCovered": true,
+ *     "margins":[
+ *         42.12,
+ *         27.49,
+ *         5.87
+ *     ]
  * }
+ *
  *
  * @author Paul Pinault
  */
 public class SigfoxApiCoverageMargins {
 
-    private double [] margins;
+    @ApiModelProperty(
+            notes = "The latitude in degrees. [only filled by Multiple point API]",
+            required = false
+    )
+    protected double lat;
+
+    @ApiModelProperty(
+            notes = "The longitude in degrees. [only filled by Multiple point API]",
+            required = false
+    )
+    protected double lng;
+
+
+    @ApiModelProperty(
+            notes = "True, if the requested location is considered covered.",
+            required = false            // non sense but according to doc it could be
+    )
+    protected boolean locationCovered;
+
+    @ApiModelProperty(
+            notes = "The margins values (dB) for redundancy level 1, 2 and 3",
+            required = true
+    )
+    protected double [] margins;
+
+
+    // ====================================================
+    // Getters & Setters
+    // ====================================================
 
     public double[] getMargins() {
         return margins;
@@ -47,6 +79,30 @@ public class SigfoxApiCoverageMargins {
 
     public void setMargins(double[] margins) {
         this.margins = margins;
+    }
+
+    public boolean isLocationCovered() {
+        return locationCovered;
+    }
+
+    public void setLocationCovered(boolean locationCovered) {
+        this.locationCovered = locationCovered;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     @Override

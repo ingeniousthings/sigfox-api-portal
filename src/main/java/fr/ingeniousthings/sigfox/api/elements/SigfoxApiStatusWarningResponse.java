@@ -184,7 +184,7 @@ public class SigfoxApiStatusWarningResponse {
             notes = "The array of device communication down events",
             required = true
     )
-    protected SigfoxApiDeviceTypeStatusWarningResponseDetail data;
+    protected SigfoxApiDeviceTypeStatusWarningResponseDetail [] data;
 
     @ApiModelProperty(
             notes = "Paging information, if more event are available",
@@ -192,4 +192,19 @@ public class SigfoxApiStatusWarningResponse {
     )
     protected Paging paging;
 
+    public SigfoxApiDeviceTypeStatusWarningResponseDetail[] getData() {
+        return data;
+    }
+
+    public void setData(SigfoxApiDeviceTypeStatusWarningResponseDetail[] data) {
+        this.data = data;
+    }
+
+    public Paging getPaging() {
+        return paging;
+    }
+
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
 }

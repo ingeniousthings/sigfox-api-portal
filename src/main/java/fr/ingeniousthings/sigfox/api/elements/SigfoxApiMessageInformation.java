@@ -480,6 +480,30 @@ public class SigfoxApiMessageInformation {
         this.parameters = parameters;
     }
 
+    public int getSeqNumber() {
+        return seqNumber;
+    }
+
+    public void setSeqNumber(int seqNumber) {
+        this.seqNumber = seqNumber;
+    }
+
+    public int getNbFrames() {
+        return nbFrames;
+    }
+
+    public void setNbFrames(int nbFrames) {
+        this.nbFrames = nbFrames;
+    }
+
+    public List<ReceptionInfos> getRinfos() {
+        return rinfos;
+    }
+
+    public void setRinfos(List<ReceptionInfos> rinfos) {
+        this.rinfos = rinfos;
+    }
+
     // ------------------------------------------------------
     // Serialization
 

@@ -41,7 +41,7 @@ public class SigfoxApiProxy<T> {
             for ( String s : authorizedHeader ) {
                 if ( s.compareToIgnoreCase(headerName) == 0) {
                     headers.add(headerName, headerValue);
-                    log.debug("HEADER : "+headerName+" = "+headerValue);
+                    // log.debug("HEADER : "+headerName+" = "+headerValue);
                     break;
                 }
             }
@@ -52,12 +52,12 @@ public class SigfoxApiProxy<T> {
                 ) {
             he = new HttpEntity<String>(headers);
         } else {
-            log.info("BODY : "+body);
+           // log.info("BODY : "+body);
             he = new HttpEntity<String>(body, headers);
         }
 
-        log.debug("URL : "+url);
-        log.debug("METHOD : "+request.getMethod());
+        //log.debug("URL : "+url);
+        //log.debug("METHOD : "+request.getMethod());
         RestTemplate restTemplate = new RestTemplate();
 
         try {
@@ -69,7 +69,7 @@ public class SigfoxApiProxy<T> {
                             String.class
                     );
             if (responseEntity.getStatusCode() != HttpStatus.OK) {
-                log.info("Status Code : " + responseEntity.getStatusCode());
+               // log.info("Status Code : " + responseEntity.getStatusCode());
                 throw new SigfoxApiProxyException(
                         responseEntity.getStatusCode(),
                         responseEntity.getBody()

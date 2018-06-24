@@ -16,6 +16,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.lang.Override;
 import java.lang.String;
 
@@ -33,6 +35,10 @@ import java.lang.String;
  */
 public class SigfoxApiCoverageRedundancy {
 
+    @ApiModelProperty(
+            notes = "The base station redundancy : 0 = none, 1 = 1 base station, 2 = 2 base stations, 3 = 3 base stations or more",
+            required = true
+    )
     private int redundancy = 0;
 
 

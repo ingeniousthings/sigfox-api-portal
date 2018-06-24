@@ -57,7 +57,7 @@ public class SigfoxDevicesApi {
      *
      */
     @ApiOperation(
-            value = "Registering new devices (ASYNC) - Creates new devices by providing a list of identifiers",
+            value = "Registering new devices (ASYNC)",
             notes = "Creates new devices by providing a list of identifiers, and associates them to a device type. <br/>"+
                     "In the URL and BODY are provided the information related to the device list to create<br/>" +
                     "<ul>" +
@@ -817,6 +817,238 @@ public class SigfoxDevicesApi {
         }
     }
 
+    /**
+     * Update the token renewal forbidden state of a device
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/devices/token/forbid-renewal
+     *
+     *     {
+     *         "forbidden": ["0DFE", "4125", "5169"],
+     *         "allowed" : ["420E", "7F8C"]
+     *     }
+     *
+     *
+     * forbidden and allowed are mandatory. Provide empty arrays if no device has to be updated.
+     *
+     * Response
+     *
+     * {
+     *     "total" : 12,
+     *     "error" : 2,
+     *     "failed": ["420E", "4125"]
+     * }
+     *
+     *
+     * Fields:
+     *
+     *     total: the total number of devices that should be updated.
+     *     error: the number of errors.
+     *     failed: the id of the devices that failed to update.
+     */
+    @ApiOperation(
+            value = "Update the token renewal forbidden state of a device",
+            notes = "Update the token renewal forbidden state of a device: <br/>",
+            response = SigfoxApiDeviceTokenRenewalResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceTokenRenewalResponse.class),
+    })
+    @RequestMapping(
+            value ="/devices/token/forbid-renewal",
+            produces = {MediaType.TEXT_HTML_VALUE},
+            consumes = {MediaType.TEXT_HTML_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> tokenForbidRenewal(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "renewalInput", value = "List of renewal changes")
+            @Valid @RequestBody SigfoxApiDeviceTokenRenewalInput renewalInput
+    ) {
+        SigfoxApiProxy<SigfoxApiDeviceTokenRenewalResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiDeviceTokenRenewalResponse>(proxy.proxify(request, mapper.writeValueAsString(renewalInput)), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    /**
+     * Disengage sequence number
+     *
+     * Disengage sequence number check for next message of a device.
+     *
+     * Request
+     *
+     * GET https://backend.sigfox.com/api/devices/{id}/disengage
+     *
+     * Parameters:
+     *
+     *     id the identifier of the device.
+     *
+     * Response
+     *
+     * The response has no body. A status code 200 is returned when the disengagment have been done successfully.
+     */
+    @ApiOperation(
+            value = "Disengage sequence number",
+            notes = "Disengage sequence number check for next message of a device." +
+                    "<br/>"+
+                    "Parameters: <br/>" +
+                    "<ul>" +
+                    " <li>device-id : the identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.</li>" +
+                    "</ul>",
+            response = String.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = String.class)
+    })
+    @RequestMapping(
+            value ="/devices/{device_id}/disengage",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> disengageSeqNumber(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "device_id", value = "The identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.")
+            @PathVariable("device_id") String device_id
+    ) {
+
+        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+    /**
+     * Device message metrics
+     *
+     * Returns the total number of device messages for one device, this day, this week and this month.
+     *
+     * Request
+     *
+     * GET https://backend.sigfox.com/api/devices/{id}/messages/metric
+     *
+     * Parameters:
+     *
+     *     id the identifier of the device (in hexadecimal).
+     *
+     * Response
+     *
+     * {
+     *   "lastDay": 47,
+     *   "lastWeek": 276,
+     *   "lastMonth": 784
+     * }
+     *
+     *
+     * Fields:
+     *
+     *     lastDay: The number of message received from this device during the last 24 hours.
+     *     lastWeek: The number of message received from this device during the last 7 days.
+     *     lastMonth: The number of message received from this device during the last 30 days.
+     *
+     */
+    @ApiOperation(
+            value = "Device message metrics",
+            notes = "Returns the total number of device messages for one device, this day, this week and this month." +
+                    "<br/>"+
+                    "Parameters: <br/>" +
+                    "<ul>" +
+                    " <li>device-id : the identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.</li>" +
+                    "</ul>",
+            response = SigfoxApiMessageMetric.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiMessageMetric.class)
+    })
+    @RequestMapping(
+            value ="/devices/{device_id}/messages/metric",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getDeviceMessageMetrics(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "device_id", value = "The identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.")
+            @PathVariable("device_id") String device_id
+    ) {
+
+        SigfoxApiProxy<SigfoxApiMessageMetric> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiMessageMetric>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+
+    /**
+     * Device consumptions
+     *
+     * Get a Device’s consumptions for a year
+     *
+     * Request
+     *
+     * GET https://backend.sigfox.com/api/device/{device-id}/consumptions/{year}
+     *
+     * Parameters:
+     *
+     *     device-id: the identifier of the device (in hexa).
+     *     year: the year of consumption.
+     *
+     */
+    @ApiOperation(
+            value = "Device consumptions",
+            notes = "Get a Device’s consumptions for a year" +
+                    "<br/>"+
+                    "Parameters: <br/>" +
+                    "<ul>" +
+                    " <li>device-id : the identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.</li>" +
+                    " <li>year : the year of consumption.</li>" +
+                    "</ul>",
+            response = SigfoxApiDeviceYearlyConsumption.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceYearlyConsumption.class)
+    })
+    @RequestMapping(
+            value ="/devices/{device_id}/consumptions/{year}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getDeviceYearlyMetric(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "device_id", value = "The identifier of the device, as returned by the /api/devicetypes/{devicetype-id}/devices endpoint.")
+            @PathVariable("device_id") String device_id,
+            @ApiParam(required = true, name = "year", value = "The year of consumption.")
+            @PathVariable("year") String year
+    ) {
+
+        SigfoxApiProxy<SigfoxApiDeviceYearlyConsumption> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiDeviceYearlyConsumption>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
 
 
 }

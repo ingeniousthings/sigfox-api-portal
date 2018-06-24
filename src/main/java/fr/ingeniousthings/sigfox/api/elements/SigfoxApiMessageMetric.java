@@ -17,6 +17,8 @@
 
 package fr.ingeniousthings.sigfox.api.elements;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.IOException;
 import java.lang.Override;
 import java.lang.String;
@@ -39,8 +41,22 @@ import java.lang.String;
  */
 public class SigfoxApiMessageMetric {
 
+    @ApiModelProperty(
+            notes = "The number of message received from this device during the last 24 hours.",
+            required = true
+    )
     protected int lastDay;
+
+    @ApiModelProperty(
+            notes = "The number of message received from this device during the last 7 days.",
+            required = true
+    )
     protected int lastWeek;
+
+    @ApiModelProperty(
+            notes = "The number of message received from this device during the last 30 days.",
+            required = true
+    )
     protected int lastMonth;
 
     public int getLastDay() {

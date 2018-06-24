@@ -40,7 +40,7 @@ public class SigfoxDeviceTypesApi {
 
 
     @ApiOperation(
-            value = "Device types list - Lists all device types available to your group",
+            value = "Device types list",
             notes = "Lists all device types available to your group. <br/>"+
                     "Parameters: Optionally you can add parameters :<br/>" +
                     "<ul>" +
@@ -94,7 +94,7 @@ public class SigfoxDeviceTypesApi {
      */
 
     @ApiOperation(
-            value = "Device type information - Get the description of a particular device type",
+            value = "Device type information",
             notes = "Get the description of a particular device type. <br/>"+
                     "Parameters:<br/>" +
                     "<ul>" +
@@ -155,7 +155,7 @@ public class SigfoxDeviceTypesApi {
 
 
     @ApiOperation(
-            value = "Device type creation - Create a new device type",
+            value = "Device type creation",
             notes = "Create a new device type. <br/>"+
                     "In the Body are provided the information related to the devicetype to create<br/>",
             response = SigfoxApiDeviceTypeCreationResponse.class,
@@ -214,7 +214,7 @@ public class SigfoxDeviceTypesApi {
 
 
     @ApiOperation(
-            value = "Device type edition - Edit a device type",
+            value = "Device type edition",
             notes = "Edit a device type. <br/>"+
                     "In the Body are provided the information related to the devicetype to edition<br/>",
             response = SigfoxApiDeviceTypeEditionResponse.class,
@@ -267,7 +267,7 @@ public class SigfoxDeviceTypesApi {
      *     id: the id of the device type to delete. This id must correspond to an existing device type.
      */
     @ApiOperation(
-            value = "Device type deletion - Delete a device type",
+            value = "Device type deletion",
             notes = "Delete a device type <br/>"+
                     "In the Body are provided the information related to the devicetype to deletion<br/>",
             response = String.class,
@@ -342,7 +342,7 @@ public class SigfoxDeviceTypesApi {
      */
 
     @ApiOperation(
-            value = "Callback creation - Create a new device type",
+            value = "Callback creation",
             notes = "Create a callback. <br/>"+
                     "In the Body are provided the information related to the callback to create<br/>",
             response = SigfoxApiCallbackCreationResponse.class,
@@ -394,7 +394,7 @@ public class SigfoxDeviceTypesApi {
 
 
     @ApiOperation(
-            value = "Callback list - List the callbacks for a device type",
+            value = "Callback list",
             notes = "List the callbacks for a device type <br/>"+
                     "Parameters: you need to add parameters :<br/>" +
                     "<ul>" +
@@ -449,7 +449,7 @@ public class SigfoxDeviceTypesApi {
      *
      */
     @ApiOperation(
-            value = "Callback deletion - Delete a callback",
+            value = "Callback deletion",
             notes = "Delete a callback <br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
@@ -504,7 +504,7 @@ public class SigfoxDeviceTypesApi {
      *
      */
     @ApiOperation(
-            value = "Callback enable/disable - Enable or disable a callback",
+            value = "Callback enable/disable",
             notes = "Enable or disable a callback <br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
@@ -567,7 +567,7 @@ public class SigfoxDeviceTypesApi {
      *     404 when the device type does not exist, or when the callback id does not correspond to this device type.
      */
     @ApiOperation(
-            value = "Callback downlink selection - Select a downlink callback",
+            value = "Callback downlink selection",
             notes = "Select a downlink callback. The given callback will be selected as the downlink one, the one that was previously selected will be no more be selected for downlink.<br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
