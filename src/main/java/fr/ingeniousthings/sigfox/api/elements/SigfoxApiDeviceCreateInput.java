@@ -99,6 +99,27 @@ public class SigfoxApiDeviceCreateInput {
         return r;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
 
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
+    public List<SigfoxApiDeviceCreateInputLine> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<SigfoxApiDeviceCreateInputLine> ids) {
+        this.ids = ids;
+    }
+
+    public String getProductCertificate() {
+        return productCertificate;
+    }
+
+    public void setProductCertificate(String productCertificate) {
+        this.productCertificate = productCertificate;
+    }
 }
