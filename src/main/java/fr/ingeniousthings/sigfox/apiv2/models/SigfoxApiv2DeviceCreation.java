@@ -28,54 +28,96 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "deviceBulk", description = "Bulk Device registration")
-public class SigfoxApiv2DeviceBulk {
+@Api(tags = "deviceCreation", description = "Defines the device’s common properties for reading or creation (not update)")
+public class SigfoxApiv2DeviceCreation {
 
     @ApiModelProperty(
-            notes = "The device type where new devices will be created",
+            notes = "The device’s identifier (hexadecimal format)",
+            required = true
+    )
+    protected String id;
+
+    @ApiModelProperty(
+            notes = "The device’s name",
+            required = true
+    )
+    protected String name;
+
+    @ApiModelProperty(
+            notes = "Defines a device type entity",
             required = true
     )
     protected String deviceTypeId;
 
     @ApiModelProperty(
-            notes = "The devices names prefix",
-            required = false,
-            value = ""
+            notes = "The device’s PAC (Porting Access Code)",
+            required = true
     )
-    protected String prefix;
+    protected String pac;
 
     @ApiModelProperty(
-            notes = "The product’s certificate name if any (mandatory if not a prototype)",
+            notes = "The device’s provided latitude",
+            value = "0",
+            required = true
+    )
+    protected double lat;
+
+    @ApiModelProperty(
+            notes = "The device’s provided longitude",
+            value = "0",
+            required = true
+    )
+    protected double lng;
+
+    @ApiModelProperty(
+            notes = "Product certificate",
             required = false
     )
     protected String productCertificate;
 
     @ApiModelProperty(
-            notes = "If the devices are a prototype or not",
+            notes = "If the device is a prototype or not",
             value = "false",
             required = false
     )
     protected boolean prototype;
 
     @ApiModelProperty(
-            notes = "True if the devices are activable and can take a token",
+            notes = "Allow token renewal ?",
+            value = "true",
+            required = false
+    )
+    protected boolean automaticRenewal;
+
+
+    @ApiModelProperty(
+            notes = "True if the device is activable and can take a token",
             value = "true",
             required = false
     )
     protected boolean activable;
 
-    @ApiModelProperty(
-            notes = "List of devices to be registered in Sigfox backend",
-            required = true
-    )
-    protected List<SigfoxApiv2DeviceBulkCreation> devices;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDeviceTypeId() {
         return deviceTypeId;
@@ -85,12 +127,28 @@ public class SigfoxApiv2DeviceBulk {
         this.deviceTypeId = deviceTypeId;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getPac() {
+        return pac;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setPac(String pac) {
+        this.pac = pac;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getProductCertificate() {
@@ -109,19 +167,19 @@ public class SigfoxApiv2DeviceBulk {
         this.prototype = prototype;
     }
 
+    public boolean isAutomaticRenewal() {
+        return automaticRenewal;
+    }
+
+    public void setAutomaticRenewal(boolean automaticRenewal) {
+        this.automaticRenewal = automaticRenewal;
+    }
+
     public boolean isActivable() {
         return activable;
     }
 
     public void setActivable(boolean activable) {
         this.activable = activable;
-    }
-
-    public List<SigfoxApiv2DeviceBulkCreation> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(List<SigfoxApiv2DeviceBulkCreation> devices) {
-        this.devices = devices;
     }
 }

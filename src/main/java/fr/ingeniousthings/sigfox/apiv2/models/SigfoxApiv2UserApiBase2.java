@@ -30,36 +30,38 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "baseApiUser", description = "Defines the base API user’s properties")
+public class SigfoxApiv2UserApiBase2 {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
-            required = true
-    )
-    protected String commandKey;
-
-    @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
+            notes = "The API user’s name",
             required = false
     )
-    protected String reason;
+    protected String name;
 
     @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
+            notes = "The API user’s timezone",
             required = false
     )
-    protected String version;
+    protected String timezone;
+
+    @ApiModelProperty(
+            notes = "The API user’s custom roles",
+            required = false
+    )
+    protected List<String> customRoleIds;
+
+    @ApiModelProperty(
+            notes = "The API user’s profiles",
+            required = false
+    )
+    protected List<String> profileIds;
+
+    @ApiModelProperty(
+            notes = "The group’s identifer",
+            required = false
+    )
+    protected String groupId;
 
 
     // ============================================================
@@ -67,27 +69,43 @@ public class SigfoxApiv2BaseStationCommand {
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getName() {
+        return name;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getReason() {
-        return reason;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
-    public String getVersion() {
-        return version;
+    public List<String> getCustomRoleIds() {
+        return customRoleIds;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setCustomRoleIds(List<String> customRoleIds) {
+        this.customRoleIds = customRoleIds;
+    }
+
+    public List<String> getProfileIds() {
+        return profileIds;
+    }
+
+    public void setProfileIds(List<String> profileIds) {
+        this.profileIds = profileIds;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

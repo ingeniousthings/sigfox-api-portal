@@ -28,66 +28,95 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "deviceEditionBulk", description = "Modify one of the device in bulk mode")
+public class SigfoxApiv2DeviceBulkEdition {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
+            notes = "The device’s identifier (hexadecimal format)",
             required = true
     )
-    protected String commandKey;
+    protected String id;
 
     @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
+            notes = "The product’s certificate name if any",
             required = false
     )
-    protected String reason;
+    protected String productCertificate;
 
     @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
+            notes = "The device’s name",
             required = false
     )
-    protected String version;
+    protected String name;
 
+    @ApiModelProperty(
+            notes = "The device’s provided latitude",
+            required = false
+    )
+    protected double lat;
+
+    @ApiModelProperty(
+            notes = "The device’s provided longitude",
+            required = false
+    )
+    protected double lng;
+
+    @ApiModelProperty(
+            notes = "Allow token renewal ?",
+            required = false
+    )
+    protected boolean automaticRenewal;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getId() {
+        return id;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getReason() {
-        return reason;
+    public String getProductCertificate() {
+        return productCertificate;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setProductCertificate(String productCertificate) {
+        this.productCertificate = productCertificate;
     }
 
-    public String getVersion() {
-        return version;
+    public String getName() {
+        return name;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public boolean isAutomaticRenewal() {
+        return automaticRenewal;
+    }
+
+    public void setAutomaticRenewal(boolean automaticRenewal) {
+        this.automaticRenewal = automaticRenewal;
     }
 }

@@ -28,66 +28,53 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "baseDeviceType", description = "Defines the device type’s basic properties")
+public class SigfoxApiv2DeviceTypeBase {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
-            required = true
-    )
-    protected String commandKey;
-
-    @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
+            notes = "The device type’s name",
             required = false
     )
-    protected String reason;
+    protected String name;
 
     @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
+            notes = "Keep alive period in seconds (0 to not keep alive else 1800 second minimum)",
             required = false
     )
-    protected String version;
+    protected long keepAlive;
 
+    @ApiModelProperty(
+            notes = "Email address to contact in case of problems occurring while executing a callback",
+            required = false
+    )
+    protected String alertEmail;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getName() {
+        return name;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getReason() {
-        return reason;
+    public long getKeepAlive() {
+        return keepAlive;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setKeepAlive(long keepAlive) {
+        this.keepAlive = keepAlive;
     }
 
-    public String getVersion() {
-        return version;
+    public String getAlertEmail() {
+        return alertEmail;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setAlertEmail(String alertEmail) {
+        this.alertEmail = alertEmail;
     }
 }

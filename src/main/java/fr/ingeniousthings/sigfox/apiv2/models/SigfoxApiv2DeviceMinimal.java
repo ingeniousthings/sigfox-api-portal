@@ -28,38 +28,21 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "commonDevice", description = "Defines the device’s common properties for " +
+        "reading or creation (not update)")
+public class SigfoxApiv2DeviceMinimal {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
+            notes = "The device’s identifier (hexadecimal format)",
             required = true
     )
-    protected String commandKey;
+    protected String id;
 
     @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
-            required = false
+            notes = "The device’s name",
+            required = true
     )
-    protected String reason;
-
-    @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
-            required = false
-    )
-    protected String version;
+    protected String name;
 
 
     // ============================================================
@@ -67,27 +50,19 @@ public class SigfoxApiv2BaseStationCommand {
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getId() {
+        return id;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getReason() {
-        return reason;
+    public String getName() {
+        return name;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setName(String name) {
+        this.name = name;
     }
 }

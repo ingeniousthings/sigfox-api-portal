@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 @Api(tags = "commonContractInfo", description = "Defines a contract info’s common properties")
-public class SigfoxApiv2CommonContractInfo {
+public class SigfoxApiv2ContractInfoCommon {
 
 
     @ApiModelProperty(

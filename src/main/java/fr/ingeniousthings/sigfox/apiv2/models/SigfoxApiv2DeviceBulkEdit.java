@@ -30,36 +30,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "deviceBulkEdit", description = "Modify one of the device in bulk mode")
+public class SigfoxApiv2DeviceBulkEdit {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
+            notes = "The device’s identifier (hexadecimal format)",
             required = true
     )
-    protected String commandKey;
-
-    @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
-            required = false
-    )
-    protected String reason;
-
-    @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
-            required = false
-    )
-    protected String version;
+    protected List<SigfoxApiv2DeviceBulkEdition> devices;
 
 
     // ============================================================
@@ -67,27 +45,11 @@ public class SigfoxApiv2BaseStationCommand {
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public List<SigfoxApiv2DeviceBulkEdition> getDevices() {
+        return devices;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setDevices(List<SigfoxApiv2DeviceBulkEdition> devices) {
+        this.devices = devices;
     }
 }

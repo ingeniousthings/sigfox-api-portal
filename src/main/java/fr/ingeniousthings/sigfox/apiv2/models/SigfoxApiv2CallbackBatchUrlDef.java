@@ -28,66 +28,58 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "batchUrlCbDef", description = "Callback Batch Url Definition")
+public class SigfoxApiv2CallbackBatchUrlDef {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
+            notes = "The callback’s url.",
+            required = false
+    )
+    protected String urlPattern;
+
+    @ApiModelProperty(
+            notes = "The HTTP method used to send the callback (GET, POST or PUT). Mandatory for URL callbacks:<br/>" +
                     "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
+                    "<li>GET</li>" +
+                    "<li>POST</li>" +
+                    "<li>PUT</li>" +
                     "</ul>",
-            required = true
-    )
-    protected String commandKey;
-
-    @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
             required = false
     )
-    protected String reason;
+    protected String httpMethod;
 
     @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
+            notes = "The line pattern representing a message.",
             required = false
     )
-    protected String version;
-
+    protected String linePattern;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getUrlPattern() {
+        return urlPattern;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setUrlPattern(String urlPattern) {
+        this.urlPattern = urlPattern;
     }
 
-    public String getReason() {
-        return reason;
+    public String getHttpMethod() {
+        return httpMethod;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
     }
 
-    public String getVersion() {
-        return version;
+    public String getLinePattern() {
+        return linePattern;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setLinePattern(String linePattern) {
+        this.linePattern = linePattern;
     }
 }

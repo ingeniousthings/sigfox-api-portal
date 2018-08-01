@@ -30,36 +30,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "baseStationCommand", description = "A command to submit to a base station")
-public class SigfoxApiv2BaseStationCommand {
+@Api(tags = "GroupCreation", description = "Defines the group entity for creation ")
+public class SigfoxApiv2GroupCreation extends SigfoxApiv2GroupBase {
 
     @ApiModelProperty(
-            notes = "The identifier of the command to send. </br>" +
-                    "<ul>" +
-                    "<li>CAPABILITIES</li>" +
-                    "<li>GETCONF</li>" +
-                    "<li>HWCFG</li>" +
-                    "<li>HWVER</li>" +
-                    "<li>OSUPD</li>" +
-                    "<li>OSVER</li>" +
-                    "<li>RESTART</li>" +
-                    "<li>SETCONF</li>" +
-                    "</ul>",
-            required = true
-    )
-    protected String commandKey;
-
-    @ApiModelProperty(
-            notes = "Reason of the restart (required only when command is RESTART)",
+            notes = "The parent id.",
             required = false
     )
-    protected String reason;
+    protected String parentId;
+
 
     @ApiModelProperty(
-            notes = "Version to update to (required only when command is OSUPD)",
+            notes = "This is the country ISO code " +
+                    "(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements) " +
+                    "where the operator manages its network. Only available for SNO and NIP.",
             required = false
     )
-    protected String version;
+    protected String countryISOAlpha3;
+
 
 
     // ============================================================
@@ -67,27 +55,19 @@ public class SigfoxApiv2BaseStationCommand {
     // ============================================================
 
 
-    public String getCommandKey() {
-        return commandKey;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setCommandKey(String commandKey) {
-        this.commandKey = commandKey;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
-    public String getReason() {
-        return reason;
+    public String getCountryISOAlpha3() {
+        return countryISOAlpha3;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setCountryISOAlpha3(String countryISOAlpha3) {
+        this.countryISOAlpha3 = countryISOAlpha3;
     }
 }

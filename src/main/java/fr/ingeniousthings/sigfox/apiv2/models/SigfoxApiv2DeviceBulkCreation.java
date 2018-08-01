@@ -30,7 +30,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 @Api(tags = "deviceCreationBulk", description = "Device entity for bulk registration")
-public class SigfoxApiv2DeviceCreationBulk {
+public class SigfoxApiv2DeviceBulkCreation {
 
     @ApiModelProperty(
             notes = "The device’s identifier (hexadecimal format)",

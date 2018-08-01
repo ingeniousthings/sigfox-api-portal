@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "baseApiUser", description = "Defines the base API user’s properties")
+@Api(tags = "baseApiUser(bis)", description = "Defines the base API user’s properties")
 public class SigfoxApiv2UserApiBase {
 
     @ApiModelProperty(
@@ -44,24 +44,6 @@ public class SigfoxApiv2UserApiBase {
             required = false
     )
     protected String timezone;
-
-    @ApiModelProperty(
-            notes = "The API user’s custom roles",
-            required = false
-    )
-    protected List<String> customRoleIds;
-
-    @ApiModelProperty(
-            notes = "The API user’s profiles",
-            required = false
-    )
-    protected List<String> profileIds;
-
-    @ApiModelProperty(
-            notes = "The group’s identifer",
-            required = false
-    )
-    protected String groupId;
 
 
     // ============================================================
@@ -85,27 +67,4 @@ public class SigfoxApiv2UserApiBase {
         this.timezone = timezone;
     }
 
-    public List<String> getCustomRoleIds() {
-        return customRoleIds;
-    }
-
-    public void setCustomRoleIds(List<String> customRoleIds) {
-        this.customRoleIds = customRoleIds;
-    }
-
-    public List<String> getProfileIds() {
-        return profileIds;
-    }
-
-    public void setProfileIds(List<String> profileIds) {
-        this.profileIds = profileIds;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
 }
