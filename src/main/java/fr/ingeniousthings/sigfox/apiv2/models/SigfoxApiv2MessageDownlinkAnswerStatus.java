@@ -23,44 +23,90 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
+
+
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+import java.util.List;
+
+@Api(tags = "downlinkAnswerStatus", description = "The last callback status for this reception")
+public class SigfoxApiv2MessageDownlinkAnswerStatus {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "Base station to send downlink message",
             required = false
     )
-    protected String email;
+    protected SigfoxApiv2BaseStationMinimal baseStation;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
+            notes = "Planned downlink power as it was computed by the backend",
             required = false
     )
-    protected boolean sendWelcomeEmail;
+    protected double plannedPower;
+
+    @ApiModelProperty(
+            notes = "Response content, hex encoded",
+            required = false
+    )
+    protected String data;
+
+    @ApiModelProperty(
+            notes = "Name of the first operator which received the message as roaming",
+            required = false
+    )
+    protected String operator;
+
+    @ApiModelProperty(
+            notes = "Country of the operator",
+            required = false
+    )
+    protected String country;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public SigfoxApiv2BaseStationMinimal getBaseStation() {
+        return baseStation;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBaseStation(SigfoxApiv2BaseStationMinimal baseStation) {
+        this.baseStation = baseStation;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public double getPlannedPower() {
+        return plannedPower;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setPlannedPower(double plannedPower) {
+        this.plannedPower = plannedPower;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

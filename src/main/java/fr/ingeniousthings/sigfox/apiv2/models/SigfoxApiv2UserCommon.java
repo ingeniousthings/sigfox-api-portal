@@ -28,39 +28,56 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+import java.util.List;
+
+@Api(tags = "userCommon", description = "Some common elements for User")
+public class SigfoxApiv2UserCommon {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "The user’s first name",
             required = false
     )
-    protected String email;
+    protected String firstName;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
+            notes = "The user’s last name",
             required = false
     )
-    protected boolean sendWelcomeEmail;
+    protected String lastName;
+
+    @ApiModelProperty(
+            notes = "The user’s timezone",
+            required = false
+    )
+    protected String timezone;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
 }

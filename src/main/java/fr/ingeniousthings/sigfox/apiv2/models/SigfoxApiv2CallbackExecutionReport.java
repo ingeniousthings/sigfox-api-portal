@@ -30,7 +30,9 @@ import io.swagger.annotations.ApiModelProperty;
 
 // Model Callback
 @Api(tags = "CallbackExecutionReport", description = "Callback of type HTTP Report")
-public class SigfoxApiv2CallbackExecutionReport {
+public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpDef {
+
+    // We can't extends from 2 classes ... so recopy of the Email
 
     @ApiModelProperty(
             notes = "The subject of the mail which have been sent",
@@ -44,6 +46,7 @@ public class SigfoxApiv2CallbackExecutionReport {
     )
     protected String message;
 
+    /*
     @ApiModelProperty(
             notes = "The URL called when this message has been processed",
             required = false
@@ -79,6 +82,7 @@ public class SigfoxApiv2CallbackExecutionReport {
             required = false
     )
     protected String error;
+    */
 
 
     // ============================================================
@@ -101,7 +105,7 @@ public class SigfoxApiv2CallbackExecutionReport {
     public void setMessage(String message) {
         this.message = message;
     }
-
+/*
     public String getUrl() {
         return url;
     }
@@ -149,4 +153,5 @@ public class SigfoxApiv2CallbackExecutionReport {
     public void setError(String error) {
         this.error = error;
     }
+    */
 }

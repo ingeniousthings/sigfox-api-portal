@@ -23,90 +23,101 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
-
-
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "rInfo", description = "Data Message Reception information")
-public class SigfoxApiv2RInfo {
+@Api(tags = "callbackHttp", description = "Callback of type HTTP")
+public class SigfoxApiv2CallbackHttpDef {
 
     @ApiModelProperty(
-            notes = "Base station to send downlink message",
+            notes = "The URL called when this message has been processed",
             required = false
     )
-    protected SigfoxApiv2BaseStationMinimal baseStation;
+    protected String url;
 
     @ApiModelProperty(
-            notes = "The device’s estimated latitude",
+            notes = "The headers sent in the request. If no header is defined, this field is not present.",
             required = false
     )
-    protected double lat;
+    protected KeyValue headers;
 
     @ApiModelProperty(
-            notes = "The device’s estimated longitude",
+            notes = "The body of the request, if any. It is only present if the request method is POST.",
             required = false
     )
-    protected double lng;
+    protected String body;
 
     @ApiModelProperty(
-            notes = "Number of repetitions sent by the base station",
+            notes = "The content type of the request. It is only present if the request is a POST.",
             required = false
     )
-    protected int rep;
+    protected String contentType;
 
     @ApiModelProperty(
-            notes = "List of callback status for this reception",
+            notes = "The HTTP method, currently only GET, POST or PUT.",
             required = false
     )
-    protected List<SigfoxApiv2CallbackExecutionStatus> cbStatus;
+    protected String method;
+
+    @ApiModelProperty(
+            notes = "If there was an error, for instance if the body is JSON and could not be evaluated.",
+            required = false
+    )
+    protected String error;
+
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public SigfoxApiv2BaseStationMinimal getBaseStation() {
-        return baseStation;
+    public String getUrl() {
+        return url;
     }
 
-    public void setBaseStation(SigfoxApiv2BaseStationMinimal baseStation) {
-        this.baseStation = baseStation;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public double getLat() {
-        return lat;
+    public KeyValue getHeaders() {
+        return headers;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setHeaders(KeyValue headers) {
+        this.headers = headers;
     }
 
-    public double getLng() {
-        return lng;
+    public String getBody() {
+        return body;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public int getRep() {
-        return rep;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void setRep(int rep) {
-        this.rep = rep;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
-    public List<SigfoxApiv2CallbackExecutionStatus> getCbStatus() {
-        return cbStatus;
+    public String getMethod() {
+        return method;
     }
 
-    public void setCbStatus(List<SigfoxApiv2CallbackExecutionStatus> cbStatus) {
-        this.cbStatus = cbStatus;
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

@@ -28,39 +28,36 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+import java.util.List;
+
+@Api(tags = "serviceCoverageRedundancy", description = "Returned data for Service Coverage Redundancy API")
+public class SigfoxApiv2CoverageRedundcyResponse {
+
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "The base station redundancy </br>" +
+                    "<ul>" +
+                    "<li>0 = none</li>" +
+                    "<li>1 = 1 base station</li>" +
+                    "<li>2 = 2 base stations</li>" +
+                    "<li>3 = 3 base stations or more</li>" +
+                    "</ul>",
             required = false
     )
-    protected String email;
+    protected int redundancy;
 
-    @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
-            required = false
-    )
-    protected boolean sendWelcomeEmail;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public int getRedundancy() {
+        return redundancy;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRedundancy(int redundancy) {
+        this.redundancy = redundancy;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
-    }
-
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
-    }
 }

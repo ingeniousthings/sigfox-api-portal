@@ -28,39 +28,43 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+import java.util.List;
+
+@Api(tags = "consumptions", description = "Consumption report")
+public class SigfoxApiv2Consumptions {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "Identifier of the consumption.",
+            value = "1005550_2017",
             required = false
     )
-    protected String email;
+    protected String id;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
+            notes = "Identifier of the consumption.",
             required = false
     )
-    protected boolean sendWelcomeEmail;
+    protected List<SigfoxApiv2Consumption> consumptions;
+
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public String getId() {
+        return id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public List<SigfoxApiv2Consumption> getConsumptions() {
+        return consumptions;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setConsumptions(List<SigfoxApiv2Consumption> consumptions) {
+        this.consumptions = consumptions;
     }
 }

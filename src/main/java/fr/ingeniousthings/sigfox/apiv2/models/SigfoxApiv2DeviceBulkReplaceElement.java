@@ -30,67 +30,40 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User {
+@Api(tags = "bulkReplace", description = "Device Bulk replacement")
+public class SigfoxApiv2DeviceBulkReplaceElement {
 
     @ApiModelProperty(
-            notes = "The user’s first name",
+            notes = "The device’s identifier to replace (hexademical format)",
             required = false
     )
-    protected String firstName;
+    protected String deviceId;
 
     @ApiModelProperty(
-            notes = "The user’s last name",
+            notes = "The target device’s identifier (hexademical format)",
             required = false
     )
-    protected String lastName;
+    protected String targetDeviceId;
 
-    @ApiModelProperty(
-            notes = "The user’s timezone",
-            required = false
-    )
-    protected String timezone;
-
-    @ApiModelProperty(
-            notes = "The user’s first name",
-            required = false
-    )
-    protected List<SigfoxApiv2UserRole> userRoles;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getFirstName() {
-        return firstName;
+    public String getDeviceId() {
+        return deviceId;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getTargetDeviceId() {
+        return targetDeviceId;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
-    public List<SigfoxApiv2UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<SigfoxApiv2UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setTargetDeviceId(String targetDeviceId) {
+        this.targetDeviceId = targetDeviceId;
     }
 }

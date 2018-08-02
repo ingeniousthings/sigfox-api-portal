@@ -28,39 +28,13 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+@Api(tags = "location", description = "Position (redundant with latLng)")
+public class SigfoxApiv2Location extends SigfoxApiv2LatLng {
 
-    @ApiModelProperty(
-            notes = "The user’s email",
-            required = false
-    )
-    protected String email;
-
-    @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
-            required = false
-    )
-    protected boolean sendWelcomeEmail;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
-    }
-
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
-    }
 }

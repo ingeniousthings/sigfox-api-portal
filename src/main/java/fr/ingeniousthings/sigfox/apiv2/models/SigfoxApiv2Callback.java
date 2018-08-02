@@ -25,9 +25,182 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
-public class SigfoxApiv2Callback extends SigfoxApiv2CallbackExecutionReport {
-    // This object is names Callback in the sigfox API but it is not a callback
-    // it is an object returned when getting MessageError...
-    // This call is just for the naming as in the API until they fix it.
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 
+// Be Carefull, some Callback Object are CallbackExecutionReport... One name
+// multiple model
+@Api(tags = "callback", description = "details on a callback")
+public class SigfoxApiv2Callback extends SigfoxApiv2CallbackCommonDef {
+
+    @ApiModelProperty(
+            notes = "The callback’s identifier.",
+            required = false
+    )
+    protected String id;
+
+
+    @ApiModelProperty(
+            notes = "The callback URL. Mandatory for URL and BATCH_URL callbacks.",
+            required = false
+    )
+    protected String urlPattern;
+
+    @ApiModelProperty(
+            notes = "The HTTP method used to send the callback (GET, POST or PUT). Mandatory for URL callbacks:<br/>" +
+                    "<ul>" +
+                    "<li>GET</li>" +
+                    "<li>POST</li>" +
+                    "<li>PUT</li>" +
+                    "</ul>",
+            required = false
+    )
+    protected String httpMethod;
+
+    @ApiModelProperty(
+            notes = "True if this callback is used for downlink, else false.",
+            required = false
+    )
+    protected boolean downlinkHook;
+
+    @ApiModelProperty(
+            notes = "Headers of the request. The header value can contain a variable " +
+                    "(predefined or custom). Mandatory for URL callbacks.",
+            required = false
+    )
+    protected KeyValue headers;
+
+
+    @ApiModelProperty(
+            notes = "Send SNI (Server Name Indication) for SSL/TLS connections. Used by BATCH_URL and URL callbacks (optional).",
+            required = false
+    )
+    protected boolean sendSni;
+
+    @ApiModelProperty(
+            notes = "The body template of the request, only if httpMethpd is set to POST Or PUT. It can contain predefined " +
+                    "and custom variables. Mandatory for URL callbacks",
+            required = false
+    )
+    protected String bodyTemplate;
+
+    @ApiModelProperty(
+            notes = "The line pattern representing a message. Mandatory for BATCH_URL callbacks.",
+            required = false
+    )
+    protected String linePattern;
+
+
+    @ApiModelProperty(
+            notes = "The mail subject. Mandatory for EMAIL callbacks.",
+            required = false
+    )
+    protected String subject;
+
+    @ApiModelProperty(
+            notes = "The recipient of the email. Must be a valid email address. " +
+                    "Mandatory for EMAIL callbacks.",
+            required = false
+    )
+    protected String recipient;
+
+    @ApiModelProperty(
+            notes = "The content of the message. Mandatory for EMAIL callbacks.",
+            required = false
+    )
+    protected String message;
+
+
+    // ============================================================
+    // Generated Getters & Setters
+    // ============================================================
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUrlPattern() {
+        return urlPattern;
+    }
+
+    public void setUrlPattern(String urlPattern) {
+        this.urlPattern = urlPattern;
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
+
+    public boolean isDownlinkHook() {
+        return downlinkHook;
+    }
+
+    public void setDownlinkHook(boolean downlinkHook) {
+        this.downlinkHook = downlinkHook;
+    }
+
+    public KeyValue getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(KeyValue headers) {
+        this.headers = headers;
+    }
+
+    public boolean isSendSni() {
+        return sendSni;
+    }
+
+    public void setSendSni(boolean sendSni) {
+        this.sendSni = sendSni;
+    }
+
+    public String getBodyTemplate() {
+        return bodyTemplate;
+    }
+
+    public void setBodyTemplate(String bodyTemplate) {
+        this.bodyTemplate = bodyTemplate;
+    }
+
+    public String getLinePattern() {
+        return linePattern;
+    }
+
+    public void setLinePattern(String linePattern) {
+        this.linePattern = linePattern;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

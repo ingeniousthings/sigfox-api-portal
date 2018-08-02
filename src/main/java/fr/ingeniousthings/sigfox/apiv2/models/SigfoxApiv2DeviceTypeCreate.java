@@ -28,8 +28,8 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "Device type", description = "Defines the device type’s properties")
-public class SigfoxApiv2DeviceTypeUpdate {
+@Api(tags = "DeviceTypeCreate", description = "Defines the device type’s properties")
+public class SigfoxApiv2DeviceTypeCreate {
 
     @ApiModelProperty(
             notes = "The device type’s name",
@@ -48,13 +48,6 @@ public class SigfoxApiv2DeviceTypeUpdate {
             required = false
     )
     protected String alertEmail;
-
-//    @ApiModelProperty(
-//            notes = "The device type’s identifier",
-//            required = false
-//    )
-//    protected String id;
-//
 
     @ApiModelProperty(
             notes = "The payload’s type<br/>" +
@@ -84,7 +77,7 @@ public class SigfoxApiv2DeviceTypeUpdate {
                     "<li>1 -> CALLBACK</li>" +
                     "<li>2 -> NONE</li>" +
                     "</ul>",
-            required = false
+            required = true
     )
     protected int downlinkMode;
 
@@ -98,35 +91,22 @@ public class SigfoxApiv2DeviceTypeUpdate {
 
     @ApiModelProperty(
             notes = "The device type’s description",
-            required = false
+            required = true
     )
     protected String description;
 
-
-//    @ApiModelProperty(
-//            notes = "The group entity owner of this device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2GroupMinimal group;
-
-//    @ApiModelProperty(
-//            notes = "The contract entity attached of this device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2ContractInfoMin contract;
+    @ApiModelProperty(
+            notes = "The device type’s contract identifier (must be on the same group than the device type)",
+            required = true
+    )
+    protected String groupId;
 
     @ApiModelProperty(
             notes = "The device type’s contract identifier (must be on the same group than the device type)",
-            required = false
+            required = true
     )
     protected String contractId;
 
-
-//    @ApiModelProperty(
-//            notes = "The geoloc payload attached to the device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2GeolocPayloadConfig geolocPayloadConfig;
 
     @ApiModelProperty(
             notes = "The geoloc payload configuration identifier. " +
@@ -135,30 +115,6 @@ public class SigfoxApiv2DeviceTypeUpdate {
     )
     protected String geolocPayloadConfigId;
 
-
-//    @ApiModelProperty(
-//            notes = "Date of the creation of this device type (in milliseconds)",
-//            required = false
-//    )
-//    protected long creationTime;
-
-//    @ApiModelProperty(
-//            notes = "Identifier of the user who created this device type.",
-//            required = false
-//    )
-//    protected String createdBy;
-
-//    @ApiModelProperty(
-//            notes = "Date of the last edition of this device type (in milliseconds)",
-//            required = false
-//    )
-//    protected long lastEditedTime;
-
-//    @ApiModelProperty(
-//            notes = "Identifier of the user who last edited this device type.",
-//            required = false
-//    )
-//    protected String lastEditedBy;
 
     @ApiModelProperty(
             notes = "Allows the automatic renewal of devices attached to this device type",
@@ -234,6 +190,14 @@ public class SigfoxApiv2DeviceTypeUpdate {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getContractId() {

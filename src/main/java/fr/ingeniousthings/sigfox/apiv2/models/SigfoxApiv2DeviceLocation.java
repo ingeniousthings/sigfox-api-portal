@@ -28,39 +28,40 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+@Api(tags = "deviceLocation", description = "Element to position a device")
+public class SigfoxApiv2DeviceLocation extends SigfoxApiv2ComputedLocation {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "Timestamp of the message (in milliseconds since the Unix Epoch)",
             required = false
     )
-    protected String email;
+    protected long time;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
-            required = false
+            notes = "true, if a valid estimation for this message is available (GPS or RSSI)",
+            required = true
     )
-    protected boolean sendWelcomeEmail;
+    protected boolean valid;
+
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public long getTime() {
+        return time;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTime(long time) {
+        this.time = time;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public boolean isValid() {
+        return valid;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }

@@ -28,39 +28,54 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+@Api(tags = "tilesReference", description = "Defines tiles reference to display on web map")
+public class SigfoxApiv2TilesReference {
+
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "The tiles base image url",
             required = false
     )
-    protected String email;
+    protected String baseImgUrl;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
+            notes = "The TMS template url",
             required = false
     )
-    protected boolean sendWelcomeEmail;
+    protected String tmsTemplateUrl;
+
+    @ApiModelProperty(
+            notes = "Geographics bounds",
+            required = false
+    )
+    protected SigfoxApiv2Bounds bounds;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public String getBaseImgUrl() {
+        return baseImgUrl;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBaseImgUrl(String baseImgUrl) {
+        this.baseImgUrl = baseImgUrl;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public String getTmsTemplateUrl() {
+        return tmsTemplateUrl;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setTmsTemplateUrl(String tmsTemplateUrl) {
+        this.tmsTemplateUrl = tmsTemplateUrl;
+    }
+
+    public SigfoxApiv2Bounds getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(SigfoxApiv2Bounds bounds) {
+        this.bounds = bounds;
     }
 }

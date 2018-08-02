@@ -23,44 +23,90 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
+
+
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+import java.util.List;
+
+@Api(tags = "rInfo", description = "Data Message Reception information")
+public class SigfoxApiv2MessageRInfo {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "Base station to send downlink message",
             required = false
     )
-    protected String email;
+    protected SigfoxApiv2BaseStationMinimal baseStation;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
+            notes = "The device’s estimated latitude",
             required = false
     )
-    protected boolean sendWelcomeEmail;
+    protected double lat;
+
+    @ApiModelProperty(
+            notes = "The device’s estimated longitude",
+            required = false
+    )
+    protected double lng;
+
+    @ApiModelProperty(
+            notes = "Number of repetitions sent by the base station",
+            required = false
+    )
+    protected int rep;
+
+    @ApiModelProperty(
+            notes = "List of callback status for this reception",
+            required = false
+    )
+    protected List<SigfoxApiv2CallbackExecutionStatus> cbStatus;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public SigfoxApiv2BaseStationMinimal getBaseStation() {
+        return baseStation;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBaseStation(SigfoxApiv2BaseStationMinimal baseStation) {
+        this.baseStation = baseStation;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public double getLat() {
+        return lat;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public int getRep() {
+        return rep;
+    }
+
+    public void setRep(int rep) {
+        this.rep = rep;
+    }
+
+    public List<SigfoxApiv2CallbackExecutionStatus> getCbStatus() {
+        return cbStatus;
+    }
+
+    public void setCbStatus(List<SigfoxApiv2CallbackExecutionStatus> cbStatus) {
+        this.cbStatus = cbStatus;
     }
 }

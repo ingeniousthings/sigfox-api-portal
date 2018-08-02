@@ -28,39 +28,26 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "UserRole", description = "Defines the rights of the user")
-public class SigfoxApiv2UserRole {
+@Api(tags = "cbDefId", description = "Callback id")
+public class SigfoxApiv2CallbackIdDef {
 
     @ApiModelProperty(
-            notes = "The group identifier on which the user will have the permissions set",
-            required = true
+            notes = "The callback’s identifier.",
+            required = false
     )
-    protected String groupId;
+    protected String id;
 
-    @ApiModelProperty(
-            notes = "The profile identifier that will give some permissions to the user",
-            required = true
-    )
-    protected String profileId;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getGroupId() {
-        return groupId;
+    public String getId() {
+        return id;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(String profileId) {
-        this.profileId = profileId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

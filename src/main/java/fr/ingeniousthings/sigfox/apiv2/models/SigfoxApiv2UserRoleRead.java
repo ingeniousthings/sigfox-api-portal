@@ -28,39 +28,39 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+@Api(tags = "UserRole", description = "Defines the rights of the user - returned by sigfox with details")
+public class SigfoxApiv2UserRoleRead {
 
     @ApiModelProperty(
-            notes = "The user’s email",
-            required = false
+            notes = "The group identifier on which the user will have the permissions set",
+            required = true
     )
-    protected String email;
+    protected SigfoxApiv2GroupMinimal group;
 
     @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
-            required = false
+            notes = "The profile identifier that will give some permissions to the user",
+            required = true
     )
-    protected boolean sendWelcomeEmail;
+    protected SigfoxApiv2Profile profileId;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public SigfoxApiv2GroupMinimal getGroup() {
+        return group;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setGroup(SigfoxApiv2GroupMinimal group) {
+        this.group = group;
     }
 
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
+    public SigfoxApiv2Profile getProfileId() {
+        return profileId;
     }
 
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setProfileId(SigfoxApiv2Profile profileId) {
+        this.profileId = profileId;
     }
 }

@@ -28,39 +28,26 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "User", description = "User Details")
-public class SigfoxApiv2User2 extends SigfoxApiv2UserEdit {
+@Api(tags = "callbackEmail", description = "Callback of type Email")
+public class SigfoxApiv2CallbackEmailDef2 extends SigfoxApiv2CallbackEmailDef {
 
     @ApiModelProperty(
-            notes = "The user’s email",
+            notes = "The recipient of the email.",
             required = false
     )
-    protected String email;
+    protected String recipient;
 
-    @ApiModelProperty(
-            notes = "Send an email to the user to create/change is password",
-            required = false
-    )
-    protected boolean sendWelcomeEmail;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getEmail() {
-        return email;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isSendWelcomeEmail() {
-        return sendWelcomeEmail;
-    }
-
-    public void setSendWelcomeEmail(boolean sendWelcomeEmail) {
-        this.sendWelcomeEmail = sendWelcomeEmail;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 }
