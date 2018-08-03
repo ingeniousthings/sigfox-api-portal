@@ -33,12 +33,14 @@ public class SigfoxApiv2DeviceTypeMinimal {
 
     @ApiModelProperty(
             notes = "The device type’s name",
+            example = "DeviceType1",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The device type’s identifier",
+            example = "585CB3B42AC98BD4",
             required = false
     )
     protected String id;

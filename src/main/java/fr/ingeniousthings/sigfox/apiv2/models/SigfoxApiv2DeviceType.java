@@ -39,12 +39,14 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
 
     @ApiModelProperty(
             notes = "Keep alive period in seconds (0 to not keep alive else 1800 second minimum)",
+            example = "6000",
             required = false
     )
     protected long keepAlive;
 
     @ApiModelProperty(
             notes = "Email address to contact in case of problems occurring while executing a callback",
+            example = "alert@foo.bar",
             required = false
     )
     protected String alertEmail;
@@ -58,6 +60,7 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
 
     @ApiModelProperty(
             notes = "The device type’s description",
+            example = "My demo device type",
             required = false
     )
     protected String description;
@@ -68,6 +71,7 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
                     "<li>0 -> DIRECT</li>" +
                     "<li>1 -> CALLBACK</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int downlinkMode;
@@ -75,6 +79,7 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
     @ApiModelProperty(
             notes = "Downlink data to be sent to the devices of this device type if downlinkMode is equal to 0. " +
                     "It must be an 8 byte length message given in hexadecimal string format.",
+            example = "{tapId}0000{rssi}",
             required = false
     )
     protected String downlinkDataString;
@@ -89,12 +94,14 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
                     "<li>5 -> Radio planning frame</li>" +
                     "<li>6 -> Sensitv2</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int payloadType;
 
     @ApiModelProperty(
             notes = "The payload configuration. Required if the payload type is Custom, else ignored.",
+            example = "Firmware_Version::uint:8 Voltage_Value::uint:16:little-endian",
             required = false
     )
     protected String payloadConfig;
@@ -120,30 +127,35 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
 
     @ApiModelProperty(
             notes = "Date of the creation of this device type (in milliseconds)",
+            example = "1462801032158",
             required = false
     )
     protected long creationTime;
 
     @ApiModelProperty(
             notes = "Identifier of the user who created this device type.",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String createdBy;
 
     @ApiModelProperty(
             notes = "Date of the last edition of this device type (in milliseconds)",
+            example = "1462801032158",
             required = false
     )
     protected long lastEditedTime;
 
     @ApiModelProperty(
             notes = "Identifier of the user who last edited this device type.",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String lastEditedBy;
 
     @ApiModelProperty(
             notes = "Allows the automatic renewal of devices attached to this device type",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;

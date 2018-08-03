@@ -25,26 +25,27 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
-
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "Contract", description = "Defines a minimum contract info entity")
-public class SigfoxApiv2ContractInfoMin {
+import java.util.List;
+
+@ApiModel(value = "DeviceTypeList", description = "Device type list reponse")
+public class SigfoxApiv2DeviceTypeListResponse {
+
 
     @ApiModelProperty(
-            notes = "The contract info’s identifier",
-            example = "573095b7171c857460043086",
+            notes = "List of the device type",
             required = false
     )
-    protected String id;
+    protected List<SigfoxApiv2DeviceType> data;
 
     @ApiModelProperty(
-            notes = "The contract info’s name",
-            example = "Contract 1",
+            notes = "Next page information",
             required = false
     )
-    protected String name;
+    protected SigfoxApiv2Pagination paging;
 
 
     // ============================================================
@@ -52,19 +53,19 @@ public class SigfoxApiv2ContractInfoMin {
     // ============================================================
 
 
-    public String getId() {
-        return id;
+    public List<SigfoxApiv2DeviceType> getData() {
+        return data;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setData(List<SigfoxApiv2DeviceType> data) {
+        this.data = data;
     }
 
-    public String getName() {
-        return name;
+    public SigfoxApiv2Pagination getPaging() {
+        return paging;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPaging(SigfoxApiv2Pagination paging) {
+        this.paging = paging;
     }
 }

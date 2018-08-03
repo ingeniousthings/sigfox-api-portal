@@ -33,12 +33,14 @@ public class SigfoxApiv2GroupMinimal {
 
     @ApiModelProperty(
             notes = "The group’s identifier",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The group’s name",
+            example = "Group 1",
             required = false
     )
     protected String name;
@@ -56,12 +58,14 @@ public class SigfoxApiv2GroupMinimal {
                     "<li>10 -> Starter</li>" +
                     "<li>11 -> Partner</li>" +
                     "</ul>",
+            example = "0",
             required = false
     )
     protected int type;
 
     @ApiModelProperty(
             notes = "The depth level of the group in hierarchy.",
+            example = "1",
             required = false
     )
     protected int level;

@@ -33,12 +33,14 @@ public class SigfoxApiv2GeolocPayloadConfig {
 
     @ApiModelProperty(
             notes = "Geolocation payload id",
+            example = "52243fa7e4b00e1b8587bd5a",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "Geolocation payload name",
+            example = "Telecom Design [Root]",
             required = false
     )
     protected String name;
