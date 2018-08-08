@@ -151,7 +151,7 @@ public class SigfoxApiApplication {
 				;
 	}
 
-
+/*
 	@Bean
 	public Docket sigfoxApiv2() {
 		List<ResponseMessage> globalResponses = newArrayList(
@@ -242,7 +242,7 @@ public class SigfoxApiApplication {
 				;
 	}
 
-
+*/
 
 
 	@Autowired
