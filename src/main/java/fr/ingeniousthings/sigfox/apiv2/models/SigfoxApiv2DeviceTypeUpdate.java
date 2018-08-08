@@ -33,28 +33,24 @@ public class SigfoxApiv2DeviceTypeUpdate {
 
     @ApiModelProperty(
             notes = "The device type’s name",
+            example = "My-new-Device-Type",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "Keep alive period in seconds (0 to not keep alive else 1800 second minimum)",
+            example = "6000",
             required = false
     )
     protected long keepAlive;
 
     @ApiModelProperty(
             notes = "Email address to contact in case of problems occurring while executing a callback",
+            example = "alert@foo.bar",
             required = false
     )
     protected String alertEmail;
-
-//    @ApiModelProperty(
-//            notes = "The device type’s identifier",
-//            required = false
-//    )
-//    protected String id;
-//
 
     @ApiModelProperty(
             notes = "The payload’s type<br/>" +
@@ -66,12 +62,14 @@ public class SigfoxApiv2DeviceTypeUpdate {
                     "<li>5 -> Radio planning frame</li>" +
                     "<li>6 -> Sensitv2</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int payloadType;
 
     @ApiModelProperty(
             notes = "The payload configuration. Required if the payload type is Custom, else ignored.",
+            example = "Firmware_Version::uint:8 Voltage_Value::uint:16:little-endian",
             required = false
     )
     protected String payloadConfig;
@@ -84,6 +82,7 @@ public class SigfoxApiv2DeviceTypeUpdate {
                     "<li>1 -> CALLBACK</li>" +
                     "<li>2 -> NONE</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int downlinkMode;
@@ -91,6 +90,7 @@ public class SigfoxApiv2DeviceTypeUpdate {
     @ApiModelProperty(
             notes = "Downlink data to be sent to the devices of this device type if downlinkMode is equal to 0. " +
                     "It must be an 8 byte length message given in hexadecimal string format.",
+            example = "'{tapId}0000{rssi}'",
             required = false
     )
     protected String downlinkDataString;
@@ -98,70 +98,31 @@ public class SigfoxApiv2DeviceTypeUpdate {
 
     @ApiModelProperty(
             notes = "The device type’s description",
+            example = "My demo device type",
             required = false
     )
     protected String description;
 
-
-//    @ApiModelProperty(
-//            notes = "The group entity owner of this device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2GroupMinimal group;
-
-//    @ApiModelProperty(
-//            notes = "The contract entity attached of this device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2ContractInfoMin contract;
-
     @ApiModelProperty(
             notes = "The device type’s contract identifier (must be on the same group than the device type)",
+            example = "573095b7171c857460043086",
             required = false
     )
     protected String contractId;
 
 
-//    @ApiModelProperty(
-//            notes = "The geoloc payload attached to the device type",
-//            required = false
-//    )
-//    protected SigfoxApiv2GeolocPayloadConfig geolocPayloadConfig;
-
     @ApiModelProperty(
             notes = "The geoloc payload configuration identifier. " +
                     "Required if the payload type is Geolocation, else ignored.",
+            example = "52243fa7e4b00e1b8587bd5a",
             required = false
     )
     protected String geolocPayloadConfigId;
 
 
-//    @ApiModelProperty(
-//            notes = "Date of the creation of this device type (in milliseconds)",
-//            required = false
-//    )
-//    protected long creationTime;
-
-//    @ApiModelProperty(
-//            notes = "Identifier of the user who created this device type.",
-//            required = false
-//    )
-//    protected String createdBy;
-
-//    @ApiModelProperty(
-//            notes = "Date of the last edition of this device type (in milliseconds)",
-//            required = false
-//    )
-//    protected long lastEditedTime;
-
-//    @ApiModelProperty(
-//            notes = "Identifier of the user who last edited this device type.",
-//            required = false
-//    )
-//    protected String lastEditedBy;
-
     @ApiModelProperty(
             notes = "Allows the automatic renewal of devices attached to this device type",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;

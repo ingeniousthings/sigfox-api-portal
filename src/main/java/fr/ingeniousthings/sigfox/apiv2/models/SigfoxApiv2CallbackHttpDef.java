@@ -33,6 +33,7 @@ public class SigfoxApiv2CallbackHttpDef {
 
     @ApiModelProperty(
             notes = "The URL called when this message has been processed",
+            example = "https://foo.bar/capture/",
             required = false
     )
     protected String url;
@@ -51,12 +52,14 @@ public class SigfoxApiv2CallbackHttpDef {
 
     @ApiModelProperty(
             notes = "The content type of the request. It is only present if the request is a POST.",
+            example = "application/json",
             required = false
     )
     protected String contentType;
 
     @ApiModelProperty(
             notes = "The HTTP method, currently only GET, POST or PUT.",
+            example = "POST",
             required = false
     )
     protected String method;

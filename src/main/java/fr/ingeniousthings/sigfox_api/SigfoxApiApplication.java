@@ -103,7 +103,7 @@ public class SigfoxApiApplication {
 						.responseModel(new ModelRef("string"))
 						.build(),
 				new ResponseMessageBuilder()
-						.code(403)
+						.code(404)
 						.message("Resource was not found for the given request")
 						.responseModel(new ModelRef("string"))
 						.build()
@@ -112,17 +112,11 @@ public class SigfoxApiApplication {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-//				.paths(PathSelectors.any())
-				.paths(Predicates.or(
-						regex("/api/.*")
+				.paths(Predicates.and(
+						regex("/api/.*"),
+						Predicates.not(regex("/api/v2/.*"))
 				))
 				.build()
-//				.protocols(newHashSet("https"))
-//				.host("backend.sigfox.com/api")
-//				.pathMapping("http://www.voila.fr/")
-//				.pathMapping("/api/")
-//				.directModelSubstitute(LocalDate.class, String.class)
-//				.genericModelSubstitutes(ResponseEntity.class)
 				.alternateTypeRules(
 						newRule(typeResolver.resolve(DeferredResult.class,
 								typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
@@ -133,17 +127,7 @@ public class SigfoxApiApplication {
 				.globalResponseMessage(RequestMethod.DELETE,globalResponses)
 				.securitySchemes(newArrayList(basicAuth()))
 				.securityContexts(newArrayList(securityContext()))
-//				.enableUrlTemplating(true)
-//				.globalOperationParameters(
-//						newArrayList(new ParameterBuilder()
-//								.name("someGlobalParameter")
-//								.description("Description of someGlobalParameter")
-//								.modelRef(new ModelRef("string"))
-//								.parameterType("query")
-//								.required(true)
-//								.build()))
-//				.tags(new Tag("Sigfox Api", "Sigfox public API"))
-//				.additionalModels(typeResolver.resolve(AdditionalModel.class))
+				.groupName("sigfox-api-v1")
 				.apiInfo( new ApiInfo(
 						"IngeniousThings - Sigfox backend API Proxy",
 						"This proxy is allowing to use the Sigfox backend API in a user friendly environment with a WEB based user interface. " +
@@ -166,6 +150,101 @@ public class SigfoxApiApplication {
 				))
 				;
 	}
+
+	/*
+	@Bean
+	public Docket sigfoxApiv2() {
+		List<ResponseMessage> globalResponses = newArrayList(
+				new ResponseMessageBuilder()
+						.code(500)
+						.message("Internal server error")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(400)
+						.message("Illegal argument")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(401)
+						.message("Unauthorized. Need authentication")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(403)
+						.message("Forbidden. The access is not allowed")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(404)
+						.message("Not Found")
+						.responseModel(new ModelRef("string"))
+						.build()
+		);
+
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+//				.paths(PathSelectors.any())
+				.paths(Predicates.or(
+						regex("/api/v2/.*")
+				))
+				.build()
+//				.protocols(newHashSet("https"))
+//				.host("backend.sigfox.com/api")
+//				.pathMapping("http://www.voila.fr/")
+//				.pathMapping("/api/")
+//				.directModelSubstitute(LocalDate.class, String.class)
+//				.genericModelSubstitutes(ResponseEntity.class)
+				.alternateTypeRules(
+						newRule(typeResolver.resolve(DeferredResult.class,
+								typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
+								typeResolver.resolve(WildcardType.class)))
+				.useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET,globalResponses)
+				.globalResponseMessage(RequestMethod.POST,globalResponses)
+				.globalResponseMessage(RequestMethod.PUT,globalResponses)
+				.globalResponseMessage(RequestMethod.DELETE,globalResponses)
+				.securitySchemes(newArrayList(basicAuth()))
+				.securityContexts(newArrayList(securityContext()))
+//				.enableUrlTemplating(true)
+//				.globalOperationParameters(
+//						newArrayList(new ParameterBuilder()
+//								.name("someGlobalParameter")
+//								.description("Description of someGlobalParameter")
+//								.modelRef(new ModelRef("string"))
+//								.parameterType("query")
+//								.required(true)
+//								.build()))
+//				.tags(new Tag("Sigfox Api", "Sigfox public API"))
+//				.additionalModels(typeResolver.resolve(AdditionalModel.class))
+				.groupName("sigfox-api-v2")
+				.apiInfo( new ApiInfo(
+						"IngeniousThings - Sigfox backend API V2 Proxy",
+						"This proxy is allowing to use the Sigfox backend API in a user friendly environment with a WEB based user interface. " +
+								"As Sigfox backend doesn't support CORS for your 'safety', we are proxyfing all your requests from one of our servers. " +
+								"We do not store any of your information during this process but for your safety we recommend you renew your API credentials " +
+								"when you finished to use our service. <br/><br/>" +
+								"We will do our best to keep this API in sync with sigfox but we can have a delay to implement the new endpoint.<br/>" +
+								"This proxy is an helper for builing your own software: the API is exactly the same as Sigfox One, only the hostname differs. " +
+								"That said, you must never use this proxy in production but directly call sigfox API.<br/>" +
+								"This service is public and free, please use it in respect of our server health. Take care of your credential and use this at your own risk, " +
+								"we are not responsible of any mis-usage, data loss or damages on your account. If you start using this proxy, you accept any risks " +
+								"and potential consequences. <br/><br/>" +
+								"You need to have a Sigfox API Access to use this API",
+						"V 2018-08-03",
+						"",
+						new Contact("Contact", "http://www.ingeniousthings.fr", "contact AT ingeniousthings.fr"),
+						"Code under GPL",
+						"https://github.com/ingeniousthings/sigfox-api-portal/blob/master/LICENSE",
+						Collections.emptyList()
+				))
+				;
+	}
+
+*/
+
+
 	@Autowired
 	private TypeResolver typeResolver;
 

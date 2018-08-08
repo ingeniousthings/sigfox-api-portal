@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 @Api(tags = "deviceTypeMinimal", description = "Defines the device type’s minimal properties")
-public class SigfoxApiv2DeviceTypeMinimal {
+public class SigfoxApiv2DeviceTypeMinimal extends SigfoxApiv2DeviceTypeId {
 
     @ApiModelProperty(
             notes = "The device type’s name",
@@ -38,12 +38,6 @@ public class SigfoxApiv2DeviceTypeMinimal {
     )
     protected String name;
 
-    @ApiModelProperty(
-            notes = "The device type’s identifier",
-            example = "585CB3B42AC98BD4",
-            required = false
-    )
-    protected String id;
 
     // ============================================================
     // Generated Getters & Setters
@@ -58,11 +52,4 @@ public class SigfoxApiv2DeviceTypeMinimal {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

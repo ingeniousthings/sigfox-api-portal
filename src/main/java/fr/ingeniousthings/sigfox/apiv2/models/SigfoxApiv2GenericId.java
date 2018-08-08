@@ -28,44 +28,26 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-// Model Callback
-@Api(tags = "CallbackExecutionReport", description = "Callback of type HTTP Report")
-public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpDef {
-
-    // We can't extends from 2 classes ... so recopy of the Email
+@Api(tags = "genericId", description = "Id returned after creation")
+public class SigfoxApiv2GenericId {
 
     @ApiModelProperty(
-            notes = "The subject of the mail which have been sent",
+            notes = "The returned identifier",
+            example = "585CB3B42AC98BD4",
             required = false
     )
-    protected String subject;
-
-    @ApiModelProperty(
-            notes = "The body of the mail which have been sent",
-            required = false
-    )
-    protected String message;
-
+    protected String id;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public String getSubject() {
-        return subject;
+    public String getId() {
+        return id;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
 }

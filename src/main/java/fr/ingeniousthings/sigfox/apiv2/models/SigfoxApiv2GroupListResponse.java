@@ -25,26 +25,26 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-// Model Callback
-@Api(tags = "CallbackExecutionReport", description = "Callback of type HTTP Report")
-public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpDef {
+import java.util.List;
 
-    // We can't extends from 2 classes ... so recopy of the Email
+@ApiModel(value = "GroupList", description = "Group list response")
+public class SigfoxApiv2GroupListResponse {
 
-    @ApiModelProperty(
-            notes = "The subject of the mail which have been sent",
-            required = false
-    )
-    protected String subject;
 
     @ApiModelProperty(
-            notes = "The body of the mail which have been sent",
+            notes = "List of groups",
             required = false
     )
-    protected String message;
+    protected List<SigfoxApiv2Group> data;
+
+    @ApiModelProperty(
+            notes = "Next page information",
+            required = false
+    )
+    protected SigfoxApiv2Pagination paging;
 
 
     // ============================================================
@@ -52,20 +52,19 @@ public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpD
     // ============================================================
 
 
-    public String getSubject() {
-        return subject;
+    public List<SigfoxApiv2Group> getData() {
+        return data;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setData(List<SigfoxApiv2Group> data) {
+        this.data = data;
     }
 
-    public String getMessage() {
-        return message;
+    public SigfoxApiv2Pagination getPaging() {
+        return paging;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPaging(SigfoxApiv2Pagination paging) {
+        this.paging = paging;
     }
-
 }

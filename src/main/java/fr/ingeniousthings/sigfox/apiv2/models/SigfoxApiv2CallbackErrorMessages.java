@@ -29,58 +29,74 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 @Api(tags = "errorMessages", description = "Callback execution errors report")
-public class SigfoxApiv2ErrorMessages {
+public class SigfoxApiv2CallbackErrorMessages {
 
     @ApiModelProperty(
             notes = "Device identifier",
+            example = "1BC03",
             required = false
     )
     protected String device;
 
     @ApiModelProperty(
             notes = "Url to the device",
+            example = "not seen in response",
             required = false
     )
     protected String deviceUrl;
 
     @ApiModelProperty(
             notes = "Device type identifier",
+            example = "5948715d3a878972c8af8e63",
             required = false
     )
     protected String deviceType;
 
     @ApiModelProperty(
-            notes = "Timestamp of the message (posix format)",
+            notes = "Timestamp of the message in ms (posix format)",
+            example = "1533725328000",
             required = false
     )
     protected long time;
 
     @ApiModelProperty(
+            notes = "Date of the message in String format",
+            example = "2018-08-08 12:48:48",
+            required = false
+    )
+    protected String date;
+
+    @ApiModelProperty(
             notes = "Raw data message",
+            example = "not seen in response",
             required = false
     )
     protected String raw;
 
     @ApiModelProperty(
             notes = "Data message",
+            example = "12d8464646460021000f0000",
             required = false
     )
     protected String data;
 
     @ApiModelProperty(
             notes = "The SNR of the messages received by the network so far",
+            example = "not seen in response",
             required = false
     )
     protected String snr;
 
     @ApiModelProperty(
             notes = "Contains the callback response status.",
+            example = "600",
             required = false
     )
     protected String status;
 
     @ApiModelProperty(
             notes = "Contains additional information on the response.",
+            example = "Unresolved network address",
             required = false
     )
     protected String message;
@@ -189,5 +205,13 @@ public class SigfoxApiv2ErrorMessages {
 
     public void setParameters(KeyValue parameters) {
         this.parameters = parameters;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

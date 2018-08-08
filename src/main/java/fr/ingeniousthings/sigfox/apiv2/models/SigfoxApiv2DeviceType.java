@@ -79,7 +79,7 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
     @ApiModelProperty(
             notes = "Downlink data to be sent to the devices of this device type if downlinkMode is equal to 0. " +
                     "It must be an 8 byte length message given in hexadecimal string format.",
-            example = "{tapId}0000{rssi}",
+            example = "'{tapId}0000{rssi}'",
             required = false
     )
     protected String downlinkDataString;

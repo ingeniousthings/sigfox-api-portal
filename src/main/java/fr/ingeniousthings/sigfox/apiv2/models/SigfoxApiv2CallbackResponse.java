@@ -28,23 +28,16 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-// Model Callback
-@Api(tags = "CallbackExecutionReport", description = "Callback of type HTTP Report")
-public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpDef {
+import java.util.List;
 
-    // We can't extends from 2 classes ... so recopy of the Email
-
-    @ApiModelProperty(
-            notes = "The subject of the mail which have been sent",
-            required = false
-    )
-    protected String subject;
+@Api(tags = "callbackResponse", description = "list of callback")
+public class SigfoxApiv2CallbackResponse  {
 
     @ApiModelProperty(
-            notes = "The body of the mail which have been sent",
+            notes = "The callback list.",
             required = false
     )
-    protected String message;
+    protected List<SigfoxApiv2Callback> data;
 
 
     // ============================================================
@@ -52,20 +45,11 @@ public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpD
     // ============================================================
 
 
-    public String getSubject() {
-        return subject;
+    public List<SigfoxApiv2Callback> getData() {
+        return data;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setData(List<SigfoxApiv2Callback> data) {
+        this.data = data;
     }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
 }

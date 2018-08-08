@@ -33,6 +33,7 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
 
     @ApiModelProperty(
             notes = "The callback URL. Mandatory for URL and BATCH_URL callbacks.",
+            example = "https://foor.bar/sigfoxCallback/",
             required = false
     )
     protected String url;
@@ -44,12 +45,14 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
                     "<li>POST</li>" +
                     "<li>PUT</li>" +
                     "</ul>",
+            example = "POST",
             required = false
     )
     protected String httpMethod;
 
     @ApiModelProperty(
             notes = "Send SNI (Server Name Indication) for SSL/TLS connections. Used by BATCH_URL and URL callbacks (optional).",
+            example = "true",
             required = false
     )
     protected boolean sendSni;
@@ -57,6 +60,7 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
     @ApiModelProperty(
             notes = "The body template of the request, only if httpMethpd is set to POST Or PUT. It can contain predefined " +
                     "and custom variables. Mandatory for URL callbacks",
+            example = "'{ 'device' : '{device}', 'station' : '{station}', 'seq' : {seqNumber} ... }'",
             required = false
     )
     protected String bodyTemplate;
@@ -78,6 +82,7 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
     @ApiModelProperty(
             notes = "Headers of the request. The header value can contain a variable " +
                     "(predefined or custom). Mandatory for URL callbacks.",
+            example = "'{ 'Authorization' : 'Bearer HGYHZLDHZ8783GG73GDHODJ3OJ3O...'}'",
             required = false
     )
     protected KeyValue headers;
@@ -85,12 +90,14 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
 
     @ApiModelProperty(
             notes = "The line pattern representing a message. Mandatory for BATCH_URL callbacks.",
+            example = "",
             required = false
     )
     protected String linePattern;
 
     @ApiModelProperty(
             notes = "The mail subject. Mandatory for EMAIL callbacks.",
+            example = "Sigfox callback received",
             required = false
     )
     protected String subject;
@@ -98,12 +105,14 @@ public class SigfoxApiv2CallbackCreation extends SigfoxApiv2CallbackCommonDef {
     @ApiModelProperty(
             notes = "The recipient of the email. Must be a valid email address. " +
                     "Mandatory for EMAIL callbacks.",
+            example = "callback@foo.bar",
             required = false
     )
     protected String recipient;
 
     @ApiModelProperty(
             notes = "The content of the message. Mandatory for EMAIL callbacks.",
+            example = "A new callback has been reeived from {device} ...",
             required = false
     )
     protected String message;

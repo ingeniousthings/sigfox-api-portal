@@ -31,15 +31,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@ApiModel(value = "DeviceTypeList", description = "Device type list reponse")
+@ApiModel(value = "callbackErrorMessageList", description = "List of callback not delivered for a given group")
 public class SigfoxApiv2DeviceTypeListResponse {
 
 
     @ApiModelProperty(
-            notes = "List of the device type",
+            notes = "List of the callback error",
             required = false
     )
-    protected List<SigfoxApiv2DeviceType> data;
+    protected List<SigfoxApiv2CallbackErrorMessages> data;
 
     @ApiModelProperty(
             notes = "Next page information",
@@ -53,11 +53,11 @@ public class SigfoxApiv2DeviceTypeListResponse {
     // ============================================================
 
 
-    public List<SigfoxApiv2DeviceType> getData() {
+    public List<SigfoxApiv2CallbackErrorMessages> getData() {
         return data;
     }
 
-    public void setData(List<SigfoxApiv2DeviceType> data) {
+    public void setData(List<SigfoxApiv2CallbackErrorMessages> data) {
         this.data = data;
     }
 

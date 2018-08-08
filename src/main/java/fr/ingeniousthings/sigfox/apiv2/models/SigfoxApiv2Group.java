@@ -35,23 +35,18 @@ public class SigfoxApiv2Group extends SigfoxApiv2GroupBase {
 
     @ApiModelProperty(
             notes = "The group’s identifier.",
+            example = "572f1204017975032d8ec1dd",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The group’s name to ascii and lowercase.",
+            example = "group 1",
             required = false
     )
     protected String nameCI;
 
-    @ApiModelProperty(
-            notes = "This is the country ISO code " +
-                    "(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements) " +
-                    "where the operator manages its network. Only available for SNO and NIP.",
-            required = false
-    )
-    protected String countryISOAlpha3;
 
     @ApiModelProperty(
             notes = "The group’s path sorted by descending ancestor {id} (direct parent to farest parent)",
@@ -61,6 +56,7 @@ public class SigfoxApiv2Group extends SigfoxApiv2GroupBase {
 
     @ApiModelProperty(
             notes = "Number of prototype registered. Accessible only for groups under SO.",
+            example = "56",
             required = false
     )
     protected int currentPrototypeCount;
@@ -85,14 +81,6 @@ public class SigfoxApiv2Group extends SigfoxApiv2GroupBase {
 
     public void setNameCI(String nameCI) {
         this.nameCI = nameCI;
-    }
-
-    public String getCountryISOAlpha3() {
-        return countryISOAlpha3;
-    }
-
-    public void setCountryISOAlpha3(String countryISOAlpha3) {
-        this.countryISOAlpha3 = countryISOAlpha3;
     }
 
     public List<SigfoxApiv2GroupMinimal> getPath() {

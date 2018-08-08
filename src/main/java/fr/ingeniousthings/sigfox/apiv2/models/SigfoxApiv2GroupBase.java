@@ -33,12 +33,14 @@ public class SigfoxApiv2GroupBase {
 
     @ApiModelProperty(
             notes = "The group’s name",
+            example = "Group 1",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The group’s description",
+            example = "Description of my group 1",
             required = false
     )
     protected String description;
@@ -56,6 +58,7 @@ public class SigfoxApiv2GroupBase {
                     "<li>10 -> Starter</li>" +
                     "<li>11 -> Partner</li>" +
                     "</ul>",
+            example = "8",
             required = false
     )
     protected int type;
@@ -63,27 +66,42 @@ public class SigfoxApiv2GroupBase {
     @ApiModelProperty(
             notes = "SNO or NIP group id for a DIST & SVNO group. " +
                     "This field is mandatory for DIST & SVNO group creation.",
+            example = "572f1204017975032d8ec1dd",
+//            hidden = true,
             required = false
     )
     protected String networkOperatorId;
 
     @ApiModelProperty(
             notes = "True if the group is billable.",
+            example = "true",
             required = false
     )
     protected boolean billable;
 
     @ApiModelProperty(
             notes = "The technical contact email.",
+            example = "john.doe@foo.bar",
             required = false
     )
     protected String technicalEmail;
 
     @ApiModelProperty(
             notes = "The timezone.",
+            example = "Europe/Paris",
             required = false
     )
     protected String timezone;
+
+    @ApiModelProperty(
+            notes = "This is the country ISO code " +
+                    "(https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements) " +
+                    "where the operator manages its network. Only available for SNO and NIP.",
+            example = "FRA",
+//            hidden = true,
+            required = false
+    )
+    protected String countryISOAlpha3;
 
 
     // ============================================================
@@ -145,5 +163,13 @@ public class SigfoxApiv2GroupBase {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public String getCountryISOAlpha3() {
+        return countryISOAlpha3;
+    }
+
+    public void setCountryISOAlpha3(String countryISOAlpha3) {
+        this.countryISOAlpha3 = countryISOAlpha3;
     }
 }

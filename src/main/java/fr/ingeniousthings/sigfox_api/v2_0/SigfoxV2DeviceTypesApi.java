@@ -27,7 +27,7 @@ package fr.ingeniousthings.sigfox_api.v2_0;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ingeniousthings.sigfox.apiv2.models.SigfoxApiv2DeviceTypeListResponse;
+import fr.ingeniousthings.sigfox.apiv2.models.*;
 import fr.ingeniousthings.sigfox_api.SigfoxApiProxy;
 import fr.ingeniousthings.sigfox_api.SigfoxApiProxyException;
 import io.swagger.annotations.*;
@@ -125,7 +125,7 @@ public class SigfoxV2DeviceTypesApi {
             @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2DeviceTypeListResponse.class)
     })
     @RequestMapping(
-            value ="",
+            value ="/",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             //consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET
@@ -222,32 +222,47 @@ public class SigfoxV2DeviceTypesApi {
 
 
     /**
-     * Device type information
+     * Fetches the device type's information
      *
      * Get the description of a particular device type
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/devicetypes/{devicetype-id}
+     * GET https://backend.sigfox.com/api/v2/device-types/{id}
      *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
+     * Parameters:
+     *     id: the device type identifier as returned by the /api/v2/device-types endpoint.
+     *
+     * Optionally, the request can also have the following parameter:
+     *
+     * fields - String[] - Defines the available device type’s fields to be returned in the response.
+     *                     fields is a suite of string separated by comma, nested object fields can
+     *                     be given with parenthesis recursively:
+     *                     example : ?fields=attr1,attr2(attr3,attr4(attr5))
+     *
      */
-/*
     @ApiOperation(
-            value = "Device type information",
+            value = "Fetches the device type's information",
             notes = "Get the description of a particular device type. <br/>"+
-                    "Parameters:<br/>" +
+                    "Parameter:<br/>" +
                     "<ul>" +
-                    " <li>Get the description of a particular device type</li>" +
+                    " <li>id (String): The device type’s identifier</li>" +
+                    "</ul>" +
+                    "Optional Parameter:<br/>" +
+                    "<ul>" +
+                    "<li>fields (String[]): Defines the available device type’s fields to be returned in the response." +
+                    "fields is a suite of string separated by comma, nested object fields can " +
+                    "be given with parenthesis recursively: " +
+                    "example : ?fields=attr1,attr2(attr3,attr4(attr5))</li>" +
                     "</ul>",
-            response = SigfoxApiDeviceInformation.class,
+            response = SigfoxApiv2DeviceType.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceInformation.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2DeviceType.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}",
+            value ="/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             //consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET
@@ -255,13 +270,27 @@ public class SigfoxV2DeviceTypesApi {
     @CrossOrigin
     public ResponseEntity<?> getDeviceTypes(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id
-    ) {
+            @ApiParam(
+                    required = true,
+                    name = "id",
+                    value = "The device type identifier as returned by the /api/v2/device-types endpoint.")
+            @PathVariable("id") String id,
 
-        SigfoxApiProxy<SigfoxApiDeviceInformation> proxy = new SigfoxApiProxy<>();
+            @RequestParam("fields")
+            @ApiParam(
+                    required = false,
+                    name = "fields",
+                    example = "attr1,attr2(attr3,attr4(attr5))",
+                    value = "Defines the available device type’s fields to be returned in the response. " +
+                            "fields is a suite of string separated by comma, nested object fields can " +
+                            "be given with parenthesis recursively"
+            ) Optional<String> fields
+
+            ) {
+
+        SigfoxApiProxy<SigfoxApiv2DeviceType> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiDeviceInformation>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2DeviceType>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -275,37 +304,38 @@ public class SigfoxV2DeviceTypesApi {
      *
      * Request
      *
-     * POST https://backend.sigfox.com/api/devicetypes/new (DEPRECATED - It will be removed on the 30th of March 2016)
+     * POST https://backend.sigfox.com/api/v2/device-types/
      *
-     * POST https://backend.sigfox.com/api/devicetypes/create
-     *
-     *     {
-     *         "name" : "dtname",
-     *         "description" : "the description",
-     *         "keepAlive" : 3000,
-     *         "alertEmail" : "alert@email.com",
-     *         "payloadType" : "None",
-     *         "group" : "deadbeeffaceb00cbebef070",
-     *         "downlinkMode" : 0,
-     *         "downlinkDataString" : "deadbeefcafebabe",
-     *         "contractId" : "c0c0beeffaceb00cbebef070"
-     *     }
+     * {
+     *  "name": "string",
+     *  "keepAlive": 0,
+     *  "alertEmail": "string",
+     *  "payloadType": 0,
+     *  "payloadConfig": "string",
+     *  "downlinkMode": 0,
+     *  "downlinkDataString": "string",
+     *  "description": "string",
+     *  "groupId": "string",
+     *  "contractId": "string",
+     *  "geolocPayloadConfigId": "string",
+     *  "automaticRenewal": true
+     * }
      *
      */
-/*
 
     @ApiOperation(
-            value = "Device type creation",
+            value = "Create a new device type",
             notes = "Create a new device type. <br/>"+
-                    "In the Body are provided the information related to the devicetype to create<br/>",
-            response = SigfoxApiDeviceTypeCreationResponse.class,
+                    "In the Body are provided the information related to the devicetype to create<br/>" +
+                    "Returns a structure with deviceTypeId.",
+            response = SigfoxApiv2DeviceTypeId.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceTypeCreationResponse.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2DeviceTypeId.class)
     })
     @RequestMapping(
-            value ="/create",
+            value ="/",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.POST
@@ -313,14 +343,15 @@ public class SigfoxV2DeviceTypesApi {
     @CrossOrigin
     public ResponseEntity<?> createDeviceType(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "deviceType", value = "Device Type description")
-            @Valid @RequestBody SigfoxApiDeviceTypeCreation deviceType
+
+            @ApiParam(required = true, name = "deviceType", value = "The device type definition to create")
+            @Valid @RequestBody SigfoxApiv2DeviceTypeCreate deviceType
     ) {
 
-        SigfoxApiProxy<SigfoxApiDeviceTypeCreationResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2DeviceTypeId> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiDeviceTypeCreationResponse>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2DeviceTypeId>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -336,50 +367,59 @@ public class SigfoxV2DeviceTypesApi {
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/edit
+     *     PUT https://backend.sigfox.com/api/v2/device-types/{id}
      *
      *     {
-     *         "id" : "deadbeef0486300cbebef070",
-     *         "name" : "dtname",
-     *         "description" : "the description",
-     *         "keepAlive" : 3000,
-     *         "alertEmail" : "alert@email.com",
-     *         "payloadType" : "None",
-     *         "downlinkMode" : 0,
-     *         "downlinkDataString" : "deadbeefcafebabe",
-     *     }
+     *          "keepAlive": 12000,
+     *          "payloadType": 3,
+     *          "name": "MyNewName",
+     *          "payloadConfig": "Device_Type::uint:8 Firmware_Version_Battery_status_byte::uint:8 Voltage_Value::uint:16:little-endian",
+     *          "downlinkMode": 0,
+     *          "downlinkDataString": "eeeeeeeeeeeeeeee",
+     *          "automaticRenewal": true
+     *      }
      *
      *
      */
-/*
-
     @ApiOperation(
-            value = "Device type edition",
-            notes = "Edit a device type. <br/>"+
-                    "In the Body are provided the information related to the devicetype to edition<br/>",
-            response = SigfoxApiDeviceTypeEditionResponse.class,
+            value = "Update the device type",
+            notes = "Update the device type. <br/>"+
+                    "In the Body are provided the information related to the devicetype to update.<br/>" +
+                    "The structure is deviceTypeUpdate" +
+                    "Parameter:<br/>" +
+                    "<ul>" +
+                    " <li>id (String): The device type’s identifier</li>" +
+                    "</ul>" +
+                    "",
+            response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceTypeEditionResponse.class)
+            @ApiResponse(code = 204, message= "No Content - Success", response = String.class)
     })
     @RequestMapping(
-            value ="/edit",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value ="/{id}",
+            produces = {MediaType.TEXT_HTML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.POST
+            method = RequestMethod.PUT
     )
     @CrossOrigin
     public ResponseEntity<?> editDeviceType(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "deviceType", value = "Device Type description")
-            @Valid @RequestBody SigfoxApiDeviceTypeEdition deviceType
+            @ApiParam(
+                    required = true,
+                    name = "id",
+                    value = "The device type identifier as returned by the /api/v2/device-types endpoint.")
+            @PathVariable("id") String id,
+
+            @ApiParam(required = true, name = "deviceType", value = "The device type description to update")
+            @Valid @RequestBody SigfoxApiv2DeviceTypeUpdate deviceType
     ) {
 
-        SigfoxApiProxy<SigfoxApiDeviceTypeEditionResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiDeviceTypeEditionResponse>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.OK);
+            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -389,57 +429,55 @@ public class SigfoxV2DeviceTypesApi {
 
 
     /**
-     * Device type deletion
+     * Delete the given device type
      *
-     * Delete a device type
+     * Delete the given device type
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/delete
-     *
-     *     {
-     *         "id" : "deadbeef0486300cbebef070"
-     *     }
-     *
+     *     DELETE https://backend.sigfox.com/api/v2/device-types/{id}
      *
      * Fields:
      *
      *     id: the id of the device type to delete. This id must correspond to an existing device type.
      */
-/*
+
     @ApiOperation(
-            value = "Device type deletion",
-            notes = "Delete a device type <br/>"+
-                    "In the Body are provided the information related to the devicetype to deletion<br/>",
+            value = "Delete the given device type",
+            notes = "Delete the given device type <br/>"+
+                    "Parameter:<br/>" +
+                    "<ul>" +
+                    " <li>id (String): The device type’s identifier</li>" +
+                    "</ul>" +
+                    "",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = String.class),
-            @ApiResponse(code = 403, message= "The device type is referenced by at least one device", response = String.class),
-            @ApiResponse(code = 404, message= "The device type does not exist ", response = String.class)
+            @ApiResponse(code = 204, message= "No Content - Success", response = String.class),
     })
     @RequestMapping(
-            value ="/delete",
+            value ="/{id}",
             produces = {MediaType.TEXT_HTML_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.POST
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.DELETE
     )
     @CrossOrigin
     public ResponseEntity<?> deleteDeviceType(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "deviceType", value = "Device Type id")
-            @Valid @RequestBody SigfoxApiDeviceTypeDeletion deviceType
+            @ApiParam(
+                    required = true,
+                    name = "id",
+                    value = "The device type identifier as returned by the /api/v2/device-types endpoint.")
+            @PathVariable("id") String id
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.OK);
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.errorMessage, e.status);
         }
     }
 
@@ -447,53 +485,32 @@ public class SigfoxV2DeviceTypesApi {
     /**
      * Callback creation
      *
-     * Create a callback
+     * Create new callback
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/{devicetype-id}/callbacks/new
-     *
-     *     [{
-     *         "channel" : "URL",
-     *         "callbackType" : 0,
-     *         "callbackSubtype" : 2,
-     *         "url" : "http://myserver.com/sigfox/callback",
-     *         "httpMethod" : "POST",
-     *         "enabled" : true,
-     *         "sendDuplicate" : false,
-     *         "sendSni": false,
-     *         "payloadConfig" : "var1::bool:1",
-     *         "bodyTemplate" : "device : {device} / {customData#var1}",
-     *         "headers" : {
-     *             "time" : "{time}"
-     *         },
-     *         "contentType" : "text/plain"
-     *     }, {
-     *         "channel" : "BATCH_URL",
-     *         "callbackType" : 0,
-     *         "callbackSubtype" : 2,
-     *         "url" : "http://myserver.com/sigfox/callback/batch",
-     *         "linePattern" : "{device};{data};",
-     *         "enabled" : true,
-     *         "sendDuplicate" : false,
-     *         "sendSni": false
-     *     }]
-     *
+     *     POST https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks
      *
      */
-/*
+
     @ApiOperation(
-            value = "Callback creation",
-            notes = "Create a callback. <br/>"+
-                    "In the Body are provided the information related to the callback to create<br/>",
-            response = SigfoxApiCallbackCreationResponse.class,
+            value = "Create new callback",
+            notes = "Create new callback. <br/>"+
+                    "In the Body are provided the information related to the callback to create<br/>" +
+                    "The structure is callbackCreation <br/>"+
+                    "Parameter:<br/>" +
+                    "<ul>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
+                    "</ul>" +
+                    "",
+            response = SigfoxApiv2CallbackId.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiCallbackCreationResponse.class)
+            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2CallbackId.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/callbacks/new",
+            value ="/{devicetypeId}/callbacks",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.POST
@@ -501,16 +518,76 @@ public class SigfoxV2DeviceTypesApi {
     @CrossOrigin
     public ResponseEntity<?> createCallback(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "devicetype_id")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @ApiParam(required = true, name = "deviceType", value = "The device type identifier as returned by the /api/devicetypes endpoint")
-            @Valid @RequestBody SigfoxApiCallbackCreation deviceType
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type’s identifier from which callbacks will be created")
+            @PathVariable("devicetypeId") String devicetypeId,
+            @ApiParam(required = true, name = "callback", value = "The details of callback to create")
+            @Valid @RequestBody SigfoxApiv2CallbackCreation callback
     ) {
 
-        SigfoxApiProxy<SigfoxApiCallbackCreationResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2CallbackCreation> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiCallbackCreationResponse>(proxy.proxify(request, mapper.writeValueAsString(deviceType)), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2CallbackCreation>(proxy.proxify(request, mapper.writeValueAsString(callback)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Callback Update
+     *
+     * Update an existing callback
+     *
+     * Request
+     *
+     *     PUT https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks/{id}
+     *
+     * Parameters:
+     *
+     *     devicetypeId: the device type identifier as returned by the /api/v2/device-types endpoint.
+     *     id : the callback id as returned by the /api/v2/device-types/{devicetypeId}/callbacks
+     */
+
+    @ApiOperation(
+            value = "Update callback",
+            notes = "Update an existing callback. <br/>"+
+                    "In the Body are provided the information related to the callback to update<br/>" +
+                    "The structure is callbackCreation <br/>"+
+                    "Parameter:<br/>" +
+                    "<ul>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
+                    " <li>id (String): the id of the callback as found in the /api/v2/devicetypes/{devicetypeId}/callbacks endpoint.<li>" +
+                    "</ul>" +
+                    "",
+            response = SigfoxApiv2CallbackId.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 204, message= "No Content - Success", response = String.class)
+    })
+    @RequestMapping(
+            value ="/{devicetypeId}/callbacks/{id}",
+            produces = {MediaType.TEXT_HTML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.PUT
+    )
+    @CrossOrigin
+    public ResponseEntity<?> updateCallback(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type’s identifier from which callbacks will be created")
+            @PathVariable("devicetypeId") String devicetypeId,
+            @ApiParam(required = true, name = "id", value = "The callback’s identifier.")
+            @PathVariable("id") String id,
+            @ApiParam(required = true, name = "callback", value = "The details of callback to update")
+            @Valid @RequestBody SigfoxApiv2CallbackCreation callback
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2CallbackCreation> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2CallbackCreation>(proxy.proxify(request, mapper.writeValueAsString(callback)), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -521,48 +598,47 @@ public class SigfoxV2DeviceTypesApi {
     /**
      * Callback list
      *
-     * List the callbacks for a device type
+     * List the callbacks for a given device type
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/{devicetype-id}/callbacks
+     *     GET https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks
      *
      *
      * Parameters:
      *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
+     *     devicetypeId: the device type identifier as returned by the /api/devicetypes endpoint.
      */
-/*
 
     @ApiOperation(
-            value = "Callback list",
-            notes = "List the callbacks for a device type <br/>"+
+            value = "Fetches list of callbacks for a device-type.",
+            notes = "Fetches a list of callbacks according to request filter parameters and the user's visibility permissions.<br/>"+
                     "Parameters: you need to add parameters :<br/>" +
                     "<ul>" +
-                    " <li>devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint</li>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
                     "</ul>",
-            response = SigfoxApiCallbackList.class,
+            response = SigfoxApiv2CallbackResponse.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiCallbackList.class)
+            @ApiResponse(code = 200, message= "Successful response", response = SigfoxApiv2CallbackResponse.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/callbacks",
+            value ="/{devicetypeId}/callbacks",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.POST
+            method = RequestMethod.GET
     )
     @CrossOrigin
     public ResponseEntity<?> getCallbackList(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "devicetype_id")
-            @PathVariable("devicetype_id") String devicetype_id
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type’s identifier from which callbacks will be fetched")
+            @PathVariable("devicetypeId") String devicetypeId
     ) {
 
-        SigfoxApiProxy<SigfoxApiCallbackList> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2CallbackResponse> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiCallbackList>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2CallbackResponse>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -575,54 +651,53 @@ public class SigfoxV2DeviceTypesApi {
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/{devicetype-id}/callbacks/{callback-id}/delete
+     *     DELETE https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks/{id}
      *
      *
      * Parameters:
      *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
-     *     callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.
+     *     devicetypId: the device type identifier as returned by the /api/devicetypes endpoint.
+     *     id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.
      *
      * Response
      *
-     *     200 if it was OK
+     *     204 if it was OK
      *     404 when the device type does not exist, or when the callback id does not correspond to this device type.
      *
      */
-/*
     @ApiOperation(
-            value = "Callback deletion",
+            value = "Delete the given callback",
             notes = "Delete a callback <br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
-                    "<li>devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.<li>" +
-                    "<li>callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.<li>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
+                    " <li>id (String): the id of the callback as found in the /api/v2/devicetypes/{devicetypeId}/callbacks endpoint.<li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = String.class),
+            @ApiResponse(code = 204, message= "No content - Success", response = String.class),
             @ApiResponse(code = 404, message= "The device type does not exist or when the callback id does not correspond to this device type. ", response = String.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/callbacks/{callback_id}/delete",
+            value ="/{devicetypId}/callbacks/{id}",
             produces = {MediaType.TEXT_HTML_VALUE},
             consumes = {MediaType.TEXT_HTML_VALUE},
-            method = RequestMethod.POST
+            method = RequestMethod.DELETE
     )
     @CrossOrigin
     public ResponseEntity<?> deleteCallback(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @ApiParam(required = true, name = "callback_id", value = "the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.")
-            @PathVariable("callback_id") String callback_id
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type’s identifier from which callbacks will be fetched.")
+            @PathVariable("devicetypeId") String devicetypeId,
+            @ApiParam(required = true, name = "id", value = "The callback’s identifier.")
+            @PathVariable("id") String id
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -635,55 +710,53 @@ public class SigfoxV2DeviceTypesApi {
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/{devicetype-id}/callbacks/{callback-id}/enable?enabled=true
+     *     PUT https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks/{id}/enable?enabled=true
      *
      *
      * Parameters:
      *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
-     *     callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.
+     *     devicetypeId: the device type identifier as returned by the /api/v2/device-types endpoint.
+     *     id: the id of the callback as found in the /api/v2/device-types/{devicetypeId}/callbacks endpoint.
      *     enabled: true to enable the callback, false to disable it.
      *
      */
-/*
     @ApiOperation(
             value = "Callback enable/disable",
             notes = "Enable or disable a callback <br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
-                    "<li>devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.<li>" +
-                    "<li>callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.<li>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
+                    " <li>id (String) d: the id of the callback as found in the /api/v2/devicetypes/{devicetypeId}/callbacks endpoint.<li>" +
                     "<li>enabled: true to enable the callback, false to disable it.</li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = String.class),
+            @ApiResponse(code = 204, message= "No-content - Success", response = String.class),
             @ApiResponse(code = 404, message= "The device type does not exist or when the callback id does not correspond to this device type. ", response = String.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/callbacks/{callback_id}/enable",
+            value ="/{devicetypeId}/callbacks/{id}/enable",
             produces = {MediaType.TEXT_HTML_VALUE},
             consumes = {MediaType.TEXT_HTML_VALUE},
-            method = RequestMethod.POST
+            method = RequestMethod.PUT
     )
     @CrossOrigin
     public ResponseEntity<?> enableCallback(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @ApiParam(required = true, name = "callback_id", value = "the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.")
-            @PathVariable("callback_id") String callback_id,
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type identifier as returned by the /api/v2/device-types endpoint.")
+            @PathVariable("devicetypeId") String devicetypeId,
+            @ApiParam(required = true, name = "id", value = "The id of the callback as found in the /api/v2/device-types/{devicetypeId}/callbacks endpoint.")
+            @PathVariable("id") String id,
             @RequestParam("enable")
             @ApiParam(required = true, name = "enable", value = "true to enable the callback, false to disable it.")
-                    String enable
-
+            String enable
             ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -696,53 +769,52 @@ public class SigfoxV2DeviceTypesApi {
      *
      * Request
      *
-     *     POST https://backend.sigfox.com/api/devicetypes/{devicetype-id}/callbacks/{callback-id}/downlink
+     *     POST https://backend.sigfox.com/api/v2/device-types/{devicetypeId}/callbacks/{id}/downlink
      *
      *
      * Parameters:
      *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
-     *     callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.
+     *     devicetypeId: the device type identifier as returned by the /api/v2/device-types endpoint.
+     *     id: the id of the callback as found in the /api/v2/device-types/{devicetypeId}/callbacks endpoint.
      *
      * Response
      *
-     *     200 if it was OK
+     *     204 if it was OK
      *     404 when the device type does not exist, or when the callback id does not correspond to this device type.
      */
-/*
     @ApiOperation(
             value = "Callback downlink selection",
             notes = "Select a downlink callback. The given callback will be selected as the downlink one, the one that was previously selected will be no more be selected for downlink.<br/>"+
                     "The needed information (ids) are given in the URL path: <br/>" +
                     "<ul>" +
-                    "<li>devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.<li>" +
-                    "<li>callback-id: the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.<li>" +
+                    " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
+                    " <li>id (String) d: the id of the callback as found in the /api/v2/devicetypes/{devicetypeId}/callbacks endpoint.<li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = String.class),
+            @ApiResponse(code = 204, message= "No-Content, Success", response = String.class),
             @ApiResponse(code = 404, message= "The device type does not exist or when the callback id does not correspond to this device type. ", response = String.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/callbacks/{callback_id}/downlink",
+            value ="/{devicetypeId}/callbacks/{id}/downlink",
             produces = {MediaType.TEXT_HTML_VALUE},
             consumes = {MediaType.TEXT_HTML_VALUE},
-            method = RequestMethod.POST
+            method = RequestMethod.PUT
     )
     @CrossOrigin
     public ResponseEntity<?> selectForDownlink(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @ApiParam(required = true, name = "callback_id", value = "the id of the callback as found in the /api/devicetypes/{devicetype-id}/callbacks endpoint.")
-            @PathVariable("callback_id") String callback_id
+            @ApiParam(required = true, name = "devicetypeId", value = "The device type identifier as returned by the /api/v2/device-types endpoint.")
+            @PathVariable("devicetypeId") String devicetypeId,
+            @ApiParam(required = true, name = "id", value = "The id of the callback as found in the /api/v2/device-types/{devicetypeId}/callbacks endpoint.")
+            @PathVariable("id") String id
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
