@@ -36,6 +36,7 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
 
     @ApiModelProperty(
             notes = "The contract info ID.",
+            example = "47fe5b1e9e92a126ed708cd9",
             required = false
     )
     protected String id;
@@ -43,12 +44,14 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
 
     @ApiModelProperty(
             notes = "The contract info external ID. It’s used to identify the contract info in EDRs.",
+            example = "07dd",
             required = false
     )
     protected String contractId;
 
     @ApiModelProperty(
             notes = "The ID of the user who created the contract in BSS.",
+            example = "59799fd7500474298ba15c4c",
             required = false
     )
     protected String userId;
@@ -71,36 +74,42 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
                     "<li>1 -> Pricing model version 1.</li>" +
                     "<li>2 -> Pricing model version 2.</li>" +
                     "</ul>",
+            example = "Not yet returned",
             required = false
     )
     protected int pricingModel;
 
     @ApiModelProperty(
             notes = "The id of contract info’s creator user",
+            example = "47a9ce229e03a139b4c95959",
             required = false
     )
     protected String createdBy;
 
     @ApiModelProperty(
             notes = "Date of the creation of this contract info (timestamp in milliseconds since Unix Epoch).",
+            example = "1527725044259",
             required = false
     )
     protected long lastEditionTime;
 
     @ApiModelProperty(
             notes = "The id of contract info’s last editor user",
+            example = "47a9ce229e03a139b4c95959",
             required = false
     )
     protected String lastEditedBy;
 
     @ApiModelProperty(
             notes = "The start time (in milliseconds) of the contract.",
+            example = "1476223200000",
             required = false
     )
     protected long startTime;
 
     @ApiModelProperty(
             notes = "The contract timezone name as a Java TimeZone ID (“full name” version only, like “America/Costa_Rica”).",
+            example = "UTC",
             required = false
     )
     protected String timezone;
@@ -113,12 +122,14 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
                     "<li>2 -> Committed Volume Plan (CVP)</li>" +
                     "<li>3 -> Flexible Committed Volume Plan (CVP Flex)</li>" +
                     "</ul>",
+            example = "Not yet returned",
             required = false
     )
     protected int subscriptionPlan;
 
     @ApiModelProperty(
             notes = "The token duration in months. Must be >= 0",
+            example = "12",
             required = false
     )
     protected int tokenDuration;
@@ -131,12 +142,14 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
 
     @ApiModelProperty(
             notes = "The number of tokens in use.",
+            example = "9",
             required = false
     )
     protected int tokensInUse;
 
     @ApiModelProperty(
             notes = "The number of tokens used (expired or revoked).",
+            example = "0",
             required = false
     )
     protected int tokensUsed;
@@ -288,4 +301,5 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
     public void setNextContractInfo(SigfoxApiv2ContractInfoMin nextContractInfo) {
         this.nextContractInfo = nextContractInfo;
     }
+
 }

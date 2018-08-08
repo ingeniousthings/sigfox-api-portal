@@ -34,7 +34,7 @@ public class SigfoxApiv2GroupMinimal {
     @ApiModelProperty(
             notes = "The group’s identifier",
             example = "57309674171c857460043087",
-            required = false
+            required = true
     )
     protected String id;
 

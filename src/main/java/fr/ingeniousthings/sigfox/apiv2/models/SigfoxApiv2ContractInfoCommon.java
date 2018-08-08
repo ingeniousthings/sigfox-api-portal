@@ -37,60 +37,70 @@ public class SigfoxApiv2ContractInfoCommon {
 
     @ApiModelProperty(
             notes = "The contract info name",
+            example = "03662_SUBS PLATINUM",
             required = true
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The activation end time (in milliseconds) of the contract info.",
+            example = "1551264713282",
             required = true
     )
     protected long activationEndTime;
 
     @ApiModelProperty(
             notes = "The end time (in milliseconds) of the communication.",
+            example = "1582801013282",
             required = true
     )
     protected long communicationEndTime;
 
     @ApiModelProperty(
             notes = "True if the contract info is bidirectional.",
+            example = "true",
             required = false
     )
     protected boolean bidir;
 
     @ApiModelProperty(
             notes = "True if all downlinks are high priority.",
+            example = "false",
             required = false
     )
     protected boolean highPriorityDownlink;
 
     @ApiModelProperty(
             notes = "The maximum number of uplink frames. Must be >=0",
+            example = "140",
             required = true
     )
     protected int maxUplinkFrames;
 
     @ApiModelProperty(
             notes = "The maximum number of downlink frames. Must be >=0",
+            example = "4",
             required = true
     )
     protected int maxDownlinkFrames;
 
     @ApiModelProperty(
             notes = "The maximum number of tokens for this contract info. Either 0 (unlimited) or a positive number.",
+            example = "10",
             required = false
     )
     protected int maxTokens;
 
     @ApiModelProperty(
             notes = "The number of test messages. Must be >= 0 and <= 25.",
+            example = "0",
             required = true
     )
     protected int testMessages;
 
     @ApiModelProperty(
             notes = "The test message duration in months. Must be >= 0.",
+            example = "0",
             required = true
     )
     protected int testMessagesDuration;
@@ -102,30 +112,35 @@ public class SigfoxApiv2ContractInfoCommon {
                     "<li>1 -> high service level (1km precision)</li>" +
                     "<li>2 -> low service level (10km precision)</li>" +
                     "</uL>",
+            example = "1",
             required = false
     )
     protected int geolocationMode;
 
     @ApiModelProperty(
             notes = "The maximum number of renewals.",
+            example = "0",
             required = false
     )
     protected int renewalLimit;
 
     @ApiModelProperty(
             notes = "True if automatic renewal is allowed.",
+            example = "false",
             required = false
     )
     protected boolean automaticRenewal;
 
     @ApiModelProperty(
             notes = "The renewal duration in months. Must be >= 0",
+            example = "0",
             required = false
     )
     protected int renewalDuration;
 
     @ApiModelProperty(
             notes = "True to allow new territories.",
+            example = "false",
             required = false
     )
     protected boolean allowNewTerritories;
@@ -140,6 +155,7 @@ public class SigfoxApiv2ContractInfoCommon {
                         "level: 1 (ATLAS, default), 2 (ATLAS_WIFI)<br/>" +
                         "cognition:\n" +
                         "level: 0 (MONARCH, default)",
+                example = "1",
                 required = false
         )
         public int level;
@@ -147,6 +163,7 @@ public class SigfoxApiv2ContractInfoCommon {
         @ApiModelProperty(
                 notes = "testFrames:<br/>" +
                         "nb: 1 - 25 (default=1)",
+                example = "1",
                 required = false
         )
         public int nb;
@@ -154,6 +171,7 @@ public class SigfoxApiv2ContractInfoCommon {
         @ApiModelProperty(
                 notes = "testFrames:<br/>" +
                         "duration: 0+ (default=0)",
+                example = "0",
                 required = false
         )
         public int duration;
@@ -165,6 +183,7 @@ public class SigfoxApiv2ContractInfoCommon {
     public class Option {
         @ApiModelProperty(
                 notes = "The premium option id (payloadEncryption, geolocation, cognition, testFrames, …)",
+                example = "geolocation",
                 required = false
         )
         public String id;
