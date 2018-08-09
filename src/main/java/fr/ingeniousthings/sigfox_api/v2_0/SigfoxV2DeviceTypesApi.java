@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Api(value="devicetypes", tags="sigfox-v2-devicetypes-api")
@@ -617,11 +618,12 @@ public class SigfoxV2DeviceTypesApi {
                     "<ul>" +
                     " <li>deviceTypeId (String): The device type’s identifier from which callbacks will be fetched</li>" +
                     "</ul>",
-            response = SigfoxApiv2CallbackResponse.class,
+            response = SigfoxApiv2Callback.class,
+            responseContainer = "List",
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Successful response", response = SigfoxApiv2CallbackResponse.class)
+            @ApiResponse(code = 200, message= "Successful response", response = SigfoxApiv2Callback.class, responseContainer = "List")
     })
     @RequestMapping(
             value ="/{devicetypeId}/callbacks",
@@ -636,9 +638,9 @@ public class SigfoxV2DeviceTypesApi {
             @PathVariable("devicetypeId") String devicetypeId
     ) {
 
-        SigfoxApiProxy<SigfoxApiv2CallbackResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<List<SigfoxApiv2Callback>> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiv2CallbackResponse>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<List<SigfoxApiv2Callback>>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }

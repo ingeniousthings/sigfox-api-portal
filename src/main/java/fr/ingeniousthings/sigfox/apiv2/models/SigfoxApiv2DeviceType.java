@@ -140,11 +140,12 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
     protected String createdBy;
 
     @ApiModelProperty(
-            notes = "Date of the last edition of this device type (in milliseconds)",
+            notes = "Date of the last edition of this device type (in milliseconds)." +
+                    "Note: this field is lastEditedTime according to Yml but this is not true.",
             example = "1462801032158",
             required = false
     )
-    protected long lastEditedTime;
+    protected long lastEditionTime;
 
     @ApiModelProperty(
             notes = "Identifier of the user who last edited this device type.",
@@ -166,14 +167,6 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
     // ============================================================
 
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-
     public long getKeepAlive() {
         return keepAlive;
     }
@@ -189,14 +182,6 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
     public void setAlertEmail(String alertEmail) {
         this.alertEmail = alertEmail;
     }
-
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
 
     public String getDescription() {
         return description;
@@ -278,14 +263,6 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
         this.createdBy = createdBy;
     }
 
-    public long getLastEditedTime() {
-        return lastEditedTime;
-    }
-
-    public void setLastEditedTime(long lastEditedTime) {
-        this.lastEditedTime = lastEditedTime;
-    }
-
     public String getLastEditedBy() {
         return lastEditedBy;
     }
@@ -300,5 +277,13 @@ public class SigfoxApiv2DeviceType extends SigfoxApiv2DeviceTypeMinimal {
 
     public void setAutomaticRenewal(boolean automaticRenewal) {
         this.automaticRenewal = automaticRenewal;
+    }
+
+    public long getLastEditionTime() {
+        return lastEditionTime;
+    }
+
+    public void setLastEditionTime(long lastEditionTime) {
+        this.lastEditionTime = lastEditionTime;
     }
 }
