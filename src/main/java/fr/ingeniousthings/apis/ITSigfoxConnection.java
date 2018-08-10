@@ -111,6 +111,8 @@ public class ITSigfoxConnection<S,T> {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
                 he = new HttpEntity<String>(mapper.writeValueAsString(body), headers);
+                log.info("body : "+mapper.writeValueAsString(body));
+
             } catch (JsonProcessingException e) {
                 throw new ITSigfoxConnectionException(HttpStatus.BAD_REQUEST,"Body format is invalid - can't be serialized");
             }
@@ -137,7 +139,9 @@ public class ITSigfoxConnection<S,T> {
             } else {
                 ObjectMapper mapper = new ObjectMapper();
                 try {
-                    response = mapper.readValue(responseEntity.getBody(), typeRetrunedClass);
+                    if ( responseEntity.getBody() != null ) {
+                        response = mapper.readValue(responseEntity.getBody(), typeRetrunedClass);
+                    } else response = null;
                 } catch (IOException e) {
                     log.error("Impossible to deserialize Sigfox's backend response");
                     e.printStackTrace();

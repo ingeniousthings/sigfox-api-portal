@@ -68,7 +68,10 @@ public class SigfoxApiv2CallbackCommonDef {
             example = "2",
             required = true
     )
-    protected int callbackSubtype;
+    protected Integer callbackSubtype;
+    // Due to the fact this field should not be present when the type is 2..
+    // report as FRASIG-6022, resolution pending then it can be a int ...
+
 
     @ApiModelProperty(
             notes = "The custom payload configuration. Only for DATA callbacks",
@@ -99,6 +102,17 @@ public class SigfoxApiv2CallbackCommonDef {
     protected boolean dead;
 
     // ============================================================
+    // Custom Getters & Setters
+    // ============================================================
+
+    // Due to the fact this field should not be present when the type is 2..
+    // report as FRASIG-6022, resolution pending
+    public int getCallbackSubtype() {
+        return (this.callbackSubtype !=null)?callbackSubtype:-1;
+    }
+
+
+    // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
@@ -119,9 +133,6 @@ public class SigfoxApiv2CallbackCommonDef {
         this.callbackType = callbackType;
     }
 
-    public int getCallbackSubtype() {
-        return callbackSubtype;
-    }
 
     public void setCallbackSubtype(int callbackSubtype) {
         this.callbackSubtype = callbackSubtype;
