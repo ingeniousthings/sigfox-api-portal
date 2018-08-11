@@ -1,6 +1,5 @@
-package fr.ingeniousthings.apis;
+package fr.ingeniousthings.apis.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.ingeniousthings.apis.models.ITSigfoxModelDeviceTypeFull;
 import fr.ingeniousthings.sigfox.apiv2.models.*;

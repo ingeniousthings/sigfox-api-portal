@@ -1,8 +1,7 @@
-package fr.ingeniousthings.apis;
+package fr.ingeniousthings.apis.services;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;

@@ -23,7 +23,7 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
-package fr.ingeniousthings.apis;
+package fr.ingeniousthings.apis.services;
 
 import org.springframework.http.HttpStatus;
 

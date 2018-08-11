@@ -1,10 +1,9 @@
-package fr.ingeniousthings.apis;
+package fr.ingeniousthings.apis.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.ingeniousthings.apis.models.ITSigfoxModelDeviceTypeFull;
 import fr.ingeniousthings.sigfox.apiv2.models.SigfoxApiv2Callback;
-import fr.ingeniousthings.sigfox.apiv2.models.SigfoxApiv2CallbackResponse;
 import fr.ingeniousthings.sigfox.apiv2.models.SigfoxApiv2DeviceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,30 @@ public class ITSigfoxExportDeviceType {
 
     private static final Logger log = LoggerFactory.getLogger(ITSigfoxExportDeviceType.class);
 
+
+    public static String exportDeviceTypeAsString(
+            String apiLogin,
+            String apiPassword,
+            String deviceTypeId
+    ) throws ITSigfoxException {
+        ITSigfoxModelDeviceTypeFull _ret = exportDeviceType (
+                apiLogin,
+                apiPassword,
+                deviceTypeId
+        );
+        String ret;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ret = mapper.writeValueAsString(_ret);
+
+        } catch ( JsonProcessingException e) {
+            log.error("Error during sigfox response parsing :");
+            e.printStackTrace();
+            throw new ITSigfoxException(HttpStatus.NOT_ACCEPTABLE,"Parsing message impossible");
+        }
+        return ret;
+    }
+
     /**
      * Export deviceType
      * @param apiLogin
@@ -28,7 +51,7 @@ public class ITSigfoxExportDeviceType {
      * @param deviceTypeId
      * @return
      */
-    public static String exportDeviceType(
+    public static ITSigfoxModelDeviceTypeFull exportDeviceType(
             String apiLogin,
             String apiPassword,
             String deviceTypeId
@@ -91,17 +114,7 @@ public class ITSigfoxExportDeviceType {
             }
         }
 
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            ret = mapper.writeValueAsString(_ret);
-
-        } catch ( JsonProcessingException e) {
-            log.error("Error during sigfox response parsing :");
-            e.printStackTrace();
-            throw new ITSigfoxException(HttpStatus.NOT_ACCEPTABLE,"Parsing message impossible");
-        }
-
-        return ret;
+        return _ret;
     }
 
 
