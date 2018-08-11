@@ -15,6 +15,14 @@ create link.
 We do not store any of your information in the online accessible portal. If you want you can install your own portal by
 cloning this repo and launch it on your own environment.
 
+**IntegniousThings API**
+
+In addition of the Sigfox API proxy we have built some usefull API to automate different Sigfox API call for simplify some more complex
+task. Actually the IngeniousThings API allow operations like:
+- Exporting a deviceType with all its callback configuration (for replication or backup purpose)
+- Importing a deviceType from a previously exported one.
+- Duplicate a deviceType with group/contract change or a new name.
+
 
 __Build your own portal__
 
