@@ -26,9 +26,13 @@
 package fr.ingeniousthings.sigfox_api;
 
 import com.google.common.base.Predicates;
+import fr.ingeniousthings.apis.services.ITSigfoxException;
+import fr.ingeniousthings.apis.services.ITSigfoxExportDeviceType;
+import fr.ingeniousthings.apis.services.ITSigfoxImportDeviceType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -37,8 +41,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
@@ -46,7 +48,6 @@ import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.paths.RelativePathProvider;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.DocExpansion;
 import springfox.documentation.swagger.web.ModelRendering;
@@ -60,7 +61,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
@@ -73,6 +73,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 @SpringBootApplication
 @EnableSwagger2
+@ComponentScan("fr.ingeniousthings")
 public class SigfoxApiApplication {
 
 	public static void main(String[] args) {
@@ -127,7 +128,7 @@ public class SigfoxApiApplication {
 				.globalResponseMessage(RequestMethod.DELETE,globalResponses)
 				.securitySchemes(newArrayList(basicAuth()))
 				.securityContexts(newArrayList(securityContext()))
-				.groupName("sigfox-api-v1")
+				.groupName("0-sigfox-api-v1")
 				.apiInfo( new ApiInfo(
 						"IngeniousThings - Sigfox backend API Proxy",
 						"This proxy is allowing to use the Sigfox backend API in a user friendly environment with a WEB based user interface. " +
@@ -241,8 +242,75 @@ public class SigfoxApiApplication {
 				))
 				;
 	}
-
 */
+	@Bean
+	public Docket IngeniousThingsApi() {
+		List<ResponseMessage> globalResponses = newArrayList(
+				new ResponseMessageBuilder()
+						.code(500)
+						.message("Internal server error")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(400)
+						.message("Illegal argument")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(401)
+						.message("Unauthorized. Need authentication")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(403)
+						.message("Forbidden. The access is not allowed")
+						.responseModel(new ModelRef("string"))
+						.build(),
+				new ResponseMessageBuilder()
+						.code(404)
+						.message("Not Found")
+						.responseModel(new ModelRef("string"))
+						.build()
+		);
+
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(Predicates.or(
+						regex("/it/.*")
+				))
+				.build()
+				.alternateTypeRules(
+						newRule(typeResolver.resolve(DeferredResult.class,
+								typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
+								typeResolver.resolve(WildcardType.class)))
+				.useDefaultResponseMessages(false)
+				.globalResponseMessage(RequestMethod.GET,globalResponses)
+				.globalResponseMessage(RequestMethod.POST,globalResponses)
+				.globalResponseMessage(RequestMethod.PUT,globalResponses)
+				.globalResponseMessage(RequestMethod.DELETE,globalResponses)
+				//.securitySchemes(newArrayList(basicAuth()))
+				//.securityContexts(newArrayList(securityContext()))
+				.groupName("IngeniousThings-api")
+				.apiInfo( new ApiInfo(
+						"IngeniousThings - Custom Sigfox extension service",
+						"This is a set of APIs built on the Sigfox API to extend it with some useful services. Our experience " +
+								"of Sigfox backend and APIs have pushed us to automate some of the operations we regularly had to do manually " +
+								"some of them are now open and accessible in this API. The source code is availbale on GitHub as a GPL software " +
+								"you can follow the license Url link to access the repository.<br/><br/>" +
+								"This service is public and free, please use it in respect of our server health. Take care of your credential and use this at your own risk, " +
+								"we are not responsible of any mis-usage, data loss or damages on your account. If you start using these APIs, you accept any risks " +
+								"and potential consequences. <br/><br/>" +
+								"You need to have a Sigfox API Access to use this API",
+						"V 2018-08-11",
+						"",
+						new Contact("Contact", "http://www.ingeniousthings.fr", "contact AT ingeniousthings.fr"),
+						"Code under GPL",
+						"https://github.com/ingeniousthings/sigfox-api-portal/blob/master/LICENSE",
+						Collections.emptyList()
+				))
+				;
+	}
 
 
 	@Autowired
@@ -311,5 +379,14 @@ public class SigfoxApiApplication {
 			}
 		};
 	}
+
+/*
+	@Bean
+	public String run() {
+		System.out.println(">>>>>>> Running test");
+
+		return "That's it";
+	}
+	*/
 
 }

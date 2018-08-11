@@ -41,9 +41,21 @@ public class SigfoxApiProxy<T> {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private String[] authorizedHeader = {
+    private static String[] authorizedHeader = {
       "user-agent", "accept", "authorization", "origin", "referer"
     };
+
+    public static HttpMethod getHttpMethodFromString(String method) {
+        switch (method) {
+            case "GET": return HttpMethod.GET;
+            case "POST": return  HttpMethod.POST;
+            case "DELETE": return HttpMethod.DELETE;
+            case "PUT": return  HttpMethod.PUT;
+        }
+        return  HttpMethod.GET;
+    }
+
+
 
     public T proxify(HttpServletRequest request)  throws SigfoxApiProxyException {
         return proxify(request,null);
@@ -89,12 +101,15 @@ public class SigfoxApiProxy<T> {
             ResponseEntity<String> responseEntity =
                     restTemplate.exchange(
                             url,
-                            HttpMethod.GET,
-                            new HttpEntity<String>(headers),
+                            getHttpMethodFromString(request.getMethod()),
+                            he,
                             String.class
                     );
-            if (responseEntity.getStatusCode() != HttpStatus.OK) {
-               // log.info("Status Code : " + responseEntity.getStatusCode());
+            if (    responseEntity.getStatusCode() != HttpStatus.OK
+                 && responseEntity.getStatusCode() != HttpStatus.NO_CONTENT
+                 && responseEntity.getStatusCode() != HttpStatus.CREATED
+                    ) {
+                log.info("Status Code : " + responseEntity.getStatusCode());
                 throw new SigfoxApiProxyException(
                         responseEntity.getStatusCode(),
                         responseEntity.getBody()
