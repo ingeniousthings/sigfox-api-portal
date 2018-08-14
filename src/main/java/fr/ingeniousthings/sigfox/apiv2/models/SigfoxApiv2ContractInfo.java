@@ -317,4 +317,19 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
         this.nextContractInfo = nextContractInfo;
     }
 
+    public List<SigfoxApiv2GroupMinimal> getForbiddenNIPs() {
+        return forbiddenNIPs;
+    }
+
+    public void setForbiddenNIPs(List<SigfoxApiv2GroupMinimal> forbiddenNIPs) {
+        this.forbiddenNIPs = forbiddenNIPs;
+    }
+
+    public boolean isAllowNewNIPs() {
+        return allowNewNIPs;
+    }
+
+    public void setAllowNewNIPs(boolean allowNewNIPs) {
+        this.allowNewNIPs = allowNewNIPs;
+    }
 }
