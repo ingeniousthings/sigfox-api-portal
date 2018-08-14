@@ -147,7 +147,7 @@ public class SigfoxApiv2ContractInfoCommon {
 
 
     @Api(tags = "commonContractInfo.OptionParameter", description = "The parameters of the premium option")
-    public class OptionParameter {
+    public static class OptionParameter {
         @ApiModelProperty(
                 notes = "payloadEncryption:<br/>" +
                         "level: 0 (DEVICE_TO_SIGFOX_CLOUD, default), 1 (END_TO_END)<br/>" +
@@ -180,7 +180,7 @@ public class SigfoxApiv2ContractInfoCommon {
 
 
     @Api(tags = "commonContractInfo.Option", description = "The activated premium options")
-    public class Option {
+    public static class Option {
         @ApiModelProperty(
                 notes = "The premium option id (payloadEncryption, geolocation, cognition, testFrames, …)",
                 example = "geolocation",

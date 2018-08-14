@@ -50,6 +50,22 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
     protected String contractId;
 
     @ApiModelProperty(
+            notes = "The bss Order  ID. Not yet documented...",
+            example = "07de",
+            required = false
+    )
+    protected String bssOrderId;
+
+
+    @ApiModelProperty(
+            notes = "The  Order  ID. Not yet documented...",
+            example = "55f",
+            required = false
+    )
+    protected SigfoxApiv2ContractInfoMin bssParentOrder;
+
+
+    @ApiModelProperty(
             notes = "The ID of the user who created the contract in BSS.",
             example = "59799fd7500474298ba15c4c",
             required = false
@@ -331,5 +347,21 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
 
     public void setAllowNewNIPs(boolean allowNewNIPs) {
         this.allowNewNIPs = allowNewNIPs;
+    }
+
+    public String getBssOrderId() {
+        return bssOrderId;
+    }
+
+    public void setBssOrderId(String bssOrderId) {
+        this.bssOrderId = bssOrderId;
+    }
+
+    public SigfoxApiv2ContractInfoMin getBssParentOrder() {
+        return bssParentOrder;
+    }
+
+    public void setBssParentOrder(SigfoxApiv2ContractInfoMin bssParentOrder) {
+        this.bssParentOrder = bssParentOrder;
     }
 }
