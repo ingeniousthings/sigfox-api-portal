@@ -134,6 +134,21 @@ public class SigfoxApiv2ContractInfo extends SigfoxApiv2ContractInfoCommon {
     )
     protected int tokenDuration;
 
+
+    @ApiModelProperty(
+            notes = "The list of forbidden NIPs, as an array of NIP groups.",
+            required = false
+    )
+    protected List<SigfoxApiv2GroupMinimal> forbiddenNIPs;
+
+    @ApiModelProperty(
+            notes = "True to allow new NIPs.",
+            example = "false",
+            required = false
+    )
+    protected boolean allowNewNIPs;
+
+
     @ApiModelProperty(
             notes = "The list of “blacklisted” territories, as an array of NIP groups.",
             required = false
