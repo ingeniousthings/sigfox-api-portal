@@ -142,6 +142,7 @@ public class ITSigfoxConnection<S,T> {
                         response = mapper.readValue(responseEntity.getBody(), typeRetrunedClass);
                     } else response = null;
                 } catch (IOException e) {
+                    log.error(responseEntity.getBody());
                     log.error("Impossible to deserialize Sigfox's backend response");
                     e.printStackTrace();
                     response = null;

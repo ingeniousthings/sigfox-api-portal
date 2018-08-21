@@ -31,26 +31,71 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 @Api(tags = "globalCoverageResponse", description = "Returned data for global Coverage API")
-public class SigfoxApiv2CoverageGlobalResponse {
-
+public class SigfoxApiv2CoverageMarginResponse {
 
     @ApiModelProperty(
-            notes = "An array containing the response for each point.",
+            notes = "The device’s estimated latitude",
+            example = "42.234",
             required = false
     )
-    protected List<SigfoxApiv2CoverageMarginResponse> data;
+    protected double lat;
+
+    @ApiModelProperty(
+            notes = "The device’s estimated longitude",
+            example = "3.0654",
+            required = false
+    )
+    protected double lng;
+
+    @ApiModelProperty(
+            notes = "True, if the requested location is considered covered.",
+            example = "true",
+            required = false
+    )
+    protected boolean locationCovered;
+
+    @ApiModelProperty(
+            notes = "The margins values (dB) for redundancy level 1, 2 and 3.",
+            example = "[47,32,17]",
+            required = false
+    )
+    protected List<Integer> margins;
+
+    // ========================================
 
 
-    // ============================================================
-    // Generated Getters & Setters
-    // ============================================================
-
-
-    public List<SigfoxApiv2CoverageMarginResponse> getData() {
-        return data;
+    public double getLat() {
+        return lat;
     }
 
-    public void setData(List<SigfoxApiv2CoverageMarginResponse> data) {
-        this.data = data;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public boolean isLocationCovered() {
+        return locationCovered;
+    }
+
+    public void setLocationCovered(boolean locationCovered) {
+        this.locationCovered = locationCovered;
+    }
+
+    public List<Integer> getMargins() {
+        return margins;
+    }
+
+    public void setMargins(List<Integer> margins) {
+        this.margins = margins;
     }
 }
+
+
+

@@ -30,15 +30,29 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "globalCoverageResponse", description = "Returned data for global Coverage API")
-public class SigfoxApiv2CoverageGlobalResponse {
+@Api(tags = "globalCoveragePublicMap", description = "Defines tiles reference to display on web map")
+public class SigfoxApiv2CoveragePublicMapResponse {
+
+    @ApiModelProperty(
+            notes = "The tiles base image url.",
+            example = "https://tiles.sigfox.com/2d16bae056f4cce6aae7cce5e624cfd4",
+            required = false
+    )
+    protected String baseImgUrl;
+
+    @ApiModelProperty(
+            notes = "The TMS template url.",
+            example = "https://tiles.sigfox.com/2d16bae056f4cce6aae7cce5e624cfd4/{z}/{x}/{y}.png",
+            required = false
+    )
+    protected String tmsTemplateUrl;
 
 
     @ApiModelProperty(
-            notes = "An array containing the response for each point.",
-            required = false
+            notes = "Geographics bounds.",
+            required = true
     )
-    protected List<SigfoxApiv2CoverageMarginResponse> data;
+    protected SigfoxApiv2Bounds bounds;
 
 
     // ============================================================
@@ -46,11 +60,27 @@ public class SigfoxApiv2CoverageGlobalResponse {
     // ============================================================
 
 
-    public List<SigfoxApiv2CoverageMarginResponse> getData() {
-        return data;
+    public String getBaseImgUrl() {
+        return baseImgUrl;
     }
 
-    public void setData(List<SigfoxApiv2CoverageMarginResponse> data) {
-        this.data = data;
+    public void setBaseImgUrl(String baseImgUrl) {
+        this.baseImgUrl = baseImgUrl;
+    }
+
+    public String getTmsTemplateUrl() {
+        return tmsTemplateUrl;
+    }
+
+    public void setTmsTemplateUrl(String tmsTemplateUrl) {
+        this.tmsTemplateUrl = tmsTemplateUrl;
+    }
+
+    public SigfoxApiv2Bounds getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(SigfoxApiv2Bounds bounds) {
+        this.bounds = bounds;
     }
 }
