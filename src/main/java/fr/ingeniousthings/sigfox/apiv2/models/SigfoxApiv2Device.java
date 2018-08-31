@@ -33,12 +33,14 @@ public class SigfoxApiv2Device {
 
     @ApiModelProperty(
             notes = "The device’s identifier (hexadecimal format)",
+            example = "00FF",
             required = true
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The device’s name",
+            example = "Device 1",
             required = true
     )
     protected String name;
@@ -88,6 +90,7 @@ public class SigfoxApiv2Device {
 
     @ApiModelProperty(
             notes = "The device’s PAC (Porting Access Code)",
+            example = "585CB3B42AC98BD4",
             required = true
     )
     protected String pac;
@@ -95,6 +98,7 @@ public class SigfoxApiv2Device {
     @ApiModelProperty(
             notes = "The last device’s sequence number. " +
                     "Absent if the device has never communicated or if the SIGFOX message protocol is V0",
+            example = "5",
             required = false
     )
     protected int sequenceNumber;
@@ -102,12 +106,14 @@ public class SigfoxApiv2Device {
     @ApiModelProperty(
             notes = "The last trashed device’s sequence number." +
                     "Absent if there is no message trashed or if the SIGFOX message protocol is V0",
+            example = "1",
             required = false
     )
     protected int trashSequenceNumber;
 
     @ApiModelProperty(
             notes = "The last time (in milliseconds since the Unix Epoch) the device has communicated",
+            example = "1462801589979",
             required = false
     )
     protected long lastCom;
@@ -115,6 +121,7 @@ public class SigfoxApiv2Device {
     @ApiModelProperty(
             notes = "The average device’s SNR (Signal Noise Ratio) in dB. " +
                     "This average is done from the last 25 received messages.",
+            example = "26.1",
             required = false
     )
     protected double averageSnr;
@@ -122,6 +129,7 @@ public class SigfoxApiv2Device {
     @ApiModelProperty(
             notes = "The average device’s RSSI (Received Signal Strength Indicator) in dBm. " +
                     "This average is done from the last 25 received messages.",
+            example = "-124.84",
             required = false
     )
     protected double averageRssi;
@@ -129,12 +137,14 @@ public class SigfoxApiv2Device {
 
     @ApiModelProperty(
             notes = "The device’s activation time (in milliseconds since the Unix Epoch)",
+            example = "1462801512365",
             required = false
     )
     protected long activationTime;
 
     @ApiModelProperty(
             notes = "The device’s provisionning time (in milliseconds since the Unix Epoch)",
+            example = "1462801032158",
             required = true
     )
     protected long creationTime;
@@ -151,6 +161,7 @@ public class SigfoxApiv2Device {
                     "<li>6 -> SUSPENDED</li>" +
                     "<li>7 -> NOT_ACTIVABLE</li>" +
                     "</ul>",
+            example = "0",
             required = true
     )
     protected int state;
@@ -165,6 +176,7 @@ public class SigfoxApiv2Device {
                     "<li>4 -> (na)</li>" +
                     "<li>5 -> NOT_SEEN</li>" +
                     "</ul>",
+            example = "1",
             required = true
     )
     protected int comState;
@@ -177,6 +189,7 @@ public class SigfoxApiv2Device {
 
     @ApiModelProperty(
             notes = "The device’s unsubscription time (in milliseconds since the Unix Epoch)",
+            example = "1513619200000",
             required = false
     )
     protected long unsubscriptionTime;
@@ -184,24 +197,28 @@ public class SigfoxApiv2Device {
 
     @ApiModelProperty(
             notes = "The id of device’s creator user",
+            example = "57986ea2e89a8e255c31ddf7",
             required = false
     )
     protected String createdBy;
 
     @ApiModelProperty(
             notes = "Date of the last modification of this device (in milliseconds since the Unix Epoch)",
+            example = "1487065492780",
             required = false
     )
     protected long lastEditionTime;
 
     @ApiModelProperty(
             notes = "The id of device’s last editor user",
+            example = "57986ea2e89a8e255c31ddf7",
             required = false
     )
     protected String lastEditedBy;
 
     @ApiModelProperty(
             notes = "Allow token renewal ?",
+            example = "true",
             required = true
     )
     protected boolean automaticRenewal;
@@ -214,12 +231,14 @@ public class SigfoxApiv2Device {
                     "<li>2 -> RENEWED</li>" +
                     "<li>3 -> ENDED</li>" +
                     "</ul>",
+            example = "0",
             required = false
     )
     protected int automaticRenewalStatus;
 
     @ApiModelProperty(
             notes = "True if the device is activable and can take a token",
+            example = "true",
             required = false
     )
     protected boolean activable;

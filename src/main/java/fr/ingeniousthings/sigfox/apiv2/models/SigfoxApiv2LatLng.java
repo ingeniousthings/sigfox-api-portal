@@ -33,12 +33,14 @@ public class SigfoxApiv2LatLng {
 
     @ApiModelProperty(
             notes = "A latitude in degrees. between -90° and 90°",
+            example = "42.3",
             required = false
     )
     protected double lat;
 
     @ApiModelProperty(
             notes = "A longitude in degrees. between -180° and 180°",
+            example = "3.1",
             required = false
     )
     protected double lng;

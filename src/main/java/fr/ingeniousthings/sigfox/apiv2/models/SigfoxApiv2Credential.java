@@ -33,18 +33,21 @@ public class SigfoxApiv2Credential {
 
     @ApiModelProperty(
             notes = "The email of the user to check",
+            example = "michel.michel@sigfox.com",
             required = true
     )
     protected String email;
 
     @ApiModelProperty(
             notes = "The password of the user to check",
+            example = "AbC123!?",
             required = true
     )
     protected String password;
 
     @ApiModelProperty(
             notes = "The domain associated to the user to check",
+            example = "Europe",
             required = false
     )
     protected String domain;

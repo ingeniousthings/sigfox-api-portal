@@ -37,18 +37,21 @@ public class SigfoxApiv2ComputedLocation {
 
     @ApiModelProperty(
             notes = "The device’s estimated latitude",
+            example = "42",
             required = false
     )
     protected double lat;
 
     @ApiModelProperty(
             notes = "The device’s estimated longitude",
+            example = "1.4",
             required = false
     )
     protected double lng;
 
     @ApiModelProperty(
             notes = "The radius of the precision circle (meters)",
+            example = "4000",
             required = false
     )
     protected long radius;
@@ -62,6 +65,7 @@ public class SigfoxApiv2ComputedLocation {
                     "<li>3 -> Location computed by Atlas POI</li>" +
                     "<li>4 -> Location computed by Atlas HD<li>" +
                     "</ul>",
+            example = "2",
             required = false
     )
     protected int source;

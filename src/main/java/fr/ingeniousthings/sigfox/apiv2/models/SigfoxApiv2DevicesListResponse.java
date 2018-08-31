@@ -25,21 +25,20 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@ApiModel(value = "deviceTypeList", description = "List of devices types")
-public class SigfoxApiv2DeviceTypeListResponse {
+@ApiModel(value = "devicesList", description = "List of Devices")
+public class SigfoxApiv2DevicesListResponse {
 
 
     @ApiModelProperty(
             notes = "List of the callback error",
             required = false
     )
-    protected List<SigfoxApiv2DeviceType> data;
+    protected List<SigfoxApiv2Device> data;
 
     @ApiModelProperty(
             notes = "Next page information",
@@ -53,11 +52,11 @@ public class SigfoxApiv2DeviceTypeListResponse {
     // ============================================================
 
 
-    public List<SigfoxApiv2DeviceType> getData() {
+    public List<SigfoxApiv2Device> getData() {
         return data;
     }
 
-    public void setData(List<SigfoxApiv2DeviceType> data) {
+    public void setData(List<SigfoxApiv2Device> data) {
         this.data = data;
     }
 

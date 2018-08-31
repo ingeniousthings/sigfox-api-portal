@@ -34,12 +34,14 @@ public class SigfoxApiv2Certificate {
 
     @ApiModelProperty(
             notes = "The product certificate’s identifier",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The product certificate’s name",
+            example = "M_0004_AC59_02",
             required = false
     )
     protected String name;

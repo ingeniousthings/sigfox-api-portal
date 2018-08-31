@@ -42,6 +42,7 @@ public class SigfoxApiv2CoverageRedundcyResponse {
                     "<li>2 = 2 base stations</li>" +
                     "<li>3 = 3 base stations or more</li>" +
                     "</ul>",
+            example = "3",
             required = false
     )
     protected int redundancy;

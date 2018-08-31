@@ -39,6 +39,7 @@ public class SigfoxApiv2Token {
                     "<li>2 -> TOKEN_NOT_CONSUMED</li>" +
                     "<li>3 -> INVALID_TOKEN</li>" +
                     "</ul>",
+            example = "0",
             required = false
     )
     protected int state;
@@ -46,27 +47,39 @@ public class SigfoxApiv2Token {
 
     @ApiModelProperty(
             notes = "Token state description Valid Off Contract Not Consumed Invalid",
+            example = "Active",
             required = false
     )
     protected String detailMessage;
 
     @ApiModelProperty(
             notes = "The device’s communication end time (in milliseconds since the Unix Epoch)",
+            example = "1503619200000",
             required = false
     )
     protected long end;
 
     @ApiModelProperty(
             notes = "The number of free messages left for this token",
+            example = "1",
             required = false
     )
     protected int freeMessages;
 
     @ApiModelProperty(
             notes = "The number of free messages already sent for this token",
+            example = "9",
             required = false
     )
     protected int freeMessagesSent;
+
+    @ApiModelProperty(
+            notes = "Timestamp of token unsubscription date (in milliseconds since the Unix Epoch)",
+            example = "1503619200000",
+            required = false
+    )
+    protected long unsubscriptionTime;
+
 
     // ============================================================
     // Generated Getters & Setters
@@ -111,5 +124,13 @@ public class SigfoxApiv2Token {
 
     public void setFreeMessagesSent(int freeMessagesSent) {
         this.freeMessagesSent = freeMessagesSent;
+    }
+
+    public long getUnsubscriptionTime() {
+        return unsubscriptionTime;
+    }
+
+    public void setUnsubscriptionTime(long unsubscriptionTime) {
+        this.unsubscriptionTime = unsubscriptionTime;
     }
 }

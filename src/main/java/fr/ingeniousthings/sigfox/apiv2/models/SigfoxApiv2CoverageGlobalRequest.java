@@ -42,6 +42,7 @@ public class SigfoxApiv2CoverageGlobalRequest {
     @ApiModelProperty(
             notes = "The radius of the area in which the coverage results are averaged " +
                     "and returned for a selected location, in meters.",
+            example = "100",
             required = false
     )
     protected int radius;
@@ -49,6 +50,7 @@ public class SigfoxApiv2CoverageGlobalRequest {
     @ApiModelProperty(
             notes = "The id of a group to include its operator in the global coverage, " +
                     "in case it is not a public operator.",
+            example = "51fe2e399e93a326dd80861f",
             required = false
     )
     protected String groupId;
