@@ -173,6 +173,167 @@ public class SigfoxV2CoverageApi {
     }
 
 
+    /**
+     * Fetches coverage predictions for any batch of location.
+     *
+     * Get the coverage margins for multiple point, for each redundancy level.
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/coverages/global/predictions
+     *
+     * Parameters:
+     *
+     *  In the Body a SigfoxApiv2CoverageGlobalRequest strusture with multiple coordinates
+     *
+     */
+    @ApiOperation(
+            value = "Fetches coverage predictions for any batch of location.",
+            notes = "Get the coverage margins for multiple point, for each redundancy level. " +
+                    "Parameters:<br/>" +
+                    "<ul>" +
+                    " <li>body (SigfoxApiv2CoverageGlobalRequest) *: Contains the location list of each points.</li>" +
+                    "</ul>",
+            response = SigfoxApiv2CoverageGlobalResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2CoverageGlobalResponse.class)
+    })
+    @RequestMapping(
+            value ="/coverages/global/predictions",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getMultipleCoveragePrediction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "payload", value = "The list of coordinate where to get coverage informations.")
+            @Valid @RequestBody SigfoxApiv2CoverageGlobalRequest payload
+
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2CoverageGlobalResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2CoverageGlobalResponse>(proxy.proxify(request, mapper.writeValueAsString(payload)), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse body",HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+
+    /**
+     * Fetches coverage redundancy for an operator.
+     *
+     * Get operator coverage redundancy for a selected latitude and longitude, for specific device situation
+     *
+     * Request
+     *
+     * GET https://backend.sigfox.com/api/v2/coverages/operators/redundancy
+     *
+     * Parameters:
+     *
+     *     Lat - the latitude
+     *     Lng - the longitude
+     *     operatorId - The group id related to the operator to get its coverage redundancy result.
+     *     deviceSituation - The device situation (UNDERGROUND, INDOOR, OUTDOOR)…
+     *     deviceClassId - The product uplink class from 0 to 3 (0U to 3U), default is 0.
+     *
+     */
+    @ApiOperation(
+            value = "Fetches coverage redundancy for an operator.",
+            notes = "Get operator coverage redundancy for a selected latitude and longitude, for specific device situation:<br/>" +
+                    "<ul>" +
+                    " <li>lat (Double) *: The latitude.</li>" +
+                    " <li>lng (Double) *: The longitude.</li>" +
+                    " <li>operatorId (String): The group id related to the operator to get its coverage redundancy result.</li>" +
+                    " <li>deviceSituation (String): The device situation (UNDERGROUND, INDOOR, OUTDOOR)… default OUTDOOR" +
+                    "   <ul>" +
+                    "    <li>OUTDOOR: max link budget</li>" +
+                    "    <li>INDOOR: link budget with 20dB margin</li>" +
+                    "    <li>UNDERGROUND:link budget with 30dB margin</li>" +
+                    "   </ul>" +
+                    " </li>" +
+                    " <li>deviceClassId (int): The product uplink class from 0 to 3 (0U to 3U), default is 0.</li>" +
+                    "</ul>",
+            response = SigfoxApiv2CoverageRedundcyResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2CoverageRedundcyResponse.class)
+    })
+    @RequestMapping(
+            value ="/coverages/operators/redundancy",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getCoverageRedundancy(
+            HttpServletRequest request,
+            @RequestParam("lat")
+            @ApiParam(
+                    required = true,
+                    name = "lat",
+                    value = "The latitude."
+            ) double lat,
+
+            @RequestParam("lng")
+            @ApiParam(
+                    required = true,
+                    name = "lng",
+                    value = "The longitude."
+            ) double lng,
+
+            @RequestParam("operatorId")
+            @ApiParam(
+                    required = false,
+                    name = "operatorId",
+                    value = "The group id related to the operator to get its coverage redundancy result."
+            ) Optional<String> operatorId,
+
+
+            @RequestParam("deviceSituation")
+            @ApiParam(
+                    required = false,
+                    name = "deviceSituation",
+                    value = "The device situation:" +
+                            "<ul>" +
+                            "<li>UNDERGROUND</li>" +
+                            "<li>INDOOR</li>" +
+                            "<li>OUTDOOR</li>" +
+                            "</ul>",
+                    defaultValue = "OUTDOOR",
+                    allowableValues = "UNDERGROUND,INDOOR,OUTDOOR"
+            ) Optional<String> deviceSituation,
+
+
+            @RequestParam("deviceClassId")
+            @ApiParam(
+                    required = false,
+                    name = "deviceClassId",
+                    value = "The product uplink class from 0 to 3.",
+                    defaultValue = "0",
+                    allowableValues = "0,1,2,3"
+            ) Optional<Integer> deviceClassId
+
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2CoverageRedundcyResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2CoverageRedundcyResponse>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+
+
 }
 
 
