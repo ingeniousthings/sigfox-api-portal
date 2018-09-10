@@ -35,12 +35,14 @@ public class SigfoxApiv2CertificateModemResponse {
 
     @ApiModelProperty(
             notes = "Id of the certificate in hexadecimal form",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "Name of the certificate",
+            example = "M_0004_AC59_02",
             required = false
     )
     protected String name;
@@ -51,30 +53,35 @@ public class SigfoxApiv2CertificateModemResponse {
                     "<li>0=ONGOING</li>" +
                     "<li>1=FINALIZED</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int status;
 
     @ApiModelProperty(
             notes = "Certificate’s key built from code and index",
+            example = "???",
             required = false
     )
     protected String certificateKey;
 
     @ApiModelProperty(
             notes = "Name of the manufacturer",
+            example = "Telecom Design",
             required = false
     )
     protected String manufacturerName;
 
     @ApiModelProperty(
             notes = "Version of the certificate",
+            example = "???",
             required = false
     )
     protected String version;
 
     @ApiModelProperty(
             notes = "Description of the certificate",
+            example = "???",
             required = false
     )
     protected String description;
@@ -85,6 +92,7 @@ public class SigfoxApiv2CertificateModemResponse {
                     "<li>1=DOWNLINK</li>" +
                     "<li>2=MONARCH</li>" +
                     "</ul>",
+            example = "1,2",
             required = false
     )
     protected int modes[];
@@ -98,6 +106,7 @@ public class SigfoxApiv2CertificateModemResponse {
                     "<li>3=RC101</li>" +
                     "<li>4=RC4</li>" +
                     "</ul>",
+            example = "0,1",
             required = false
     )
     protected int standards[];
@@ -107,12 +116,14 @@ public class SigfoxApiv2CertificateModemResponse {
 
         @ApiModelProperty(
                 notes = "Certified output power",
+                example = "14",
                 required = false
         )
         protected int outputPower;
 
         @ApiModelProperty(
                 notes = "Is the certificate power balanced?",
+                example = "true",
                 required = false
         )
         protected boolean balancedLinkBudget;
@@ -143,12 +154,14 @@ public class SigfoxApiv2CertificateModemResponse {
 
     @ApiModelProperty(
             notes = "Input sensitivity",
+            example = "130",
             required = false
     )
     protected int inputSensitivity;
 
     @ApiModelProperty(
             notes = "Repeater function Flag",
+            example = "false",
             required = false
     )
     protected boolean repeaterFunction;

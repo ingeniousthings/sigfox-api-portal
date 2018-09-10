@@ -35,24 +35,28 @@ public class SigfoxApiv2Consumption {
 
     @ApiModelProperty(
             notes = "Number of uplink messages this day.",
+            example = "19",
             required = false
     )
     protected int frameCount;
 
     @ApiModelProperty(
             notes = "Number of downlink messages this day.",
+            example = "4",
             required = false
     )
     protected int downlinkFrameCount;
 
     @ApiModelProperty(
             notes = "Number of uplink roaming messages this day.",
+            example = "3",
             required = false
     )
     protected int roamingFrameCount;
 
     @ApiModelProperty(
             notes = "Number of downlink roaming messages this day.",
+            example = "1",
             required = false
     )
     protected int roamingDownlinkFrameCount;
@@ -62,26 +66,28 @@ public class SigfoxApiv2Consumption {
 
         @ApiModelProperty(
                 notes = "Country of the Operator (3 letters).",
-                value = "FRA",
+                example = "FRA",
                 required = false
         )
         protected String territory;
 
         @ApiModelProperty(
                 notes = "Name of the operator.",
-                value = "SIGFOX_France",
+                example = "SIGFOX_France",
                 required = false
         )
         protected String operator;
 
         @ApiModelProperty(
                 notes = "Number of uplink roaming messages this day for this operator.",
+                example = "3",
                 required = false
         )
         protected int territoryRoamingFrameCount;
 
         @ApiModelProperty(
                 notes = "Number of downlink roaming messages this day for this operator.",
+                example = "1",
                 required = false
         )
         protected int territoryRoamingDownlinkFrameCount;

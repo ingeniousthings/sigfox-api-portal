@@ -27,7 +27,7 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
 
-@Api(tags = "callbackTypeId", description = "Id of a group returned after creation")
+@Api(tags = "groupId", description = "Id of a group returned after creation")
 public class SigfoxApiv2GroupId extends SigfoxApiv2GenericId {
 
 }

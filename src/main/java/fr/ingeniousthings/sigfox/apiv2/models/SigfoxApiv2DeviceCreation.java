@@ -33,24 +33,28 @@ public class SigfoxApiv2DeviceCreation {
 
     @ApiModelProperty(
             notes = "The device’s identifier (hexadecimal format)",
+            example = "00FF",
             required = true
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The device’s name",
+            example = "Device 1",
             required = true
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "Defines a device type entity",
+            example = "57309548171c857460043085",
             required = true
     )
     protected String deviceTypeId;
 
     @ApiModelProperty(
             notes = "The device’s PAC (Porting Access Code)",
+            example = "585CB3B42AC98BD4",
             required = true
     )
     protected String pac;
@@ -58,6 +62,7 @@ public class SigfoxApiv2DeviceCreation {
     @ApiModelProperty(
             notes = "The device’s provided latitude",
             value = "0",
+            example = "48.8585715",
             required = true
     )
     protected double lat;
@@ -65,12 +70,14 @@ public class SigfoxApiv2DeviceCreation {
     @ApiModelProperty(
             notes = "The device’s provided longitude",
             value = "0",
+            example = "2.2922923",
             required = true
     )
     protected double lng;
 
     @ApiModelProperty(
             notes = "Product certificate",
+            example = "P_0003_71CF_01",
             required = false
     )
     protected String productCertificate;
@@ -78,6 +85,7 @@ public class SigfoxApiv2DeviceCreation {
     @ApiModelProperty(
             notes = "If the device is a prototype or not",
             value = "false",
+            example = "true",
             required = false
     )
     protected boolean prototype;
@@ -85,6 +93,7 @@ public class SigfoxApiv2DeviceCreation {
     @ApiModelProperty(
             notes = "Allow token renewal ?",
             value = "true",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;
@@ -93,6 +102,7 @@ public class SigfoxApiv2DeviceCreation {
     @ApiModelProperty(
             notes = "True if the device is activable and can take a token",
             value = "true",
+            example = "false",
             required = false
     )
     protected boolean activable;

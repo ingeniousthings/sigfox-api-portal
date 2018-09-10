@@ -36,6 +36,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -263,34 +264,43 @@ public class SigfoxV2DevicesApi {
 
 
     /**
-     * Group information
+     * Device information
      *
-     * Get the description of a particular group
+     * Fetches the device's information
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/v2/groups/{id}
+     * GET https://backend.sigfox.com/api/v2/devices/{id}
      *
-     * id: the group identifier as returned by the /api/v2/groups endpoint.
+     * Parameters:
+     *
+     *     id - The device’s identifier (hexadecimal format)
+     *
+     * Optionally, the request can also have the following parameter:
+     *
+     *      fields (strings,strings) - defines fields to be returned in the response.
+     *                  fields is a suite of string separated by comma, nested object fields can be given with parenthesis recursively:
+     *                  example : ?fields=attr1,attr2(attr3,attr4(attr5))
+     *                  for now available strings are
+     *                  deviceType(name),group(name,type,level,bssId,customerBssId),contract(name),productCertificate(name),modemCertificate(name)
      *
      */
-    /*
     @ApiOperation(
-            value = "Fetches the group's information",
-            notes = "Get the description of a particular group. <br/>"+
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Fetches the device's information",
+            notes = "Get the description of a particular device. <br/>"+
+                    "Parameters the device ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
-                    "<li>fields (query-String[]): Fetches all sub-groups (default false)." +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format) /api/v2/devices endpoint</li>" +
+                    "<li>fields (query-String[]): Defines fields to be returned in the response." +
                     "fields is a suite of string separated by comma, nested object fields can " +
                     "be given with parenthesis recursively: " +
                     "example : ?fields=attr1,attr2(attr3,attr4(attr5))</li>" +
                     "</ul>",
-            response = SigfoxApiv2Group.class,
+            response = SigfoxApiv2Device.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2Group.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2Device.class)
     })
     @RequestMapping(
             value ="/{id}",
@@ -299,9 +309,9 @@ public class SigfoxV2DevicesApi {
             method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> getGroupInfo(
+    public ResponseEntity<?> getDeviceInfo(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The device’s identifier (hexadecimal format).")
             @PathVariable("id") String id,
 
             @RequestParam("fields")
@@ -309,61 +319,59 @@ public class SigfoxV2DevicesApi {
                     required = false,
                     name = "fields",
                     example = "attr1,attr2(attr3,attr4(attr5))",
-                    value = "Defines the available device type’s fields to be returned in the response. " +
+                    value = "Defines the available device fields to be returned in the response. " +
                             "fields is a suite of string separated by comma, nested object fields can " +
                             "be given with parenthesis recursively"
             ) Optional<String> fields
 
             ) {
 
-        SigfoxApiProxy<SigfoxApiv2Group> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2Device> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiv2Group>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2Device>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
 
     /**
-     * Group creation
+     * Device creation
      *
-     * Create a new Group
+     * Create a new device
      *
      * Request
      *
-     * POST https://backend.sigfox.com/api/v2/groups/
+     * POST https://backend.sigfox.com/api/v2/devices/
      *
      * Parameter :
      *    In the body a struture SigfoxApiV2GroupBase
      */
-/*
     @ApiOperation(
-            value = "Create a new group",
-            notes = "Create a new Group. <br/>"+
-                    "In the Body are provided the information related to the group to create<br/>",
-            response = SigfoxApiv2GroupId.class,
+            value = "Create a new device",
+            notes = "Create a new device. <br/>"+
+                    "In the Body are provided the information related to the device to be created<br/>",
+            response = SigfoxApiv2DeviceId.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2GroupId.class)
+            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2DeviceId.class)
     })
     @RequestMapping(
             value ="/",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_HTML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.POST
     )
     @CrossOrigin
-    public ResponseEntity<?> createGroup(
+    public ResponseEntity<?> createDevice(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
+            @ApiParam(required = true, name = "device", value = "Device description")
+            @Valid @RequestBody SigfoxApiv2DeviceCreation device
     ) {
-
-        SigfoxApiProxy<SigfoxApiv2GroupId> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2DeviceId> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiv2GroupId>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.CREATED);
+            return new ResponseEntity<SigfoxApiv2DeviceId>(proxy.proxify(request, mapper.writeValueAsString(device)), HttpStatus.CREATED);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -373,27 +381,28 @@ public class SigfoxV2DevicesApi {
 
 
     /**
-     * Group edition
+     * Device edition
      *
-     * Update the group
+     * Update the device
      *
      * Request
      *
-     * PUT https://backend.sigfox.com/api/v2/groups/{id}
+     * PUT https://backend.sigfox.com/api/v2/devices/{id}
      *
      * Fields:
      *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *     id: The device’s identifier (hexadecimal format) to update
+     *
+     *     body: The device information to be updated
      *
      */
-/*
     @ApiOperation(
-            value = "Update the group",
-            notes = "Update the group. <br/>"+
-                    "In the Body are provided the information related to the group to edit<br/>" +
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Update the device",
+            notes = "Update the device. <br/>"+
+                    "In the Body are provided the information related to the device to update<br/>" +
+                    "Parameters the device ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format) to update</li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
@@ -408,19 +417,19 @@ public class SigfoxV2DevicesApi {
             method = RequestMethod.PUT
     )
     @CrossOrigin
-    public ResponseEntity<?> editGroup(
+    public ResponseEntity<?> editDevice(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The device’s identifier")
             @PathVariable("id") String id,
 
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
+            @ApiParam(required = true, name = "device", value = "device description")
+            @Valid @RequestBody SigfoxApiv2DeviceUpdate device
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(device)), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -430,30 +439,29 @@ public class SigfoxV2DevicesApi {
 
 
     /**
-     * Group deletion
+     * Device deletion
      *
-     * Group deletion
+     * device deletion
      *
      * Request
      *
-     * DELETE https://backend.sigfox.com/api/v2/groups/{id}
+     * DELETE https://backend.sigfox.com/api/v2/devices/{id}
      *
      * Fields:
      *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *     id: the id of the device to delete.
      *
      * Response
      *
      *     204 if it was OK
      *
      */
-/*
     @ApiOperation(
-            value = "Delete the given group",
-            notes = "Group deletion <br/>"+
-                    "Parameters : the group ID is provided in the URL.<br/>" +
+            value = "Delete the given device",
+            notes = "Device deletion <br/>"+
+                    "Parameters : The device’s identifier (hexadecimal format).<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format)</li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
@@ -469,9 +477,61 @@ public class SigfoxV2DevicesApi {
             method = RequestMethod.DELETE
     )
     @CrossOrigin
-    public ResponseEntity<?> deleteGroup(
+    public ResponseEntity<?> deleteDevice(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The device’s identifier")
+            @PathVariable("id") String id
+    ) {
+
+        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+    /**
+     * Disable sequence number check for next message
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/{id}/disengage
+     *
+     * Fields:
+     *
+     *     id: The device’s identifier (hexadecimal format)
+     *
+     * Response
+     *
+     *     204 if it was OK
+     *
+     */
+    @ApiOperation(
+            value = "Disable sequence number check for next message",
+            notes = "Disable sequence number check for next message <br/>"+
+                    "Parameters : The device’s identifier (hexadecimal format).<br/>" +
+                    "<ul>" +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format)</li>" +
+                    "</ul>",
+            response = String.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 204, message= "No-Content, Success", response = String.class),
+
+    })
+    @RequestMapping(
+            value ="/{id}/disengage",
+            produces = {MediaType.TEXT_HTML_VALUE},
+            //consumes = {MediaType.TEXT_HTML_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> disengageDevice(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "id", value = "The device’s identifier")
             @PathVariable("id") String id
     ) {
 
@@ -486,85 +546,110 @@ public class SigfoxV2DevicesApi {
 
 
     /**
-     * Fetches the group's error messages
-     *
+     * Get a Device's consumptions for a year
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/v2/groups/{id}/callbacks-not-delivered
+     * GET https://backend.sigfox.com/api/v2/devices/{id}/consumptions/{year}
      *
-     * id: the group identifier as returned by the /api/v2/groups endpoint.
+     * Parameters:
+     *
+     *     id - The device’s identifier (hexadecimal format)
+     *     year - The year of the consumptions
      *
      */
-/*
     @ApiOperation(
-            value = "Fetches the group's error messages",
-            notes = "Get the description of a particular group. <br/>"+
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Get a Device's consumptions for a year",
+            notes = "Get a Device's consumptions for a year. <br/>"+
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String)*: the group identifier as returned by the /api/v2/groups endpoint</li>" +
-                    "<li>since (long) : Starting timestamp (posix time)</li>" +
-                    "<li>before (long) : Ending timestamp (posix time)</li>" +
-                    "<li>limit (int) : Limit number of result</li>" +
-                    "<li>offset (int) : Index of result to start with</li>" +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format) /api/v2/devices endpoint</li>" +
+                    "<li>year (path-Integer): The year of the consumptions." +
                     "</ul>",
-            response = SigfoxApiv2DeviceTypeListResponse.class,
+            response = SigfoxApiv2Consumption.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2DeviceTypeListResponse.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2Consumption.class)
     })
     @RequestMapping(
-            value ="/{id}/callbacks-not-delivered",
+            value ="/{id}/consumptions/{year}",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             //consumes = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> getGroupCallbackErrors(
+    public ResponseEntity<?> getDeviceConsumptionsPerYear(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The device’s identifier (hexadecimal format).")
             @PathVariable("id") String id,
+            @ApiParam(required = true, name = "year", value = "The year of the consumptions.")
+            @PathVariable("year") String year
+    ) {
 
-            @RequestParam("since")
-            @ApiParam(
-                    required = false,
-                    name = "since",
-                    value = "Starting timestamp (posix time)"
-            ) Optional<Long> since,
-
-            @RequestParam("before")
-            @ApiParam(
-                    required = false,
-                    name = "before",
-                    value = "Ending timestamp (posix time)"
-            ) Optional<Long> before,
-
-            @RequestParam("limit")
-            @ApiParam(
-                    required = false,
-                    name = "limit",
-                    value = "Limit number of result"
-            ) Optional<Integer> limit,
-
-            @RequestParam("offset")
-            @ApiParam(
-                    required = false,
-                    name = "offset",
-                    value = "Index of result to start with"
-            ) Optional<Integer> offset
-
-            ) {
-
-        SigfoxApiProxy<SigfoxApiv2DeviceTypeListResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2Consumption> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiv2DeviceTypeListResponse>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2Consumption>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
 
-*/
+    /**
+     * Get a Device's consumptions for a given month
+     *
+     * Request
+     *
+     * GET https://backend.sigfox.com/api/v2/devices/{id}/consumptions/{year}/{month}
+     *
+     * Parameters:
+     *
+     *     id - The device’s identifier (hexadecimal format)
+     *     year - The year of the consumptions
+     *     month - The month of the consumptions
+     *
+     */
+    @ApiOperation(
+            value = "Get a Device's consumptions for a given month",
+            notes = "Get a Device's consumptions for a given month. <br/>"+
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
+                    "<ul>" +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format) /api/v2/devices endpoint</li>" +
+                    "<li>year (path-Integer): The year of the consumptions." +
+                    "<li>month (path-Integer): The month of the consumptions." +
+                    "</ul>",
+            response = SigfoxApiv2Consumption.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2Consumption.class)
+    })
+    @RequestMapping(
+            value ="/{id}/consumptions/{year}/{month}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getDeviceConsumptionsPerYearMonth(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "id", value = "The device’s identifier (hexadecimal format).")
+            @PathVariable("id") String id,
+            @ApiParam(required = true, name = "year", value = "The year of the consumptions.")
+            @PathVariable("year") String year,
+            @ApiParam(required = true, name = "month", value = "The month of the consumptions.")
+            @PathVariable("month") String month
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2Consumption> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2Consumption>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+
 }
 
 

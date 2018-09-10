@@ -26,45 +26,8 @@
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
+@Api(tags = "deviceId", description = "Id of a device returned after creation")
+public class SigfoxApiv2DeviceId extends SigfoxApiv2GenericId {
 
-@Api(tags = "consumptions", description = "Consumption report")
-public class SigfoxApiv2Consumptions {
-
-    @ApiModelProperty(
-            notes = "Identifier of the consumption.",
-            example = "1005550_2017",
-            required = false
-    )
-    protected String id;
-
-    @ApiModelProperty(
-            notes = "Identifier of the consumption.",
-            required = false
-    )
-    protected List<SigfoxApiv2Consumption> consumptions;
-
-
-    // ============================================================
-    // Generated Getters & Setters
-    // ============================================================
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<SigfoxApiv2Consumption> getConsumptions() {
-        return consumptions;
-    }
-
-    public void setConsumptions(List<SigfoxApiv2Consumption> consumptions) {
-        this.consumptions = consumptions;
-    }
 }

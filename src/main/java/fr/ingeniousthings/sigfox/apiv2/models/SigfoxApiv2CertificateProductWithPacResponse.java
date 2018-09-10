@@ -36,18 +36,21 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
 
     @ApiModelProperty(
             notes = "Id of the certificate in hexadecimal form",
+            example = "57309674171c857460043087",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "External Id of the certificate",
+            example = "??",
             required = false
     )
     protected String externalId;
 
     @ApiModelProperty(
             notes = "Name of the certificate",
+            example = "M_0004_AC59_02",
             required = false
     )
     protected String name;
@@ -58,66 +61,77 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
                     "<li>0=ONGOING</li>" +
                     "<li>1=FINALIZED</li>" +
                     "</ul>",
+            example = "1",
             required = false
     )
     protected int status;
 
     @ApiModelProperty(
             notes = "Certificate’s key built from code and index",
+            example = "????",
             required = false
     )
     protected String certificateKey;
 
     @ApiModelProperty(
             notes = "certificateCode",
+            example = "????",
             required = false
     )
     protected int certificateCode;
 
     @ApiModelProperty(
             notes = "Certificate’s index",
+            example = "0",
             required = false
     )
     protected int certificateIndex;
 
     @ApiModelProperty(
             notes = "Id of the manufacturer in hexadecimal form",
+            example = "????",
             required = false
     )
     protected String manufacturerId;
 
     @ApiModelProperty(
             notes = "Name of the manufacturer",
+            example = "????",
             required = false
     )
     protected String manufacturerName;
 
     @ApiModelProperty(
             notes = "Manufacturer’s code",
+            example = "0",
             required = false
     )
     protected int manufacturerCode;
 
     @ApiModelProperty(
             notes = "Version of the certificate",
+            example = "????",
             required = false
     )
     protected String version;
 
     @ApiModelProperty(
             notes = "Date of qualification (in milliseconds since the Unix Epoch)",
+            example = "1536413740000",
             required = false
     )
     protected long qualificationTime;
 
     @ApiModelProperty(
             notes = "Report number",
+            example = "???",
             required = false
     )
     protected String reportNumber;
 
     @ApiModelProperty(
             notes = "Description of the certificate",
+            example = "???",
             required = false
     )
     protected String description;
@@ -128,6 +142,7 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
                     "<li>1=DOWNLINK</li>" +
                     "<li>2=MONARCH</li>" +
                     "</ul>",
+            example = "1,2",
             required = false
     )
     protected int modes[];
@@ -143,6 +158,7 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
                     "<li>5=RC5</li>" +
                     "<li>6=RC6</li>" +
                     "</ul>",
+            example = "1,2,3",
             required = false
     )
     protected int standards[];
@@ -161,6 +177,7 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
                         "<li>5=RC5</li>" +
                         "<li>6=RC6</li>" +
                         "</ul>",
+                example = "0",
                 required = false
         )
         protected int id;
@@ -173,12 +190,14 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
                         "<li>2=2U</li>" +
                         "<li>3=3U</li>" +
                         "</ul>",
+                example = "0",
                 required = false
         )
         protected int uplinkClass;
 
         @ApiModelProperty(
                 notes = "Maximum radiated power EIRP",
+                example = "14.0",
                 required = false
         )
         protected double maxEirp;
@@ -215,18 +234,21 @@ public class SigfoxApiv2CertificateProductWithPacResponse {
 
     @ApiModelProperty(
             notes = "Input sensitivity",
+            example = "140",
             required = false
     )
     protected int inputSensitivity;
 
     @ApiModelProperty(
             notes = "True if the payload will be encrypted",
+            example = "false",
             required = false
     )
     protected boolean encryptionPayload;
 
     @ApiModelProperty(
             notes = "DevKit Flag",
+            example = "true",
             required = false
     )
     protected boolean devKit;

@@ -33,30 +33,35 @@ public class SigfoxApiv2DeviceUpdate {
 
     @ApiModelProperty(
             notes = "The device’s name",
+            example = "Device 1",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The device’s provided latitude",
+            example = "48.8585715",
             required = false
     )
     protected double lat;
 
     @ApiModelProperty(
             notes = "The device’s provided longitude",
+            example = "2.2922923",
             required = false
     )
     protected double lng;
 
     @ApiModelProperty(
             notes = "The product’s certificate name if any",
+            example = "P_0003_71CF_01",
             required = false
     )
     protected String productCertificate;
 
     @ApiModelProperty(
             notes = "If the device is a prototype or not",
+            example = "true",
             required = false
     )
     protected boolean prototype;
@@ -64,6 +69,7 @@ public class SigfoxApiv2DeviceUpdate {
 
     @ApiModelProperty(
             notes = "Allow token renewal ?",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;
@@ -71,6 +77,7 @@ public class SigfoxApiv2DeviceUpdate {
 
     @ApiModelProperty(
             notes = "True if the device is activable and can take a token",
+            example = "false",
             required = false
     )
     protected boolean activable;
