@@ -25,17 +25,46 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "tokenUnsubscribe", description = "???")
-public class SigfoxApiv2TokenUnsubscribe {
+import java.util.List;
+
+@ApiModel(value = "MessageList", description = "Message list response")
+public class SigfoxApiv2MessageListResponse {
+
 
     @ApiModelProperty(
-            notes = "Timestamp of token unsubscription date (in milliseconds since the Unix Epoch)",
-            example = "1487065942000",
+            notes = "List of message",
             required = false
     )
-    protected long unsubscriptionTime;
+    protected List<SigfoxApiv2Message> data;
 
+    @ApiModelProperty(
+            notes = "Next page information",
+            required = false
+    )
+    protected SigfoxApiv2Pagination paging;
+
+
+    // ============================================================
+    // Generated Getters & Setters
+    // ============================================================
+
+
+    public List<SigfoxApiv2Message> getData() {
+        return data;
+    }
+
+    public void setData(List<SigfoxApiv2Message> data) {
+        this.data = data;
+    }
+
+    public SigfoxApiv2Pagination getPaging() {
+        return paging;
+    }
+
+    public void setPaging(SigfoxApiv2Pagination paging) {
+        this.paging = paging;
+    }
 }

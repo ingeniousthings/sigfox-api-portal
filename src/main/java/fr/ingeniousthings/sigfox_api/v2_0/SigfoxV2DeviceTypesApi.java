@@ -1032,280 +1032,58 @@ public class SigfoxV2DeviceTypesApi {
         }
     }
 
-    /**
-     * List custom geoloc configurations
-     *
-     * Get the list of the custom geoloc configurations available for the given group
-     *
-     * Request
-     *
-     * GET https://backend.sigfox.com/api/devicetypes/geolocs-config
-     *
-     * Parameters:
-     *
-     *     groupId: the id of the given group.
-     */
-/*
-    @ApiOperation(
-            value = "List custom geoloc configurations",
-            notes = "Get the list of the custom geoloc configurations available for the given group<br/>"+
-                    "Parameters: <br/>" +
-                    "<ul>" +
-                    " <li>groupId : The id of the given group.</li>" +
-                    "</ul>",
-            //response=String.class,
-            response = SigfoxApiCustomGeolocConfigResponse.class,
-            responseContainer = "List",
-            authorizations = { @Authorization(value="basicAuth")}
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiCustomGeolocConfigResponse.class,responseContainer = "List")
-//            @ApiResponse(code = 200, message= "Success", response = String.class)
-    })
-    @RequestMapping(
-            value ="/geolocs-config",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET
-    )
-    @CrossOrigin
-    public ResponseEntity<?> getCustomGeolocConfigurationList(
-            HttpServletRequest request,
-            @RequestParam("devicetype_id")
-            @ApiParam(required = false, name = "devicetype_id", value = "The id of the device-type")
-                    String devicetype_id
-    ) {
-
-        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
-        try {
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
-        } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        }
-    }
 
 
     /**
-     * Messages sent by the devices of a device type
+     * Unsubscribe a token
      *
-     * Get the messages that were sent by all the devices of a device type, in reverse chronological
-     * order (most recent messages first). All device messages are listed, including those from device
-     * are not associated to this device type anymore.
+     * Disengage sequence number check for the next message of each device of the device type.
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/devicetypes/{devicetype-id}/messages
+     * PUT https://backend.sigfox.com/api/v2/devices/{id}/unsubscribe
      *
-     * Parameters:
+     * Fields:
      *
-     *     devicetype-id the identifier of the device type, as returned by the /api/devicetypes endpoint.
+     * id: The device’s identifier (hexadecimal format) to update
      *
-     * Optionally, the request can also have the following parameter (see next response field below):
-     *
-     *     limit: maximum number of messages to return
-     *     before: return messages sent before this timestamp (in seconds since the Unix Epoch).
-     *     since: return messages sent since this timestamp (in seconds since the Unix Epoch).
-     *     offset: number of messages to skip (between 0 and 5000). Normally you should not have
-     *             to worry about this parameter as the app will set this parameter automatically
-     *             in the response, in the URL of the next page (see field next in response)
-     *     cbStatus: return also callbacks status, default to false.
      */
-/*
-    @ApiOperation(
-            value = "Messages sent by the devices of a device type",
-            notes = "Get the messages that were sent by all the devices of a device type, in reverse chronological " +
-                    "order (most recent messages first). All device messages are listed, including those from device " +
-                    "are not associated to this device type anymore." +
-                    "<br/>"+
-                    "Parameters: <br/>" +
-                    "<ul>" +
-                    " <li>devicetype-id : The identifier of the device type, as returned by the /api/devicetypes endpoint.</li>" +
-                    " <li>limit: maximum number of messages to return</li>" +
-                    " <li>before: return messages sent before this timestamp (in seconds since the Unix Epoch)</li>" +
-                    " <li>since: return messages sent since this timestamp (in seconds since the Unix Epoch).</li>" +
-                    " <li>offset: number of messages to skip (between 0 and 5000). Normally you should not have " +
-                    " to worry about this parameter as the app will set this parameter automatically " +
-                    " in the response, in the URL of the next page (see field next in response)</li>" +
-                    " <li>cbStatus: return also callbacks status, default to false.</li>" +
-                    " " +
-                    "</ul>",
-            response = SigfoxApiMessageInformationList.class,
-            authorizations = { @Authorization(value="basicAuth")}
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiMessageInformationList.class)
-    })
-    @RequestMapping(
-            value ="/{devicetype_id}/messages",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET
-    )
-    @CrossOrigin
-    public ResponseEntity<?> getMessagesByDeviceType(
-            HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @RequestParam("limit")
-            @ApiParam(required = false, name = "limit", value = "Maximum number of status events to return, default 100.")
-                    Optional<Integer> limit,
-            @RequestParam("before")
-            @ApiParam(required = false, name = "before", value = "Return status events sent before this timestamp in milliseconds since Unix Epoch")
-                    Optional<Long> before,
-            @RequestParam("since")
-            @ApiParam(required = false, name = "since", value = "Return status events sent since this timestamp in milliseconds since Unix Epoch.")
-                    Optional<Long> since,
-            @RequestParam("offset")
-            @ApiParam(required = false, name = "offset", value = "Number of messages to skip (between 0 and 5000)")
-                    Optional<Integer> offset,
-            @RequestParam("cbStatus")
-            @ApiParam(required = false, name = "cbStatus", value = "Return also callbacks status, default to false.")
-                    Optional<Boolean> cbStatus
-
-    ) {
-
-        SigfoxApiProxy<SigfoxApiMessageInformationList> proxy = new SigfoxApiProxy<>();
-        try {
-            return new ResponseEntity<SigfoxApiMessageInformationList>(proxy.proxify(request), HttpStatus.OK);
-        } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        }
-    }
-
-    /**
-     * Disengage sequence number
-     *
-     * Disengage sequence number check for next message of each device of the device type.
-     *
-     * Request
-     *
-     * GET https://backend.sigfox.com/api/devicetypes/{devicetype-id}/disengage
-     *
-     * Parameters:
-     *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint.
-     *
-     * Response
-     *
-     * The response has no body. A status code 200 is returned when the disengagment have been done successfully.
-     */
-/*
     @ApiOperation(
             value = "Disengage sequence number",
-            notes = "Disengage sequence number check for next message of each device of the device type." +
-                    "The response has no body. A status code 200 is returned when the disengagment have been done successfully" +
-                    "<br/>"+
-                    "Parameters: <br/>" +
+            notes = "Disengage sequence number check for the next message of each device of the device type. <br/>" +
+                    "Nothing in body<br/>" +
+                    "Parameters the device ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    " <li>devicetype-id : The identifier of the device type, as returned by the /api/devicetypes endpoint.</li>" +
-                    " " +
+                    "<li>id (path-String): The device’s identifier (hexadecimal format) to update</li>" +
                     "</ul>",
             response = String.class,
-            authorizations = { @Authorization(value="basicAuth")}
+            authorizations = {@Authorization(value = "basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = String.class)
+            @ApiResponse(code = 204, message = "No Content - Success", response = String.class)
     })
     @RequestMapping(
-            value ="/{devicetype_id}/disengage",
-            produces = {MediaType.TEXT_HTML_VALUE},
+            value = "/{id}/disengage",
             //produces = {MediaType.APPLICATION_JSON_VALUE},
             //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET
+            method = RequestMethod.PUT
     )
     @CrossOrigin
-    public ResponseEntity<?> disengageDeviceType(
+    public ResponseEntity<?> disengageSeqNum(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id
+            @ApiParam(required = true, name = "id", value = "The device’s identifier")
+            @PathVariable("id") String id
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.OK);
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
+            return new ResponseEntity<String>(e.errorMessage, e.status);
         }
     }
 
-
-
-    /**
-     * Devices for a given device type
-     *
-     * Lists the devices associated to a specific device type.
-     *
-     * Request
-     *
-     * GET https://backend.sigfox.com/api/devicetypes/{devicetype-id}/devices?snr={snr}
-     *
-     * Parameters:
-     *
-     *     devicetype-id: the device type identifier as returned by the /api/devicetypes endpoint
-     *     snr: optional, filter the device list according to the average signal to noise ratio of
-     *     the last 25 received messages. Values can be :
-     *         1, for SNR values from 0 to 10 dB
-     *         2, for SNR values from 10 to 13 dB
-     *         3, for SNR values from 13 to 20 dB
-     *         4, for SNR values above 20 dB
-     *     limit: maximum number of status events to return, default 100.
-     *     offset: number of devices to skip (between 0 and 5000).
-     */
-/*
-    @ApiOperation(
-            value = "Devices for a given device type",
-            notes = "Lists the devices associated to a specific device type." +
-                    "<br/>"+
-                    "Parameters: <br/>" +
-                    "<ul>" +
-                    " <li>devicetype-id : The identifier of the device type, as returned by the /api/devicetypes endpoint.</li>" +
-                    " <li>snr: optional, filter the device list according to the average signal to noise ratio of" +
-                    "the last 25 received messages. Values can be :" +
-                    "<ul>" +
-                    "<li>1, for SNR values from 0 to 10 dB</li>" +
-                    "<li>2, for SNR values from 10 to 13 dB</li>" +
-                    "<li>3, for SNR values from 13 to 20 dB</li>" +
-                    "<li>4, for SNR values above 20 dB</li>" +
-                    "</ul></li>" +
-                    " <li>limit: maximum number of status events to return, default 100.</li>" +
-                    " <li>offset: number of devices to skip (between 0 and 5000).</li>" +
-                    "</ul>",
-            response = SigfoxApiDeviceInformationList.class,
-            authorizations = { @Authorization(value="basicAuth")}
-    )
-    @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiDeviceInformationList.class)
-    })
-    @RequestMapping(
-            value ="/{devicetype_id}/devices",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            //consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET
-    )
-    @CrossOrigin
-    public ResponseEntity<?> getDevicesByDeviceType(
-            HttpServletRequest request,
-            @ApiParam(required = true, name = "devicetype_id", value = "the device type identifier as returned by the /api/devicetypes endpoint.")
-            @PathVariable("devicetype_id") String devicetype_id,
-            @RequestParam("snr")
-            @ApiParam(required = false, name = "snr", value = "Optional, filter the device list according to the average signal to noise ratio of the last 25 received messages.")
-                    Optional<Integer> snr,
-            @RequestParam("limit")
-            @ApiParam(required = false, name = "limit", value = "Maximum number of status events to return, default 100.")
-                    Optional<Integer> limit,
-            @RequestParam("offset")
-            @ApiParam(required = false, name = "offset", value = "Number of messages to skip (between 0 and 5000)")
-                    Optional<Integer> offset
-    ) {
-
-        SigfoxApiProxy<SigfoxApiDeviceInformationList> proxy = new SigfoxApiProxy<>();
-        try {
-            return new ResponseEntity<SigfoxApiDeviceInformationList>(proxy.proxify(request), HttpStatus.OK);
-        } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        }
-    }
-*/
 
 }
 

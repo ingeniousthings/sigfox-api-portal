@@ -40,24 +40,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@Api(value="group", tags="sigfox-v2-group-api")
-@RequestMapping(value = "/api/v2/groups")
+@Api(value="users", tags="sigfox-v2-users-api")
+@RequestMapping(value = "/api/v2/users")
 @CrossOrigin
 @RestController
-public class SigfoxV2GroupApi {
+public class SigfoxV2UsersApi {
 
     /**
-     * Group list
+     * User list
      *
-     * Fetches a list of groups according to some request filter parameters and right visibility
+     * Fetches a list of users according to some request filter parameters and right visibility
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/v2/groups/
-     *
-     * If parentIds is provided, fetches all direct sub-groups under the given parents.
-     * If parentIds is not provided, fetches all direct sub-groups under the API user’s group.
-     * If deep is true, fetches all sub-groups under either given parent groups or the API user group.
+     * GET https://backend.sigfox.com/api/v2/users/
      *
      * Parameters:
      *
@@ -65,55 +61,43 @@ public class SigfoxV2GroupApi {
      *
      * Optionally, the request can also have the following parameter:
      *
-     * parentIds - arrsyString : The parent group’s identifiers from which the children will be fetched
-     * name - String : Searches for groups containing the given text in their name
-     * type - array[int] : see details
-     * deep - boolean : If the group identifier is specified, also includes its subgroups.
-     * sort - String : The field on which the list will be sorted. (field to sort ascending or -field to sort descending).
+     *    text (String) - Searches for users containing the given text in their name or email
+     *    profileId (String) - Searches for users who have the given profile affected
+     *    groupIds (String[]) - Searches for users who are attached to the given groups
+     *    deep (boolean) - Deep search in the sub group hierarchy
+     *    sort - String : The field on which the list will be sorted. (field to sort ascending or -field to sort descending).
      *                      id / -id
      *                      name / -name
-     * fields - String[] - Defines the available device type’s fields to be returned in the response.
+     *                      email / -email
+     *                      default ID
+     *
+     *    fields - String[] - Defines the available users’s fields to be returned in the response.
      *                     fields is a suite of string separated by comma, nested object fields can
      *                     be given with parenthesis recursively:
      *                     example : ?fields=attr1,attr2(attr3,attr4(attr5))
-     * limit - int - Defines the maximum number of device types to return, default is 100
-     * offset - int - Defines the number of device types to skip
-     * pageId -int - Token representing the page to retrieve
+     *    limit - int - Defines the maximum number of device types to return, default is 100
+     *    offset - int - Defines the number of device types to skip
+     *    pageId -int - Token representing the page to retrieve
      */
 
 
     @ApiOperation(
-            value = "Fetches a list of groups.",
-            notes = "Fetches a list of groups according to some request filter parameters and right visibility. <br/>" +
-                    "If parentIds is provided, fetches all direct sub-groups under the given parents.<br/>" +
-                    "If parentIds is not provided, fetches all direct sub-groups under the API user’s group.<br/>" +
-                    "If deep is true, fetches all sub-groups under either given parent groups or the API user group.<br/>"+
+            value = "Fetches a list of users.",
+            notes = "Fetches a list of users according to some request filter parameters and right visibility. <br/>" +
                     "Parameters: Optionally, the request can also have the following parameters (see next response field below):<br/>" +
                     "<ul>" +
-                    " <li>name (String): Searches for groups containing the given text in their name.</li>" +
-                    " <li>parentIds (String[]): The parent group’s identifiers from which the children will be fetched. example :" +
-                    "?parentIds=134523254,526527A45</li>" +
-                    " <li>types (int[]): Group’s type : " +
-                    "<ul>" +
-                    "<li>0 -> SO</li>" +
-                    "<li>2 -> Other</li>" +
-                    "<li>5 -> SVNO</li>" +
-                    "<li>6 -> Partner</li>" +
-                    "<li>7 -> NIP</li>" +
-                    "<li>8 -> DIST</li>" +
-                    "<li>9 -> Channel</li>" +
-                    "<li>10 -> Starter</li>" +
-                    "<li>11 -> Partner</li>" +
-                    "</ul>" +
-                    "Example : ?types=0,2,5</li>" +
-                    " <li>deep (boolean): If the group identifier is specified, also includes its subgroups.</li>" +
+                    " <li>text (String): Searches for users containing the given text in their name or email.</li>" +
+                    " <li>profileId (String) - Searches for users who have the given profile affected.</li>" +
+                    " <li>groupIds (String[]) - Searches for users who are attached to the given groups</li>" +
+                    " <li>deep (boolean): Deep search in the sub group hierarchy.</li>" +
                     " <li>sort (String): The field on which the list will be sorted. (field to sort ascending or -field to sort descending)." +
                     "<ul>" +
-                    "<li>id / -id</li>" +
+                    "<li>id (default) / -id</li>" +
                     "<li>name / -name</li>" +
+                    "<li>email / -email</li>" +
                     "</ul>" +
                     "</li>" +
-                    "<li>fields (String[]): Fetches all sub-groups (default false)." +
+                    "<li>fields (String[]): Fetches users's " +
                     "fields is a suite of string separated by comma, nested object fields can " +
                     "be given with parenthesis recursively: " +
                     "example : ?fields=attr1,attr2(attr3,attr4(attr5))</li>" +
@@ -121,11 +105,11 @@ public class SigfoxV2GroupApi {
                     "<li>offset (int): Defines the number of device types to skip.</li>" +
                     "<li>pageId (int): Token representing the page to retrieve.</li>" +
                     "</ul>",
-            response = SigfoxApiv2GroupListResponse.class,
+            response = SigfoxApiv2UserListResponse.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2GroupListResponse.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2UserListResponse.class)
     })
     @RequestMapping(
             value ="/",
@@ -134,53 +118,54 @@ public class SigfoxV2GroupApi {
             method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> getGroupList(
+    public ResponseEntity<?> getUsersList(
             HttpServletRequest request,
-            @RequestParam("parentIds")
+            @RequestParam("text")
             @ApiParam(
                     required = false,
-                    name = "parentIds",
-                    value = "The parent group’s identifiers from which the children will be fetched."
-            ) Optional<String> parentIds,
+                    name = "text",
+                    value = "Searches for users containing the given text in their name or email."
+            ) Optional<String> text,
+
+            @RequestParam("profileId")
+            @ApiParam(
+                    required = false,
+                    name = "profileId",
+                    value = "Searches for users who have the given profile affected."
+            ) Optional<String> profileId,
+
+            @RequestParam("groupIds")
+            @ApiParam(
+                    required = false,
+                    name = "groupIds",
+                    value = "Searches for users who are attached to the given groups (group list)"
+            ) Optional<String> groupIds,
 
             @RequestParam("deep")
             @ApiParam(
                     required = false,
                     name = "deep",
-                    value = "If the group identifier is specified, also includes its subgroups."
+                    value = "Deep search in the sub group hierarchy."
             ) Optional<Boolean> deep,
 
-            @RequestParam("name")
+            @RequestParam("sort")
             @ApiParam(
                     required = false,
-                    name = "name",
-                    value = "Searches for groups containing the given text in their name."
-            ) Optional<String> name,
-
-            @RequestParam("types")
-            @ApiParam(
-                    required = false,
-                    name = "types",
-                    value = "Group’s type list String as a array of int"
-            ) Optional<String> types,
+                    name = "sort",
+                    allowableValues = "id,-id,name,-name,email,-email",
+                    value = "The field on which the list will be sorted. (field to sort ascending or -field to sort descending)."
+            ) Optional<String> sort,
 
             @RequestParam("fields")
             @ApiParam(
                     required = false,
                     name = "fields",
                     example = "attr1,attr2(attr3,attr4(attr5))",
-                    value = "Defines the available device type’s fields to be returned in the response. " +
+                    value = "Defines the available users’s fields to be returned in the response. " +
                             "fields is a suite of string separated by comma, nested object fields can " +
                             "be given with parenthesis recursively"
             ) Optional<String> fields,
 
-            @RequestParam("sort")
-            @ApiParam(
-                    required = false,
-                    name = "sort",
-                    allowableValues = "id,-id,name,-name",
-                    value = "The field on which the list will be sorted. (field to sort ascending or -field to sort descending)."
-            ) Optional<String> sort,
 
             @RequestParam("limit")
             @ApiParam(
@@ -206,10 +191,9 @@ public class SigfoxV2GroupApi {
 
 
     ) {
-
-        SigfoxApiProxy<SigfoxApiv2GroupListResponse> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2UserListResponse> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiv2GroupListResponse>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2UserListResponse>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
@@ -217,33 +201,39 @@ public class SigfoxV2GroupApi {
 
 
     /**
-     * Group information
+     * Fetches the user's information
      *
-     * Get the description of a particular group
      *
      * Request
      *
-     * GET https://backend.sigfox.com/api/v2/groups/{id}
+     * GET https://backend.sigfox.com/api/v2/users/{id}
      *
-     * id: the group identifier as returned by the /api/v2/groups endpoint.
+     *    id: The user’s identifier or e-mail
+     *    fields - String[] - Defines the available user's fields to be returned in the response.
+     *                     fields is a suite of string separated by comma, nested object fields can
+     *                     be given with parenthesis recursively:
+     *                     example : ?fields=attr1,attr2(attr3,attr4(attr5))
      *
+     *                     available : userRoles(group(name,type,level,bssId),profile(name,roles(name,perms(name))))
      */
     @ApiOperation(
-            value = "Fetches the group's information",
-            notes = "Get the description of a particular group. <br/>"+
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Fetches the user's information",
+            notes = "Fetches the user's information. <br/>"+
+                    "Parameters the user's ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): The user’s identifier or e-mail</li>" +
                     "<li>fields (query-String[]): Fetches all sub-groups (default false)." +
                     "fields is a suite of string separated by comma, nested object fields can " +
                     "be given with parenthesis recursively: " +
-                    "example : ?fields=attr1,attr2(attr3,attr4(attr5))</li>" +
+                    "example : ?fields=attr1,attr2(attr3,attr4(attr5)) " +
+                    "available : userRoles(group(name,type,level,bssId),profile(name,roles(name,perms(name))))" +
+                    "</li>" +
                     "</ul>",
-            response = SigfoxApiv2Group.class,
+            response = SigfoxApiv2UserRead.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2Group.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2UserRead.class)
     })
     @RequestMapping(
             value ="/{id}",
@@ -252,9 +242,9 @@ public class SigfoxV2GroupApi {
             method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> getGroupInfo(
+    public ResponseEntity<?> getUserInfo(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The user’s identifier")
             @PathVariable("id") String id,
 
             @RequestParam("fields")
@@ -262,43 +252,42 @@ public class SigfoxV2GroupApi {
                     required = false,
                     name = "fields",
                     example = "attr1,attr2(attr3,attr4(attr5))",
-                    value = "Defines the available device type’s fields to be returned in the response. " +
+                    value = "Defines the available device user’s fields to be returned in the response. " +
                             "fields is a suite of string separated by comma, nested object fields can " +
                             "be given with parenthesis recursively"
             ) Optional<String> fields
 
             ) {
 
-        SigfoxApiProxy<SigfoxApiv2Group> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2UserRead> proxy = new SigfoxApiProxy<>();
         try {
-            return new ResponseEntity<SigfoxApiv2Group>(proxy.proxify(request), HttpStatus.OK);
+            return new ResponseEntity<SigfoxApiv2UserRead>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
 
     /**
-     * Group creation
+     * Create a new user
      *
-     * Create a new Group
      *
      * Request
      *
-     * POST https://backend.sigfox.com/api/v2/groups/
+     * POST https://backend.sigfox.com/api/v2/users/
      *
      * Parameter :
-     *    In the body a struture SigfoxApiV2GroupBase
+     *    In the body a struture SigfoxApiv2User2
      */
 
     @ApiOperation(
-            value = "Create a new group",
-            notes = "Create a new Group. <br/>"+
-                    "In the Body are provided the information related to the group to create<br/>",
-            response = SigfoxApiv2GroupId.class,
+            value = "Create a new user",
+            notes = "Create a new user. <br/>"+
+                    "In the Body are provided the information related to the user to create<br/>",
+            response = SigfoxApiv2UserId.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2GroupId.class)
+            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2UserId.class)
     })
     @RequestMapping(
             value ="/",
@@ -307,16 +296,16 @@ public class SigfoxV2GroupApi {
             method = RequestMethod.POST
     )
     @CrossOrigin
-    public ResponseEntity<?> createGroup(
+    public ResponseEntity<?> createUser(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
+            @ApiParam(required = true, name = "user", value = "User description")
+            @Valid @RequestBody SigfoxApiv2User2 user
     ) {
 
-        SigfoxApiProxy<SigfoxApiv2GroupId> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2UserId> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiv2GroupId>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.CREATED);
+            return new ResponseEntity<SigfoxApiv2UserId>(proxy.proxify(request, mapper.writeValueAsString(user)), HttpStatus.CREATED);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -326,26 +315,25 @@ public class SigfoxV2GroupApi {
 
 
     /**
-     * Group edition
-     *
-     * Update the group
+     * Update the user
      *
      * Request
      *
-     * PUT https://backend.sigfox.com/api/v2/groups/{id}
+     * PUT https://backend.sigfox.com/api/v2/users/{id}
      *
      * Fields:
      *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *     id: the id of the user to update. This id must correspond to an existing user
      *
+     * In the body a struture SigfoxApiv2User2
      */
     @ApiOperation(
-            value = "Update the group",
-            notes = "Update the group. <br/>"+
-                    "In the Body are provided the information related to the group to edit<br/>" +
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Update the user",
+            notes = "Update the given user. <br/>"+
+                    "In the Body are provided the information related to the user to edit<br/>" +
+                    "Parameters the user ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): the user identifier </li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
@@ -360,19 +348,19 @@ public class SigfoxV2GroupApi {
             method = RequestMethod.PUT
     )
     @CrossOrigin
-    public ResponseEntity<?> editGroup(
+    public ResponseEntity<?> editUser(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The user’s identifier")
             @PathVariable("id") String id,
 
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
+            @ApiParam(required = true, name = "user", value = "User description")
+            @Valid @RequestBody SigfoxApiv2UserRoleEdit user
     ) {
 
         SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(user)), HttpStatus.NO_CONTENT);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         } catch (JsonProcessingException e) {
@@ -382,17 +370,15 @@ public class SigfoxV2GroupApi {
 
 
     /**
-     * Group deletion
-     *
-     * Group deletion
+     * User deletion
      *
      * Request
      *
-     * DELETE https://backend.sigfox.com/api/v2/groups/{id}
+     * DELETE https://backend.sigfox.com/api/v2/user/{id}
      *
      * Fields:
      *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *     id: the id of the user to delete. This id must correspond to an existing user
      *
      * Response
      *
@@ -400,11 +386,11 @@ public class SigfoxV2GroupApi {
      *
      */
     @ApiOperation(
-            value = "Delete the given group",
-            notes = "Group deletion <br/>"+
-                    "Parameters : the group ID is provided in the URL.<br/>" +
+            value = "Delete the given user",
+            notes = "User deletion <br/>"+
+                    "Parameters : the user ID is provided in the URL.<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): the user identifier</li>" +
                     "</ul>",
             response = String.class,
             authorizations = { @Authorization(value="basicAuth")}
@@ -420,9 +406,9 @@ public class SigfoxV2GroupApi {
             method = RequestMethod.DELETE
     )
     @CrossOrigin
-    public ResponseEntity<?> deleteGroup(
+    public ResponseEntity<?> deleteUser(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The user’s identifier")
             @PathVariable("id") String id
     ) {
 
@@ -434,7 +420,6 @@ public class SigfoxV2GroupApi {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
-
 
 
 

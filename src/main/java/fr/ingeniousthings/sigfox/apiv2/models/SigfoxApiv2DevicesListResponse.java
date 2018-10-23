@@ -35,7 +35,7 @@ public class SigfoxApiv2DevicesListResponse {
 
 
     @ApiModelProperty(
-            notes = "List of the callback error",
+            notes = "List of the devices",
             required = false
     )
     protected List<SigfoxApiv2Device> data;

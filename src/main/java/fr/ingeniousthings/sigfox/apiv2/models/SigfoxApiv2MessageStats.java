@@ -23,8 +23,6 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
-
-
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
@@ -32,85 +30,57 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "rInfo", description = "Data Message Reception information")
-public class SigfoxApiv2MessageRInfo {
+@Api(tags = "MessageStat", description = "Message sent statistics")
+public class SigfoxApiv2MessageStats {
 
     @ApiModelProperty(
-            notes = "Base station to send downlink message",
+            notes = "Number of device messages for the last day",
+            example = "10",
             required = false
     )
-    protected SigfoxApiv2BaseStationMinimal baseStation;
+    protected int lastDay;
 
     @ApiModelProperty(
-            notes = "The device’s estimated latitude",
-            example = "45.32",
+            notes = "Number of device messages for the last week",
+            example = "10",
             required = false
     )
-    protected double lat;
+    protected int lastWeek;
 
     @ApiModelProperty(
-            notes = "The device’s estimated longitude",
-            example = "102.3",
+            notes = "Number of device messages for the last month",
+            example = "10",
             required = false
     )
-    protected double lng;
+    protected int lastMonth;
 
-    @ApiModelProperty(
-            notes = "Number of repetitions sent by the base station",
-            example = "2",
-            required = false
-    )
-    protected int rep;
-
-
-    @ApiModelProperty(
-            notes = "List of callback status for this reception",
-            required = false
-    )
-    protected List<SigfoxApiv2CallbackExecutionStatus> cbStatus;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public SigfoxApiv2BaseStationMinimal getBaseStation() {
-        return baseStation;
+    public int getLastDay() {
+        return lastDay;
     }
 
-    public void setBaseStation(SigfoxApiv2BaseStationMinimal baseStation) {
-        this.baseStation = baseStation;
+    public void setLastDay(int lastDay) {
+        this.lastDay = lastDay;
     }
 
-    public double getLat() {
-        return lat;
+    public int getLastWeek() {
+        return lastWeek;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setLastWeek(int lastWeek) {
+        this.lastWeek = lastWeek;
     }
 
-    public double getLng() {
-        return lng;
+    public int getLastMonth() {
+        return lastMonth;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
-
-    public int getRep() {
-        return rep;
-    }
-
-    public void setRep(int rep) {
-        this.rep = rep;
-    }
-
-    public List<SigfoxApiv2CallbackExecutionStatus> getCbStatus() {
-        return cbStatus;
-    }
-
-    public void setCbStatus(List<SigfoxApiv2CallbackExecutionStatus> cbStatus) {
-        this.cbStatus = cbStatus;
+    public void setLastMonth(int lastMonth) {
+        this.lastMonth = lastMonth;
     }
 }

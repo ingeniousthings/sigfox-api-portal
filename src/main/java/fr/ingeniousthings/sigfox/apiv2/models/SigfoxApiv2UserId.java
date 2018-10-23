@@ -26,16 +26,8 @@
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "tokenUnsubscribe", description = "???")
-public class SigfoxApiv2TokenUnsubscribe {
-
-    @ApiModelProperty(
-            notes = "Timestamp of token unsubscription date (in milliseconds since the Unix Epoch)",
-            example = "1487065942000",
-            required = false
-    )
-    protected long unsubscriptionTime;
+@Api(tags = "uerTypeId", description = "Id of a user returned after creation")
+public class SigfoxApiv2UserId extends SigfoxApiv2GenericId {
 
 }

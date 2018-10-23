@@ -46,6 +46,7 @@ public class SigfoxApiv2CallbackHttpDef {
 
     @ApiModelProperty(
             notes = "The body of the request, if any. It is only present if the request method is POST.",
+            example = "Body content",
             required = false
     )
     protected String body;
@@ -66,6 +67,7 @@ public class SigfoxApiv2CallbackHttpDef {
 
     @ApiModelProperty(
             notes = "If there was an error, for instance if the body is JSON and could not be evaluated.",
+            example = "Error string",
             required = false
     )
     protected String error;

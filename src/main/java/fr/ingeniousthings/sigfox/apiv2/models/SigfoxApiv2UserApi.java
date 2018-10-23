@@ -33,12 +33,14 @@ public class SigfoxApiv2UserApi {
 
     @ApiModelProperty(
             notes = "The API user’s name",
+            example = "Device messages only (Interactive Voice Responder)",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The API user’s timezone",
+            example = "Europe/Paris",
             required = false
     )
     protected String timezone;
@@ -51,18 +53,21 @@ public class SigfoxApiv2UserApi {
 
     @ApiModelProperty(
             notes = "The API user’s creation time since epoch",
+            example = "1435579813762",
             required = false
     )
     protected long creationTime;
 
     @ApiModelProperty(
             notes = "The API user’s identifier",
+            example = "5138e7dfa2f1fffaf25fd409",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The API user’s acces token(password)",
+            example = "b00c92a71b3b8dfa1fcv36d90b50aeb3",
             required = false
     )
     protected String accessToken;

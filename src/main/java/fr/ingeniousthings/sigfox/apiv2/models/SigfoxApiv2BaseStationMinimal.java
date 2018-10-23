@@ -32,12 +32,14 @@ import io.swagger.annotations.ApiModelProperty;
 public class SigfoxApiv2BaseStationMinimal {
     @ApiModelProperty(
             notes = "The base station’s identifier (hexadecimal format)",
+            example = "1E6AB",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The base station’s name",
+            example = "BaseStation#1",
             required = false
     )
     protected String name;

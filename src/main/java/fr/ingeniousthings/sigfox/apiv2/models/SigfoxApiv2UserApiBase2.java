@@ -31,34 +31,12 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 @Api(tags = "baseApiUser", description = "Defines the base API user’s properties")
-public class SigfoxApiv2UserApiBase2 {
+public class SigfoxApiv2UserApiBase2 extends SigfoxApiv2UserApiEdit {
 
-    @ApiModelProperty(
-            notes = "The API user’s name",
-            required = false
-    )
-    protected String name;
-
-    @ApiModelProperty(
-            notes = "The API user’s timezone",
-            required = false
-    )
-    protected String timezone;
-
-    @ApiModelProperty(
-            notes = "The API user’s custom roles",
-            required = false
-    )
-    protected List<String> customRoleIds;
-
-    @ApiModelProperty(
-            notes = "The API user’s profiles",
-            required = false
-    )
-    protected List<String> profileIds;
 
     @ApiModelProperty(
             notes = "The group’s identifer",
+            example = "babecafebabecafebabedcef",
             required = false
     )
     protected String groupId;
@@ -68,38 +46,6 @@ public class SigfoxApiv2UserApiBase2 {
     // Generated Getters & Setters
     // ============================================================
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
-    public List<String> getCustomRoleIds() {
-        return customRoleIds;
-    }
-
-    public void setCustomRoleIds(List<String> customRoleIds) {
-        this.customRoleIds = customRoleIds;
-    }
-
-    public List<String> getProfileIds() {
-        return profileIds;
-    }
-
-    public void setProfileIds(List<String> profileIds) {
-        this.profileIds = profileIds;
-    }
 
     public String getGroupId() {
         return groupId;

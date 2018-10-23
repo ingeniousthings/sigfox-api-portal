@@ -97,168 +97,192 @@ public class SigfoxV2MiscApi {
     }
 
 
-
     /**
-     * Group creation
+     * Fetches a list of geolocation payload according to some request filter parameters and right visibility.
      *
-     * Create a new Group
      *
      * Request
      *
-     * POST https://backend.sigfox.com/api/v2/groups/
+     * GET https://backend.sigfox.com/api/v2/groups/{id}/geoloc-payloads
      *
-     * Parameter :
-     *    In the body a struture SigfoxApiV2GroupBase
+     *    id: The group’s identifier
+     *
+     *    fields - String[] - Defines the available user's fields to be returned in the response.
+     *                     fields is a suite of string separated by comma, nested object fields can
+     *                     be given with parenthesis recursively:
+     *                     example : ?fields=attr1,attr2(attr3,attr4(attr5))
+     *
+     *  limit (int) - Defines the maximum number of devices to return, default is 100
+     *               Default value : 100
+     *  offset (int) - Defines the number of devices to skip
+     *  pageId (int) - Token representing the page to retrieve
      */
-/*
     @ApiOperation(
-            value = "Create a new group",
-            notes = "Create a new Group. <br/>"+
-                    "In the Body are provided the information related to the group to create<br/>",
-            response = SigfoxApiv2GroupId.class,
-            authorizations = { @Authorization(value="basicAuth")}
-    )
-    @ApiResponses({
-            @ApiResponse(code = 201, message= "Success", response = SigfoxApiv2GroupId.class)
-    })
-    @RequestMapping(
-            value ="/",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.POST
-    )
-    @CrossOrigin
-    public ResponseEntity<?> createGroup(
-            HttpServletRequest request,
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
-    ) {
-
-        SigfoxApiProxy<SigfoxApiv2GroupId> proxy = new SigfoxApiProxy<>();
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<SigfoxApiv2GroupId>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.CREATED);
-        } catch (SigfoxApiProxyException e) {
-            return new ResponseEntity<String>(e.errorMessage,e.status);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
-    /**
-     * Group edition
-     *
-     * Update the group
-     *
-     * Request
-     *
-     * PUT https://backend.sigfox.com/api/v2/groups/{id}
-     *
-     * Fields:
-     *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
-     *
-     */
-/*
-    @ApiOperation(
-            value = "Update the group",
-            notes = "Update the group. <br/>"+
-                    "In the Body are provided the information related to the group to edit<br/>" +
-                    "Parameters the group ID is provide in the URL:<br/>" +
+            value = "Fetches list of geolocation payload",
+            notes = "Fetches a list of geolocation payload according to some request filter parameters and right visibility. <br/>"+
+                    "Parameters the user's ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (path-String): The group’s identifier</li>" +
+                    "<li>fields (query-String[]): Fetches all sub-groups (default false)." +
+                    "fields is a suite of string separated by comma, nested object fields can " +
+                    "be given with parenthesis recursively: " +
+                    "example : ?fields=attr1,attr2(attr3,attr4(attr5)) " +
+                    "</li>" +
+                    "<li>limit (int): Defines the maximum number of elements to return, default is 100.</li>" +
+                    "<li>offset (int): Defines the number of elements to skip.</li>" +
+                    "<li>pageId (int): Token representing the page to retrieve.</li>" +
                     "</ul>",
-            response = String.class,
+            response = SigfoxApiv2GeolocPayloadResponseList.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 204, message= "No Content - Success", response = String.class)
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2GeolocPayloadResponseList.class)
     })
     @RequestMapping(
-            value ="/{id}",
-            //produces = {MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.PUT
+            value ="/groups/{id}/geoloc-payloads",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> editGroup(
+    public ResponseEntity<?> getGeolocPayloadByGroup(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
+            @ApiParam(required = true, name = "id", value = "The user’s identifier")
             @PathVariable("id") String id,
 
-            @ApiParam(required = true, name = "group", value = "Group description")
-            @Valid @RequestBody SigfoxApiv2GroupBase group
+            @RequestParam("fields")
+            @ApiParam(
+                    required = false,
+                    name = "fields",
+                    example = "attr1,attr2(attr3,attr4(attr5))",
+                    value = "Defines the available device user’s fields to be returned in the response. " +
+                            "fields is a suite of string separated by comma, nested object fields can " +
+                            "be given with parenthesis recursively"
+            ) Optional<String> fields,
+
+            @RequestParam("limit")
+            @ApiParam(
+                    required = false,
+                    name = "limit",
+                    value = "Defines the maximum number of groups to return, default is 100.",
+                    defaultValue = "100"
+            ) Optional<Integer> limit,
+
+            @RequestParam("offset")
+            @ApiParam(
+                    required = false,
+                    name = "offset",
+                    value = "Defines the number of groups to skip."
+            ) Optional<Integer> offset,
+
+            @RequestParam("pageId")
+            @ApiParam(
+                    required = false,
+                    name = "pageId",
+                    value = "Token representing the page to retrieve."
+            ) Optional<Integer> pageId
+
     ) {
 
-        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2GeolocPayloadResponseList> proxy = new SigfoxApiProxy<>();
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<String>(proxy.proxify(request, mapper.writeValueAsString(group)), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<SigfoxApiv2GeolocPayloadResponseList>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
-        } catch (JsonProcessingException e) {
-            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
         }
     }
 
 
     /**
-     * Group deletion
+     * Fetches profiles according to the API user right visibility
      *
-     * Group deletion
      *
      * Request
      *
-     * DELETE https://backend.sigfox.com/api/v2/groups/{id}
+     * GET https://backend.sigfox.com/api/v2/profiles/
      *
-     * Fields:
+     *  id - Root, SNO, NIP or DIST group’s identifier
+     *  inherit - also returns profiles inherited from parent’s group
      *
-     *     id: the id of the group to delete. This id must correspond to an existing group which is not an operator, has none device type, none BSS order,none child group, and none user.
+     *  fields - String[] - Defines the available user's fields to be returned in the response.
+     *                     fields is a suite of string separated by comma, nested object fields can
+     *                     be given with parenthesis recursively:
+     *                     example : ?fields=attr1,attr2(attr3,attr4(attr5))
      *
-     * Response
-     *
-     *     204 if it was OK
-     *
+     *  limit (int) - Defines the maximum number of devices to return, default is 100
+     *               Default value : 100
+     *  offset (int) - Defines the number of devices to skip
      */
-/*
     @ApiOperation(
-            value = "Delete the given group",
-            notes = "Group deletion <br/>"+
-                    "Parameters : the group ID is provided in the URL.<br/>" +
+            value = "Fetches profiles according to the API user right visibility",
+            notes = "Fetches profiles according to the API user right visibility. <br/>"+
+                    "Parameters the group's ID is provide in the URL:<br/>" +
                     "<ul>" +
-                    "<li>id (path-String): the group identifier as returned by the /api/v2/groups endpoint</li>" +
+                    "<li>id (query-String): The group’s identifier</li>" +
+                    "<li>inherit (string/boolean): also returns profiles inherited from parent’s group.</li>" +
+                    "<li>fields (query-String[]): Fetches all sub-groups (default false)." +
+                    "fields is a suite of string separated by comma, nested object fields can " +
+                    "be given with parenthesis recursively: " +
+                    "example : ?fields=attr1,attr2(attr3,attr4(attr5)) " +
+                    "</li>" +
+                    "<li>limit (int): Defines the maximum number of elements to return, default is 100.</li>" +
+                    "<li>offset (int): Defines the number of elements to skip.</li>" +
                     "</ul>",
-            response = String.class,
+            response = SigfoxApiv2ProfileListResponse.class,
             authorizations = { @Authorization(value="basicAuth")}
     )
     @ApiResponses({
-            @ApiResponse(code = 204, message= "No-Content, Success", response = String.class),
-
+            @ApiResponse(code = 200, message= "Success", response = SigfoxApiv2ProfileListResponse.class)
     })
     @RequestMapping(
-            value ="/{id}",
-            produces = {MediaType.TEXT_HTML_VALUE},
-            //consumes = {MediaType.TEXT_HTML_VALUE},
-            method = RequestMethod.DELETE
+            value ="/profiles/",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
     )
     @CrossOrigin
-    public ResponseEntity<?> deleteGroup(
+    public ResponseEntity<?> getProfile(
             HttpServletRequest request,
-            @ApiParam(required = true, name = "id", value = "The group’s identifier")
-            @PathVariable("id") String id
+            @ApiParam(required = true, name = "id", value = "Root, SNO, NIP or DIST group’s identifier")
+            @RequestParam("id") String id,
+
+            @RequestParam("fields")
+            @ApiParam(
+                    required = false,
+                    name = "fields",
+                    example = "attr1,attr2(attr3,attr4(attr5))",
+                    value = "Defines the available device user’s fields to be returned in the response. " +
+                            "fields is a suite of string separated by comma, nested object fields can " +
+                            "be given with parenthesis recursively"
+            ) Optional<String> fields,
+
+            @RequestParam("limit")
+            @ApiParam(
+                    required = false,
+                    name = "limit",
+                    value = "Defines the maximum number of groups to return, default is 100.",
+                    defaultValue = "100"
+            ) Optional<Integer> limit,
+
+            @RequestParam("offset")
+            @ApiParam(
+                    required = false,
+                    name = "offset",
+                    value = "Defines the number of groups to skip."
+            ) Optional<Integer> offset
+
     ) {
 
-        SigfoxApiProxy<String> proxy = new SigfoxApiProxy<>();
+        SigfoxApiProxy<SigfoxApiv2ProfileListResponse> proxy = new SigfoxApiProxy<>();
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            return new ResponseEntity<String>(proxy.proxify(request), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<SigfoxApiv2ProfileListResponse>(proxy.proxify(request), HttpStatus.OK);
         } catch (SigfoxApiProxyException e) {
             return new ResponseEntity<String>(e.errorMessage,e.status);
         }
     }
 
-*/
+
+
 }
 
 

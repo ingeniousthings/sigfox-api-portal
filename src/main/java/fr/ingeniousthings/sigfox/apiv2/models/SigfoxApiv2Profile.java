@@ -36,12 +36,14 @@ public class SigfoxApiv2Profile {
 
     @ApiModelProperty(
             notes = "The profile’s identifier",
+            example = "572f196fe0b90abc0b5104ab",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The profile’s name",
+            example = "CUSTOMER [W]",
             required = false
     )
     protected String name;

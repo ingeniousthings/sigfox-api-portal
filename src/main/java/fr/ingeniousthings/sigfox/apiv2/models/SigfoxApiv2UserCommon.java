@@ -35,18 +35,21 @@ public class SigfoxApiv2UserCommon {
 
     @ApiModelProperty(
             notes = "The user’s first name",
+            example = "Peter",
             required = false
     )
     protected String firstName;
 
     @ApiModelProperty(
             notes = "The user’s last name",
+            example = "Jersy",
             required = false
     )
     protected String lastName;
 
     @ApiModelProperty(
             notes = "The user’s timezone",
+            example = "UTC",
             required = false
     )
     protected String timezone;

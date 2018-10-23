@@ -33,24 +33,28 @@ import io.swagger.annotations.ApiModelProperty;
 public class SigfoxApiv2CallbackExecutionStatus {
     @ApiModelProperty(
             notes = "Http response status",
+            example = "200",
             required = false
     )
     protected int status;
 
     @ApiModelProperty(
             notes = "Http response message",
+            example = "success",
             required = false
     )
     protected String info;
 
     @ApiModelProperty(
             notes = "Callback definition triggered",
+            example = "var=2DC7C1%3B1500452712%3Bdeadbeaf%3B",
             required = false
     )
     protected String cbDef;
 
     @ApiModelProperty(
             notes = "Time the callback was called (in milliseconds since the Unix Epoch)",
+            example = "1487065942000",
             required = false
     )
     protected long time;

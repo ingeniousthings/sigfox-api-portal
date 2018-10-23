@@ -33,12 +33,14 @@ public class SigfoxApiv2DeviceLocation extends SigfoxApiv2ComputedLocation {
 
     @ApiModelProperty(
             notes = "Timestamp of the message (in milliseconds since the Unix Epoch)",
+            example = "1487065492000",
             required = false
     )
     protected long time;
 
     @ApiModelProperty(
             notes = "true, if a valid estimation for this message is available (GPS or RSSI)",
+            example = "true",
             required = true
     )
     protected boolean valid;

@@ -35,36 +35,42 @@ public class SigfoxApiv2UserRead extends SigfoxApiv2UserCommon {
 
     @ApiModelProperty(
             notes = "The user’s identifier.",
+            example = "5730510c7f071f9afd2bb2b7",
             required = false
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The user’s email.",
+            example = "peter.jersy@example.com",
             required = false
     )
     protected String email;
 
     @ApiModelProperty(
             notes = "The encoded user’s password (only available with a specific right).",
+            example = "Afddjslk0465sdfssqdf",
             required = false
     )
     protected String password;
 
     @ApiModelProperty(
             notes = "If the user account is locked or not.",
+            example = "false",
             required = false
     )
     protected boolean locked;
 
     @ApiModelProperty(
             notes = "The user’s creation time since epoch.",
+            example = "1370437718308",
             required = false
     )
     protected long creationTime;
 
     @ApiModelProperty(
             notes = "The user’s last login time.",
+            example = "1461764132948",
             required = false
     )
     protected long lastLoginTime;

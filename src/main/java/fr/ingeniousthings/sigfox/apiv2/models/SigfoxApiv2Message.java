@@ -32,25 +32,28 @@ import io.swagger.annotations.ApiModelProperty;
 public class SigfoxApiv2Message {
 
     @ApiModelProperty(
-            notes = "The recipient of the email.",
+            notes = "The device informations.",
             required = false
     )
     protected SigfoxApiv2DeviceMinimal device;
 
     @ApiModelProperty(
             notes = "Timestamp of the message (in milliseconds since the Unix Epoch).",
+            example = "1487065942000",
             required = false
     )
     protected long time;
 
     @ApiModelProperty(
             notes = "Message content, hex encoded.",
+            example = "DEADBEEF",
             required = false
     )
     protected String data;
 
     @ApiModelProperty(
             notes = "True if an acknowledge is required.",
+            example = "false",
             required = false
     )
     protected boolean ackRequired;
@@ -64,6 +67,7 @@ public class SigfoxApiv2Message {
                     "<li>3 -> EXCELLENT</li>" +
                     "<li>4 -> NA</li>" +
                     "</ul>",
+            example = "2",
             required = false
     )
     protected int linkQuality;
@@ -77,6 +81,7 @@ public class SigfoxApiv2Message {
             "<li>3 -> EXCELLENT</li>" +
             "<li>4 -> NA</li>" +
             "</ul>",
+            example = "2",
             required = false
     )
     protected int linkQualityRepeaters;
@@ -84,6 +89,7 @@ public class SigfoxApiv2Message {
     @ApiModelProperty(
             notes = "The sequence number for this message, may not be " +
                     "present when device uses VO protocol.",
+            example = "1234",
             required = false
     )
     protected int seqNumber;
@@ -91,6 +97,7 @@ public class SigfoxApiv2Message {
     @ApiModelProperty(
             notes = "NbFrames can be 1 or 3. This value represents an expected " +
                     "number of frames sent by the device.",
+            example = "3",
             required = false
     )
     protected int nbFrames;

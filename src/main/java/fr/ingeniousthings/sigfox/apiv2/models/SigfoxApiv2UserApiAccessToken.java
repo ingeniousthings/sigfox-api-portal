@@ -28,14 +28,27 @@ package fr.ingeniousthings.sigfox.apiv2.models;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-@Api(tags = "tokenUnsubscribe", description = "???")
-public class SigfoxApiv2TokenUnsubscribe {
+@Api(tags = "apiUserAccessToken", description = "Renewed access token")
+public class SigfoxApiv2UserApiAccessToken {
 
     @ApiModelProperty(
-            notes = "Timestamp of token unsubscription date (in milliseconds since the Unix Epoch)",
-            example = "1487065942000",
-            required = false
+            notes = "The new API user’s acces token(password)",
+            example = "b00c92a71b3b8dfa1fcv36d90b50aeb3",
+            required = true
     )
-    protected long unsubscriptionTime;
+    protected String accessToken;
 
+
+    // ============================================================
+    // Generated Getters & Setters
+    // ============================================================
+
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }

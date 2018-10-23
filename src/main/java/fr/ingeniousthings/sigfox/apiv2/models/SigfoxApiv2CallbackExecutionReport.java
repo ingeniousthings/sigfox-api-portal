@@ -36,12 +36,14 @@ public class SigfoxApiv2CallbackExecutionReport extends SigfoxApiv2CallbackHttpD
 
     @ApiModelProperty(
             notes = "The subject of the mail which have been sent",
+            example = "email subject",
             required = false
     )
     protected String subject;
 
     @ApiModelProperty(
             notes = "The body of the mail which have been sent",
+            example = "body of the email",
             required = false
     )
     protected String message;

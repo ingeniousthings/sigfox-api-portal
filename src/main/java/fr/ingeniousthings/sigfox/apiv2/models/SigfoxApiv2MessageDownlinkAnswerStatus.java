@@ -43,24 +43,28 @@ public class SigfoxApiv2MessageDownlinkAnswerStatus {
 
     @ApiModelProperty(
             notes = "Planned downlink power as it was computed by the backend",
+            example = "67.89",
             required = false
     )
     protected double plannedPower;
 
     @ApiModelProperty(
             notes = "Response content, hex encoded",
+            example = "0000437f00000050",
             required = false
     )
     protected String data;
 
     @ApiModelProperty(
             notes = "Name of the first operator which received the message as roaming",
+            example = "Operator#1",
             required = false
     )
     protected String operator;
 
     @ApiModelProperty(
             notes = "Country of the operator",
+            example = "FRANCE",
             required = false
     )
     protected String country;

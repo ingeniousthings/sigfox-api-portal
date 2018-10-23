@@ -152,7 +152,7 @@ public class SigfoxApiApplication {
 				;
 	}
 
-/*
+
 	@Bean
 	public Docket sigfoxApiv2() {
 		List<ResponseMessage> globalResponses = newArrayList(
@@ -219,7 +219,7 @@ public class SigfoxApiApplication {
 //								.build()))
 //				.tags(new Tag("Sigfox Api", "Sigfox public API"))
 //				.additionalModels(typeResolver.resolve(AdditionalModel.class))
-				.groupName("sigfox-api-v2")
+				.groupName("1-sigfox-api-v2")
 				.apiInfo( new ApiInfo(
 						"IngeniousThings - Sigfox backend API V2 Proxy",
 						"This proxy is allowing to use the Sigfox backend API in a user friendly environment with a WEB based user interface. " +
@@ -242,7 +242,7 @@ public class SigfoxApiApplication {
 				))
 				;
 	}
-*/
+
 	@Bean
 	public Docket IngeniousThingsApi() {
 		List<ResponseMessage> globalResponses = newArrayList(
@@ -291,7 +291,7 @@ public class SigfoxApiApplication {
 				.globalResponseMessage(RequestMethod.DELETE,globalResponses)
 				//.securitySchemes(newArrayList(basicAuth()))
 				//.securityContexts(newArrayList(securityContext()))
-				.groupName("IngeniousThings-api")
+				.groupName("2-IngeniousThings-api")
 				.apiInfo( new ApiInfo(
 						"IngeniousThings - Custom Sigfox extension service",
 						"This is a set of APIs built on the Sigfox API to extend it with some useful services. Our experience " +

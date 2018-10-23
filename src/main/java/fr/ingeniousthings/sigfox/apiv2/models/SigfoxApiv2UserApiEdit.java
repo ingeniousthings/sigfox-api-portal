@@ -23,8 +23,6 @@
  * Commercial license of this software can be obtained contacting ingeniousthings
  * -------------------------------------------------------------------------------
  */
-
-
 package fr.ingeniousthings.sigfox.apiv2.models;
 
 import io.swagger.annotations.Api;
@@ -32,85 +30,73 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "rInfo", description = "Data Message Reception information")
-public class SigfoxApiv2MessageRInfo {
+@Api(tags = "baseApiUser", description = "Defines the base API user’s properties")
+public class SigfoxApiv2UserApiEdit {
 
     @ApiModelProperty(
-            notes = "Base station to send downlink message",
+            notes = "The API user’s name",
+            example = "Device messages only (Interactive Voice Responder)",
             required = false
     )
-    protected SigfoxApiv2BaseStationMinimal baseStation;
+    protected String name;
 
     @ApiModelProperty(
-            notes = "The device’s estimated latitude",
-            example = "45.32",
+            notes = "The API user’s timezone",
+            example = "Europe/Paris",
             required = false
     )
-    protected double lat;
+    protected String timezone;
 
     @ApiModelProperty(
-            notes = "The device’s estimated longitude",
-            example = "102.3",
+            notes = "The API user’s custom roles",
+            example = "[ 'CUSTOMER [W]' ]",
             required = false
     )
-    protected double lng;
+    protected List<String> customRoleIds;
 
     @ApiModelProperty(
-            notes = "Number of repetitions sent by the base station",
-            example = "2",
+            notes = "The API user’s profiles",
+            example = "[ '5138e7dfa2f1fffaf25fd409', '51cc7155e4b00d18ddb99230' ] ",
             required = false
     )
-    protected int rep;
+    protected List<String> profileIds;
 
-
-    @ApiModelProperty(
-            notes = "List of callback status for this reception",
-            required = false
-    )
-    protected List<SigfoxApiv2CallbackExecutionStatus> cbStatus;
 
     // ============================================================
     // Generated Getters & Setters
     // ============================================================
 
 
-    public SigfoxApiv2BaseStationMinimal getBaseStation() {
-        return baseStation;
+    public String getName() {
+        return name;
     }
 
-    public void setBaseStation(SigfoxApiv2BaseStationMinimal baseStation) {
-        this.baseStation = baseStation;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getLat() {
-        return lat;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
-    public double getLng() {
-        return lng;
+    public List<String> getCustomRoleIds() {
+        return customRoleIds;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
+    public void setCustomRoleIds(List<String> customRoleIds) {
+        this.customRoleIds = customRoleIds;
     }
 
-    public int getRep() {
-        return rep;
+    public List<String> getProfileIds() {
+        return profileIds;
     }
 
-    public void setRep(int rep) {
-        this.rep = rep;
+    public void setProfileIds(List<String> profileIds) {
+        this.profileIds = profileIds;
     }
 
-    public List<SigfoxApiv2CallbackExecutionStatus> getCbStatus() {
-        return cbStatus;
-    }
-
-    public void setCbStatus(List<SigfoxApiv2CallbackExecutionStatus> cbStatus) {
-        this.cbStatus = cbStatus;
-    }
 }
