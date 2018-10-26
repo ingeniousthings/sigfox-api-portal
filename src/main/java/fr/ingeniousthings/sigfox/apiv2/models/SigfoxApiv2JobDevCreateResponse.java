@@ -25,44 +25,21 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "replaceResponse", description = "Response from a device replace request")
-public class SigfoxApiv2ReplaceResponse {
-
-
-    @Api(tags = "replaceResponse", description = "The informations about the devices already treated")
-    public class ReplaceResponseStatus {
-
-        @ApiModelProperty(
-                notes = "Reasons of each errors",
-                required = false
-        )
-        public List<String> errors;
-
-        @ApiModelProperty(
-                notes = "The number of devices successfully replaced",
-                required = false
-        )
-        public int success;
-
-    }
-
+@Api(tags = "deviceBulkCreationResponse ", description = "Bulk device creation response")
+public class SigfoxApiv2JobDevCreateResponse extends SigfoxApiv2JobDevEditionResponse {
 
     @ApiModelProperty(
-            notes = "The total number of devices given to be replaced",
-            required = false
+            notes = "List of device creation failed",
+            example = "[ 'DE25', '1ABCD']",
+            required = true
     )
-    protected int total;
-
-    @ApiModelProperty(
-            notes = "Satus for the different requests",
-            required = false
-    )
-    protected ReplaceResponseStatus status;
+    protected List<String> registrationFailed;
 
 
     // ============================================================
@@ -70,19 +47,11 @@ public class SigfoxApiv2ReplaceResponse {
     // ============================================================
 
 
-    public int getTotal() {
-        return total;
+    public List<String> getRegistrationFailed() {
+        return registrationFailed;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public ReplaceResponseStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReplaceResponseStatus status) {
-        this.status = status;
+    public void setRegistrationFailed(List<String> registrationFailed) {
+        this.registrationFailed = registrationFailed;
     }
 }

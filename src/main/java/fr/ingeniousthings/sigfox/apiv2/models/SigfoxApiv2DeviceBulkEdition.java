@@ -33,39 +33,59 @@ public class SigfoxApiv2DeviceBulkEdition {
 
     @ApiModelProperty(
             notes = "The device’s identifier (hexadecimal format)",
+            example = "00FF",
             required = true
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The product’s certificate name if any",
+            example = "P_1234_FE39_01",
             required = false
     )
     protected String productCertificate;
 
     @ApiModelProperty(
             notes = "The device’s name",
+            example = "Device 1",
             required = false
     )
     protected String name;
 
     @ApiModelProperty(
             notes = "The device’s provided latitude",
+            example = "48.8585715",
             required = false
     )
     protected double lat;
 
     @ApiModelProperty(
             notes = "The device’s provided longitude",
+            example = "2.2922923",
             required = false
     )
     protected double lng;
 
     @ApiModelProperty(
             notes = "Allow token renewal ?",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;
+
+    @ApiModelProperty(
+            notes = "Is the payload enrypted ?",
+            example = "true",
+            required = false
+    )
+    protected boolean payloadEncryption;
+
+    @ApiModelProperty(
+            notes = "Is the device activable and can take a token ?",
+            example = "true",
+            required = false
+    )
+    protected boolean activable;
 
     // ============================================================
     // Generated Getters & Setters
@@ -118,5 +138,21 @@ public class SigfoxApiv2DeviceBulkEdition {
 
     public void setAutomaticRenewal(boolean automaticRenewal) {
         this.automaticRenewal = automaticRenewal;
+    }
+
+    public boolean isPayloadEncryption() {
+        return payloadEncryption;
+    }
+
+    public void setPayloadEncryption(boolean payloadEncryption) {
+        this.payloadEncryption = payloadEncryption;
+    }
+
+    public boolean isActivable() {
+        return activable;
+    }
+
+    public void setActivable(boolean activable) {
+        this.activable = activable;
     }
 }

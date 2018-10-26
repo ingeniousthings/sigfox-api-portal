@@ -1085,7 +1085,99 @@ public class SigfoxV2DeviceTypesApi {
     }
 
 
+    /**
+     * Restart the devices of a device type
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/device-types/{id}/bulk/restart
+     *
+     * Fields:
+     *
+     *     id: the id of the contract the device to be reseted are belonging to
+     *
+     */
+
+    @ApiOperation(
+            value = "Restart the devices of a device type",
+            notes = "Create a job to restart the devices associated to a device-type.<br/>"+
+                    "Parameters the contract ID is provided in the URL path:<br/>" +
+                    "<ul>" +
+                    "<li>id (path-String): The device-type identifier (hexadecimal format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2JobIdResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job Started", response = SigfoxApiv2JobIdResponse.class)
+    })
+    @RequestMapping(
+            value ="/{id}/bulk/restart",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            // consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> restartdevicesByDevTypeId(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "id", value = "The device-type's identifier")
+            @PathVariable("id") String id
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2GroupId> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2GroupId>(proxy.proxify(request), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        }
+    }
+
+    /**
+     * Fetches the devicetype asynchronous job status for restart action
+     *
+     * Request:
+     *
+     * GET https://backend.sigfox.com/api/v2/device-types/bulk/restart/{jobId}
+     *
+     * Parameters:
+     *
+     * jobId (path-String): The job’s identidier (hexademical format)
+     *
+     */
+    @ApiOperation(
+            value = "Fetches the devicetype asynchronous job status for restart action",
+            notes = "Fetches the devicetype asynchronous job status for restart action. <br/>" +
+                    "Parameters:<br/>" +
+                    "<ul>" +
+                    "<li>jobId (path-String): The job’s identifier (hexademical format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2JobAction.class,
+            authorizations = {@Authorization(value = "basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = SigfoxApiv2JobAction.class)
+    })
+    @RequestMapping(
+            value = "/bulk/restart/{jobId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getRestartByDevTypeIdJobStatus(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "jobId", value = "The job’s identidier (hexademical format).")
+            @PathVariable("jobId") String jobId
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobAction> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2JobAction>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage, e.status);
+        }
+    }
+
+
 }
-
-
-

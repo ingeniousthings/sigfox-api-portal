@@ -35,12 +35,14 @@ public class SigfoxApiv2DeviceBulk {
 
     @ApiModelProperty(
             notes = "The device type where new devices will be created",
+            example = "5a5896f93007ab520cb54108",
             required = true
     )
     protected String deviceTypeId;
 
     @ApiModelProperty(
             notes = "The devices names prefix",
+            example = "PREFIX_",
             required = false,
             value = ""
     )
@@ -48,6 +50,7 @@ public class SigfoxApiv2DeviceBulk {
 
     @ApiModelProperty(
             notes = "The product’s certificate name if any (mandatory if not a prototype)",
+            example = "P_0003_71CF_01",
             required = false
     )
     protected String productCertificate;
@@ -55,6 +58,7 @@ public class SigfoxApiv2DeviceBulk {
     @ApiModelProperty(
             notes = "If the devices are a prototype or not",
             value = "false",
+            example = "false",
             required = false
     )
     protected boolean prototype;
@@ -62,6 +66,7 @@ public class SigfoxApiv2DeviceBulk {
     @ApiModelProperty(
             notes = "True if the devices are activable and can take a token",
             value = "true",
+            example = "true",
             required = false
     )
     protected boolean activable;

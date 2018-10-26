@@ -34,6 +34,7 @@ public class SigfoxApiv2JobAction {
 
     @ApiModelProperty(
             notes = "If the job is finished or not",
+            example = "true",
             required = false
     )
     protected boolean jobDone;

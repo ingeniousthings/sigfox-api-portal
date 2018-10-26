@@ -35,6 +35,7 @@ public class SigfoxApiv2DeviceBulkTransferResult {
 
     @ApiModelProperty(
             notes = "The device type where new devices will be created",
+            example = "5a5896f93007ab520cb54108",
             required = true
     )
     protected String deviceTypeId;
@@ -43,6 +44,7 @@ public class SigfoxApiv2DeviceBulkTransferResult {
     public class DeviceTransferDetails {
         @ApiModelProperty(
                 notes = "The device’s identifier (hexadecimal format)",
+                example = "AB45F",
                 required = true
         )
         protected String id;
@@ -50,6 +52,7 @@ public class SigfoxApiv2DeviceBulkTransferResult {
         @ApiModelProperty(
                 notes = "Whether to keep the device history or not",
                 value = "false",
+                example = "true",
                 required = false
         )
         protected boolean keepHistory;
@@ -58,6 +61,7 @@ public class SigfoxApiv2DeviceBulkTransferResult {
                 notes = "true if the device is activable and can take a token. " +
                         "Not used if the device has already a token and if the t" +
                         "ransferred is intra-order.",
+                example = "true",
                 value = "false",
                 required = false
         )

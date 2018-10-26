@@ -25,27 +25,19 @@
  */
 package fr.ingeniousthings.sigfox.apiv2.models;
 
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
-
-@Api(tags = "bulkReplace", description = "Device Bulk replacement")
-public class SigfoxApiv2DeviceBulkReplaceElement {
+@Api(tags = "jobId ", description = "JobId response")
+public class SigfoxApiv2JobIdResponse {
 
     @ApiModelProperty(
-            notes = "The device’s identifier to replace (hexademical format)",
-            example = "54ABC",
-            required = false
+            notes = "jobId so that the customer is able to request job status",
+            example = "535258991ab5253",
+            required = true
     )
-    protected String deviceId;
-
-    @ApiModelProperty(
-            notes = "The target device’s identifier (hexademical format)",
-            example = "8562D",
-            required = false
-    )
-    protected String targetDeviceId;
+    protected String jobId;
 
 
     // ============================================================
@@ -53,19 +45,11 @@ public class SigfoxApiv2DeviceBulkReplaceElement {
     // ============================================================
 
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getTargetDeviceId() {
-        return targetDeviceId;
-    }
-
-    public void setTargetDeviceId(String targetDeviceId) {
-        this.targetDeviceId = targetDeviceId;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 }

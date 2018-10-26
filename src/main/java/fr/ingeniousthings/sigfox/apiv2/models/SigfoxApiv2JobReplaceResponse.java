@@ -30,22 +30,39 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-@Api(tags = "bulkReplace", description = "Device Bulk replacement")
-public class SigfoxApiv2DeviceBulkReplaceElement {
+@Api(tags = "replaceResponse", description = "Response from a device replace request")
+public class SigfoxApiv2JobReplaceResponse {
+
+
+    @Api(tags = "replaceResponse", description = "The informations about the devices already treated")
+    public class ReplaceResponseStatus {
+
+        @ApiModelProperty(
+                notes = "Reasons of each errors",
+                required = false
+        )
+        public List<String> errors;
+
+        @ApiModelProperty(
+                notes = "The number of devices successfully replaced",
+                required = false
+        )
+        public int success;
+
+    }
+
 
     @ApiModelProperty(
-            notes = "The device’s identifier to replace (hexademical format)",
-            example = "54ABC",
+            notes = "The total number of devices given to be replaced",
             required = false
     )
-    protected String deviceId;
+    protected int total;
 
     @ApiModelProperty(
-            notes = "The target device’s identifier (hexademical format)",
-            example = "8562D",
+            notes = "Satus for the different requests",
             required = false
     )
-    protected String targetDeviceId;
+    protected ReplaceResponseStatus status;
 
 
     // ============================================================
@@ -53,19 +70,19 @@ public class SigfoxApiv2DeviceBulkReplaceElement {
     // ============================================================
 
 
-    public String getDeviceId() {
-        return deviceId;
+    public int getTotal() {
+        return total;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public String getTargetDeviceId() {
-        return targetDeviceId;
+    public ReplaceResponseStatus getStatus() {
+        return status;
     }
 
-    public void setTargetDeviceId(String targetDeviceId) {
-        this.targetDeviceId = targetDeviceId;
+    public void setStatus(ReplaceResponseStatus status) {
+        this.status = status;
     }
 }

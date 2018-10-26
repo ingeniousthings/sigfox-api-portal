@@ -34,18 +34,21 @@ public class SigfoxApiv2DeviceBulkCreation {
 
     @ApiModelProperty(
             notes = "The device’s identifier (hexadecimal format)",
+            example = "00FF",
             required = true
     )
     protected String id;
 
     @ApiModelProperty(
             notes = "The device’s PAC (Porting Access Code)",
+            example = "585CB3B42AC98BD4",
             required = true
     )
     protected String pac;
 
     @ApiModelProperty(
             notes = "The device’s name",
+            example = "Device 1",
             required = false
     )
     protected String name;
@@ -53,6 +56,7 @@ public class SigfoxApiv2DeviceBulkCreation {
     @ApiModelProperty(
             notes = "The device’s provided latitude",
             value = "0",
+            example = "48.8585715",
             required = false
     )
     protected double lat;
@@ -60,6 +64,7 @@ public class SigfoxApiv2DeviceBulkCreation {
     @ApiModelProperty(
             notes = "The device’s provided longitude",
             value = "0",
+            example = "2.2922923",
             required = false
     )
     protected double lng;
@@ -67,6 +72,7 @@ public class SigfoxApiv2DeviceBulkCreation {
     @ApiModelProperty(
             notes = "Allow token renewal ?",
             value = "true",
+            example = "true",
             required = false
     )
     protected boolean automaticRenewal;

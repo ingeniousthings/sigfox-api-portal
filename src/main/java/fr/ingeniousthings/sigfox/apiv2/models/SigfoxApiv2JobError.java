@@ -34,12 +34,14 @@ public class SigfoxApiv2JobError {
 
     @ApiModelProperty(
             notes = "The hex id of the entity that has an error",
+            example = "00FF",
             required = false
     )
     protected String entity;
 
     @ApiModelProperty(
             notes = "The reason of the error",
+            example = "the device doesn't exist",
             required = false
     )
     protected String message;
@@ -50,6 +52,7 @@ public class SigfoxApiv2JobError {
                     "<li>0 -> ENTITY</li>" +
                     "<li>1 -> SYSTEM</li>" +
                     "</ul>",
+            example = "0",
             required = false
     )
     protected int type;

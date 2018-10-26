@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Api(value="devices", tags="sigfox-v2-devices-api")
@@ -591,13 +592,11 @@ public class SigfoxV2DevicesApi {
 
     /**
      * Get a Device's consumptions for a given month
-     * <p>
+     *
      * Request
-     * <p>
      * GET https://backend.sigfox.com/api/v2/devices/{id}/consumptions/{year}/{month}
-     * <p>
+     *
      * Parameters:
-     * <p>
      * id - The device’s identifier (hexadecimal format)
      * year - The year of the consumptions
      * month - The month of the consumptions
@@ -700,6 +699,545 @@ public class SigfoxV2DevicesApi {
             return new ResponseEntity<String>("Internal - Impossible to parse message", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+
+    /**
+     * Create multiple devices with async job
+     *
+     * Create multiple devices with async job
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk
+     *
+     * Parameter :
+     *    In the body a struture SigfoxApiv2DeviceBulk
+     *
+     * Response :
+     *     SigfoxApiv2JobDevCreateResponse
+     */
+
+    @ApiOperation(
+            value = "Create multiple devices with async job",
+            notes = "Create multiple devices with async job. <br/>"+
+                    "In the Body are provided the information related to the devices to create<br/>",
+            response = SigfoxApiv2JobDevCreateResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobDevCreateResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> bulkDeviceCreation(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list")
+            @Valid @RequestBody SigfoxApiv2DeviceBulk devices
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobDevCreateResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobDevCreateResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Edit multiple devices with async job
+     *
+     * Edit multiple devices with async job
+     *
+     * Request
+     *
+     * PUT https://backend.sigfox.com/api/v2/devices/bulk
+     *
+     * Parameter :
+     *    In the body a struture SigfoxApiv2DeviceBulkEdit
+     *
+     * Response :
+     *     SigfoxApiv2JobDevEditionResponse
+     */
+
+    @ApiOperation(
+            value = "Edit multiple devices with async job",
+            notes = "Edit multiple devices with async job. <br/>"+
+                    "In the Body are provided the information related to the devices to edit<br/>",
+            response = SigfoxApiv2JobDevEditionResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobDevEditionResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.PUT
+    )
+    @CrossOrigin
+    public ResponseEntity<?> bulkDeviceEdition(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list")
+            @Valid @RequestBody SigfoxApiv2JobDevEditionResponse devices
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobDevEditionResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobDevEditionResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Fetches the devices async job status
+     *
+     * Request:
+     *
+     * GET https://backend.sigfox.com/api/v2/devices/{id}/consumptions/{year}/{month}
+     *
+     * Parameters:
+     *
+     * jobId (path-String): The job’s identidier (hexademical format)
+     *
+     */
+    @ApiOperation(
+            value = "Fetches the devices registration async job status",
+            notes = "Fetches the devices registration async job status. <br/>" +
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
+                    "<ul>" +
+                    "<li>jobId (path-String): The job’s identidier (hexademical format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2RegistrationJob.class,
+            authorizations = {@Authorization(value = "basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = SigfoxApiv2RegistrationJob.class)
+    })
+    @RequestMapping(
+            value = "/bulk/{jobId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getDevicesJobStatus(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "jobId", value = "The job’s identidier (hexademical format).")
+            @PathVariable("jobId") String jobId
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2RegistrationJob> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2RegistrationJob>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage, e.status);
+        }
+    }
+
+
+
+
+
+    /**
+     * Suspend multiple devices
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk/suspend
+     *
+     * Parameter :
+     *    In the body a struture List<String> ["007B480F","007B4810","007B4811"]
+     *
+     * Response :
+     *     SigfoxApiv2JobDevCreateResponse
+     */
+
+    @ApiOperation(
+            value = "Suspend multiple devices",
+            notes = "Suspend multiple devices. <br/>"+
+                    "In the Body the list of devices to suspend<br/>",
+            response = SigfoxApiv2JobIdResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobIdResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk/suspend",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> suspendMultipleDevicesAction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list", example = "[\"007B480F\",\"007B4810\",\"007B4811\"]" )
+            @Valid @RequestBody List<String> devices
+    ) {
+        SigfoxApiProxy<SigfoxApiv2JobIdResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobIdResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * Fetches the devices async job status for suspend action
+     *
+     * Request:
+     *
+     * GET https://backend.sigfox.com/api/v2/devices/bulk/suspend/{jobId}
+     *
+     * Parameters:
+     *
+     * jobId (path-String): The job’s identidier (hexademical format)
+     *
+     */
+    @ApiOperation(
+            value = "Fetches the devices async job status for suspend action",
+            notes = "Fetches the devices async job status for suspend action. <br/>" +
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
+                    "<ul>" +
+                    "<li>jobId (path-String): The job’s identidier (hexademical format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2JobAction.class,
+            authorizations = {@Authorization(value = "basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = SigfoxApiv2JobAction.class)
+    })
+    @RequestMapping(
+            value = "/bulk/suspend/{jobId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getSuspendActionJobStatus(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "jobId", value = "The job’s identidier (hexademical format).")
+            @PathVariable("jobId") String jobId
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobAction> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2JobAction>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage, e.status);
+        }
+    }
+
+    /**
+     * Resume multiple devices
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk/resume
+     *
+     * Parameter :
+     *    In the body a struture List<String> ["007B480F","007B4810","007B4811"]
+     *
+     * Response :
+     *     SigfoxApiv2JobDevCreateResponse
+     */
+
+    @ApiOperation(
+            value = "Resume multiple devices",
+            notes = "Resume multiple devices - a device is resumed after being suspend. <br/>"+
+                    "In the Body the list of devices to resume<br/>",
+            response = SigfoxApiv2JobIdResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobIdResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk/resume",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> resumeMultipleDevicesAction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list", example = "[\"007B480F\",\"007B4810\",\"007B4811\"]" )
+            @Valid @RequestBody List<String> devices
+    ) {
+        SigfoxApiProxy<SigfoxApiv2JobIdResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobIdResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**
+     * Fetches the devices async job status for resume action
+     *
+     * Request:
+     *
+     * GET https://backend.sigfox.com/api/v2/devices/bulk/resume/{jobId}
+     *
+     * Parameters:
+     *
+     * jobId (path-String): The job’s identidier (hexademical format)
+     *
+     */
+    @ApiOperation(
+            value = "Fetches the devices async job status for resume action",
+            notes = "Fetches the devices async job status for resume action. <br/>" +
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
+                    "<ul>" +
+                    "<li>jobId (path-String): The job’s identidier (hexademical format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2JobAction.class,
+            authorizations = {@Authorization(value = "basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = SigfoxApiv2JobAction.class)
+    })
+    @RequestMapping(
+            value = "/bulk/resume/{jobId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getResumeActionJobStatus(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "jobId", value = "The job’s identidier (hexademical format).")
+            @PathVariable("jobId") String jobId
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobAction> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2JobAction>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage, e.status);
+        }
+    }
+
+
+
+
+    /**
+     * Restart multiple devices
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk/restart
+     *
+     * Parameter :
+     *    In the body a struture List<String> ["007B480F","007B4810","007B4811"]
+     *
+     * Response :
+     *     SigfoxApiv2JobDevCreateResponse
+     */
+
+    @ApiOperation(
+            value = "Restart multiple devices",
+            notes = "Restart multiple devices - a device is restarted once its subscription has ended and " +
+                    "was not in autorenewal mode. This consumes a new subscription. <br/>"+
+                    "In the Body the list of devices to restart<br/>",
+            response = SigfoxApiv2JobIdResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobIdResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk/restart",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> restartMultipleDevicesAction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list", example = "[\"007B480F\",\"007B4810\",\"007B4811\"]" )
+            @Valid @RequestBody List<String> devices
+    ) {
+        SigfoxApiProxy<SigfoxApiv2JobIdResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobIdResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+    /**
+     * Fetches the devices async job status for restart action
+     *
+     * Request:
+     *
+     * GET https://backend.sigfox.com/api/v2/devices/bulk/restart/{jobId}
+     *
+     * Parameters:
+     *
+     * jobId (path-String): The job’s identidier (hexademical format)
+     *
+     */
+    @ApiOperation(
+            value = "Fetches the devices async job status for restart action",
+            notes = "Fetches the devices async job status for restart action. <br/>" +
+                    "Parameters the device ID and Year are provide in the URL:<br/>" +
+                    "<ul>" +
+                    "<li>jobId (path-String): The job’s identidier (hexademical format)</li>" +
+                    "</ul>",
+            response = SigfoxApiv2JobAction.class,
+            authorizations = {@Authorization(value = "basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = SigfoxApiv2JobAction.class)
+    })
+    @RequestMapping(
+            value = "/bulk/restart/{jobId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            //consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET
+    )
+    @CrossOrigin
+    public ResponseEntity<?> getRestartActionJobStatus(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "jobId", value = "The job’s identidier (hexademical format).")
+            @PathVariable("jobId") String jobId
+    ) {
+
+        SigfoxApiProxy<SigfoxApiv2JobAction> proxy = new SigfoxApiProxy<>();
+        try {
+            return new ResponseEntity<SigfoxApiv2JobAction>(proxy.proxify(request), HttpStatus.OK);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage, e.status);
+        }
+    }
+
+    /**
+     * Transfer devices to a new device type with async job
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk/restart
+     *
+     * Parameter :
+     *    In the body a structure SigfoxApiv2DeviceBulkTransferResult
+     *
+     * Response :
+     *     SigfoxApiv2JobDevCreateResponse
+     */
+
+    @ApiOperation(
+            value = "Transfer devices to a new device type",
+            notes = "Transfer devices to a new device type with async job. <br/>"+
+                    "In the Body the list of devices to transfered<br/>",
+            response = SigfoxApiv2JobDevEditionResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobDevEditionResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk/transfer",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> transferMultipleDevicesAction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devices", value = "Device list" )
+            @Valid @RequestBody SigfoxApiv2DeviceBulkTransferResult devices
+    ) {
+        SigfoxApiProxy<SigfoxApiv2JobDevEditionResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobDevEditionResponse>(proxy.proxify(request, mapper.writeValueAsString(devices)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
+    /**
+     * Replace multiple devices (moving tokens from a device to another)
+     *
+     * Request
+     *
+     * POST https://backend.sigfox.com/api/v2/devices/bulk/replace
+     *
+     * Parameter :
+     *    In the body a structure List<SigfoxApiv2DeviceBulkReplaceElement>
+     *
+     * Response :
+     *     SigfoxApiv2JobReplaceResponse
+     */
+
+    @ApiOperation(
+            value = "Replace multiple devices",
+            notes = "Replace multiple devices - moving tokens from a device to another<br/>" +
+                    "In the body a list of devices Pair to be replaced.",
+            response = SigfoxApiv2JobReplaceResponse.class,
+            authorizations = { @Authorization(value="basicAuth")}
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message= "Job started", response = SigfoxApiv2JobReplaceResponse.class)
+    })
+    @RequestMapping(
+            value ="/bulk/replace",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.POST
+    )
+    @CrossOrigin
+    public ResponseEntity<?> replaceMultipleDevicesAction(
+            HttpServletRequest request,
+            @ApiParam(required = true, name = "devicePairs", value = "Device pair list" )
+            @Valid @RequestBody List<SigfoxApiv2DeviceBulkReplaceElement> devicePairs
+    ) {
+        SigfoxApiProxy<SigfoxApiv2JobReplaceResponse> proxy = new SigfoxApiProxy<>();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return new ResponseEntity<SigfoxApiv2JobReplaceResponse>(proxy.proxify(request, mapper.writeValueAsString(devicePairs)), HttpStatus.CREATED);
+        } catch (SigfoxApiProxyException e) {
+            return new ResponseEntity<String>(e.errorMessage,e.status);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<String>("Internal - Impossible to parse message",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
 
 }
 

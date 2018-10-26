@@ -36,18 +36,21 @@ public class SigfoxApiv2JobStatus {
 
     @ApiModelProperty(
             notes = "The total number of devices given",
+            example = "145298",
             required = false
     )
     protected int total;
 
     @ApiModelProperty(
             notes = "The number of devices successfully changed",
+            example = "145297",
             required = false
     )
     protected int nbSuccess;
 
     @ApiModelProperty(
             notes = "The number of devices unsuccessfully changed",
+            example = "1",
             required = false
     )
     protected int nbErrors;
